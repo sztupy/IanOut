@@ -1,41 +1,36 @@
 #include "frm.h"
 
 #include "io.h"
-#include <fcntl.h>
 #include "../commonutils/ddutil.h"
 #include "../commonutils/utils.h"
 #include "math.h"
-#include "freeimage.h"
+#include "sdl_image.h"
+#include "../commonutils/sdl_zlib.h"
 
-// --- TFRMAnim ---
-//
-// ----------------
+extern SDL_PixelFormat*				g_pDDPixelFormat;
 
-extern int rsz, gsz, bsz; 	//bitsize of field
-extern int rsh, gsh, bsh;	//0’s on left (the shift value)
-
-extern DWORD palcal[256];
+extern Uint32 palcal[256];
 extern int BitDepth;
 
-int TFRMAnim::LoadFRM(gzFile stream, LPVOID LoadIn, int x, int y, int p, bool frm_2)
+int TFRMAnim::LoadFRM(gzFile stream, void* LoadIn, int x, int y, int p, bool frm_2)
 {
    if (frm_2) {
-		LPSTR	PointTo,PointTo2,PointTo3;
-		WORD*	PointToInt;
-		DWORD*	PointToInt32;
+		char*	PointTo,*PointTo2,*PointTo3;
+		Uint16*	PointToInt;
+		Uint32*	PointToInt32;
 		int		i,i2;
 
-		PointTo3 = (LPSTR)malloc(x*3);
+		PointTo3 = (char*)malloc(x*3);
 	      	
 		for (i=0; i<y; i++)
 		{
 			PointTo2 = PointTo3;
 			gzread(stream, PointTo2, x*3);
-			PointTo = (LPSTR)LoadIn+(i*p);
+			PointTo = (char*)LoadIn+(i*p);
 			if (BitDepth == 32) {
-				PointToInt32 = (DWORD*)PointTo;
+				PointToInt32 = (Uint32*)PointTo;
 			} else {
-				PointToInt = (WORD*)PointTo;
+				PointToInt = (Uint16*)PointTo;
 			}
 			int r,g,b;
 
@@ -44,19 +39,11 @@ int TFRMAnim::LoadFRM(gzFile stream, LPVOID LoadIn, int x, int y, int p, bool fr
 				g = (unsigned char)(*(PointTo2+1));
 				b = (unsigned char)(*(PointTo2+2));
 
-				r >>= (8-rsz);
-				g >>= (8-gsz);
-				b >>= (8-bsz);
-
-				r <<= rsh;
-				g <<= gsh;
-				b <<= bsh;
-
 				if (BitDepth == 32) {
-					*PointToInt32 = (DWORD)(r | g | b);
+					*PointToInt32 = (Uint32)SDL_MapRGB(g_pDDPixelFormat,r,g,b);
 					PointToInt32+=1;
 				} else {
-					*PointToInt = (WORD)(r | g | b);
+					*PointToInt = (Uint16)SDL_MapRGB(g_pDDPixelFormat,r,g,b);
 					PointToInt+=1;
 				}
 				PointTo2+=3;
@@ -65,29 +52,29 @@ int TFRMAnim::LoadFRM(gzFile stream, LPVOID LoadIn, int x, int y, int p, bool fr
 
 		free(PointTo3);
    } else {
-		LPSTR	PointTo,PointTo2,PointTo3;
-		WORD*	PointToInt;
-		DWORD*	PointToInt32;
+		char*	PointTo,*PointTo2,*PointTo3;
+		Uint16*	PointToInt;
+		Uint32*	PointToInt32;
 		int		i,i2;
 
-		PointTo3 = (LPSTR)malloc(x);
+		PointTo3 = (char*)malloc(x);
 	      	
 		for (i=0; i<y; i++)
 		{
 			PointTo2 = PointTo3;
 			gzread(stream, PointTo2, x);
-			PointTo = (LPSTR)LoadIn+(i*p);
+			PointTo = (char*)LoadIn+(i*p);
 			if (BitDepth == 32) {
-				PointToInt32 = (DWORD*)PointTo;
+				PointToInt32 = (Uint32*)PointTo;
 			} else {
-				PointToInt = (WORD*)PointTo;
+				PointToInt = (Uint16*)PointTo;
 			}
 			for (i2=0;i2<x;i2++) {
 				if (BitDepth == 32) {
-					*PointToInt32 = (DWORD)(palcal[(unsigned char)*PointTo2]);
+					*PointToInt32 = (Uint32)(palcal[(unsigned char)*PointTo2]);
 					PointToInt32+=1;
 				} else {
-					*PointToInt = (WORD)(palcal[(unsigned char)*PointTo2]);
+					*PointToInt = (Uint16)(palcal[(unsigned char)*PointTo2]);
 					PointToInt+=1;
 				}
 				PointTo2+=1;
@@ -100,13 +87,12 @@ int TFRMAnim::LoadFRM(gzFile stream, LPVOID LoadIn, int x, int y, int p, bool fr
    return 0;
 }
 
-HRESULT TFRMAnim::Load(HWND hWnd, LPDIRECTDRAW7 g_pDD,const char* filename, int direction)
+int TFRMAnim::Load(const char* filename, int direction)
 {
     char						buf[100];
 	unsigned char				framedat[12];
 	unsigned char				framecount[2];
-	DDSURFACEDESC2              ddsd;
-	HRESULT						hRet;
+	int							hRet;
 	PFRM						FRMDat;
 	gzFile						stream;
 	int							bx,by;
@@ -127,18 +113,27 @@ HRESULT TFRMAnim::Load(HWND hWnd, LPDIRECTDRAW7 g_pDD,const char* filename, int 
 
 	std::string fullname = GetFile(fname);
 
-	if (fullname=="") return InitFail(hWnd,DDERR_NOTLOADED,"File open error: %s",fname);
+	if (fullname=="") return InitFail(0,"File open error: %s",fname);
 
-	FREE_IMAGE_FORMAT filetype = FreeImage_GetFileType(fullname.c_str(),0);
+	int ffiletype = 0;
 
-	if (filetype == FIF_UNKNOWN) {
+	gzFile file = __IOopen(fname,"rb");
+	SDL_RWops *rwop = SDL_RWFromGzip(file);
+	if (IMG_isBMP(rwop)) ffiletype = 1;
+	gzseek(file, 0, SEEK_SET);
+	if (IMG_isJPG(rwop)) ffiletype = 1;
+	gzseek(file, 0, SEEK_SET);
+	if (IMG_isTIF(rwop)) ffiletype = 1;
+	gzclose(file);
+
+	if (ffiletype == 0) {
 		stream = __IOopen( fname,"rb");
 					
 		gzread(stream,buf,9);
 		if ((buf[0]!=0) ||
 			(buf[1]!=0) ||
 			(buf[2]!=0) ||
-			((buf[3]!=4) && (buf[3]!=5))) InitFail(hWnd,DDERR_NOTLOADED,"Unknown File Format: %s",fname);
+			((buf[3]!=4) && (buf[3]!=5))) return InitFail(0,"Unknown File Format: %s",fname);
 		frm_2 = (buf[3]==5);
 
 		gzread(stream,framecount,1);
@@ -161,7 +156,7 @@ HRESULT TFRMAnim::Load(HWND hWnd, LPDIRECTDRAW7 g_pDD,const char* filename, int 
 				gzread(stream,bxx,2);
 				gzread(stream,byy,2);
 
-				LPVOID ize;
+				void* ize;
 				ize = malloc(x*y*4);
 				LoadFRM(stream,ize,x,y,x,frm_2);
 				free(ize);
@@ -184,37 +179,25 @@ HRESULT TFRMAnim::Load(HWND hWnd, LPDIRECTDRAW7 g_pDD,const char* filename, int 
 				by2+=by;
 			}
 
-		ZeroMemory(&ddsd, sizeof(ddsd));
-		ddsd.dwSize = sizeof(ddsd);
-		ddsd.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH | DDSD_PITCH;// | DDSD_PIXELFORMAT;
-		ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY ;
-
-		ddsd.dwWidth = x;
-		ddsd.dwHeight = y;
-		if (BitDepth == 32) {
-			ddsd.lPitch = x*4;
-		} else {
-			ddsd.lPitch = x*2;
-		}
-
 			FRMList->Insert( new TFRM() );
 
 			FRMDat = (PFRM)(FRMList->FLast);
-			hRet = g_pDD->CreateSurface(&ddsd, &FRMDat->FRM, NULL);
-			if (hRet != DD_OK) return hRet;
 
-			FRMDat->FRM->Lock(NULL, &ddsd, 0 , NULL);AddToLog("9");
-			LoadFRM(stream, ddsd.lpSurface, ddsd.dwWidth, ddsd.dwHeight, ddsd.lPitch,frm_2);
-			FRMDat->FRM->Unlock(NULL);AddToLog("10");
+			FRMDat->FRM = SDL_CreateRGBSurface(SDL_SWSURFACE, x,y, BitDepth, g_pDDPixelFormat->Rmask, g_pDDPixelFormat->Gmask,g_pDDPixelFormat->Bmask,g_pDDPixelFormat->Amask);
+		
+			SDL_LockSurface(FRMDat->FRM);
+			LoadFRM(stream, FRMDat->FRM->pixels, FRMDat->FRM->w, FRMDat->FRM->h, FRMDat->FRM->pitch,frm_2);
+			SDL_UnlockSurface(FRMDat->FRM);
 
 			FRMDat->x = x;
 			FRMDat->y = y;
 
 			FRMDat->bx = 16-(x/2-(bx1+bx2));
 			FRMDat->by = 8-(y-(by1+by2));
+	
+			SDL_SetColorKey(FRMDat->FRM, SDL_SRCCOLORKEY, 0);
 
-
-			DDSetColorKey(FRMDat->FRM, RGB(0,0,0));
+			SDL_UpdateRect(FRMDat->FRM,0,0,0,0);
 		}
 
 		Counter = FRMList->First();
@@ -222,75 +205,31 @@ HRESULT TFRMAnim::Load(HWND hWnd, LPDIRECTDRAW7 g_pDD,const char* filename, int 
 		gzclose(stream);
 
 	} else {
-		FIBITMAP* bitmap;
-		FIMULTIBITMAP* multibitmap;
-		if (filetype==FIF_TIFF) {
-			multibitmap = FreeImage_OpenMultiBitmap(FIF_TIFF, fullname.c_str(),true,true,false);
-			framecounter = FreeImage_GetPageCount(multibitmap);
-			bitmap = FreeImage_LockPage(multibitmap,0);
-		} else {
-			framecounter = 1;
-			bitmap = FreeImage_Load(filetype, fullname.c_str(), 0);
-		}
+		FRMList->Insert( new TFRM() );
+		FRMDat = (PFRM)(FRMList->FLast);
 		
-		for (int i=0; i<framecounter; i++) {
-			x = FreeImage_GetWidth(bitmap);
-			y = FreeImage_GetHeight(bitmap);
+		gzFile file = __IOopen(fname,"rb");
+		SDL_RWops *rwop = SDL_RWFromGzip(file);
+		SDL_Surface* temp = IMG_Load_RW(rwop,1);
 
-			ZeroMemory(&ddsd, sizeof(ddsd));
-			ddsd.dwSize = sizeof(ddsd);
-			ddsd.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH | DDSD_PITCH;
-			ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY ;
+		FRMDat->FRM = SDL_ConvertSurface(temp, g_pDDPixelFormat, SDL_SWSURFACE);
+		SDL_FreeSurface(temp);
 
-			ddsd.dwWidth = x;
-			ddsd.dwHeight = y;
-			if (BitDepth == 32) {
-				ddsd.lPitch = x*4;
-			} else {
-				ddsd.lPitch = x*2;
-			}
+		x = FRMDat->FRM->w;
+		y = FRMDat->FRM->h;
 
-			FRMList->Insert( new TFRM() );
+		FRMDat->x = x;
+		FRMDat->y = y;
 
-			FRMDat = (PFRM)(FRMList->FLast);
+		FRMDat->bx = 16-(x/2);
+		FRMDat->by = 8-(y);
+	
+		SDL_UpdateRect(FRMDat->FRM,0,0,0,0);
 
-			hRet = g_pDD->CreateSurface(&ddsd, &FRMDat->FRM, NULL);
-			if (hRet != DD_OK) return hRet;
-			
-			int FIpitch = FreeImage_GetPitch(bitmap);
-
-			FRMDat->FRM->Lock(NULL, &ddsd, 0 , NULL);
-			
-			if (BitDepth == 32) {
-				FreeImage_ConvertToRawBits((BYTE*)ddsd.lpSurface, bitmap, ddsd.lPitch, 32,ddsd.ddpfPixelFormat.dwRBitMask,ddsd.ddpfPixelFormat.dwGBitMask,ddsd.ddpfPixelFormat.dwBBitMask,false);
-			} else {
-				FreeImage_ConvertToRawBits((BYTE*)ddsd.lpSurface, bitmap, ddsd.lPitch, 16,ddsd.ddpfPixelFormat.dwRBitMask,ddsd.ddpfPixelFormat.dwGBitMask,ddsd.ddpfPixelFormat.dwBBitMask,false);
-			}
-			FRMDat->FRM->Unlock(NULL);
-			
-			FRMDat->x = x;
-			FRMDat->y = y;
-
-			FRMDat->bx = 16-(x/2);
-			FRMDat->by = 8-(y);
-
-			DDSetColorKey(FRMDat->FRM, RGB(0,0,0));
-
-			if (i!=framecounter-1) {
-				FreeImage_UnlockPage(multibitmap,bitmap,false);
-				bitmap = FreeImage_LockPage(multibitmap,i);
-			}
-		}
-
-		if (filetype==FIF_TIFF) {
-			FreeImage_UnlockPage(multibitmap,bitmap,false);
-			FreeImage_CloseMultiBitmap(multibitmap);
-		} else {
-			FreeImage_Unload(bitmap);
-		}
+		SDL_SetColorKey(FRMDat->FRM, SDL_SRCCOLORKEY, 0);
 	}
 
-	return DD_OK;
+	return 0;
 }
 
 TFRMAnim::~TFRMAnim()
@@ -301,7 +240,7 @@ TFRMAnim::~TFRMAnim()
 	 Lista = (PFRM)FRMList->First();
 	 while (Lista)
 	 {
-	  Lista->FRM->Release();
+	  SDL_FreeSurface(Lista->FRM);
 	  Lista = (PFRM)FRMList->Next(Lista);
 	 }
 	 delete FRMList;
@@ -325,7 +264,7 @@ TFRMAnim6::~TFRMAnim6()
 	 Lista = (PFRM)FRMList6[i]->First();
 	 while (Lista)
 	 {
-	  Lista->FRM->Release();
+	  SDL_FreeSurface(Lista->FRM);
 	  Lista = (PFRM)FRMList6[i]->Next(Lista);
 	 }
 	 delete FRMList6[i];
@@ -344,13 +283,12 @@ TFRMAnim6::TFRMAnim6()
 	refcount=0;
 }
 
-HRESULT TFRMAnim6::Load(HWND hWnd, LPDIRECTDRAW7 g_pDD,const char* filename)
+int TFRMAnim6::Load(const char* filename)
 {
     char						buf[100];
 	unsigned char				framedat[12];
 	unsigned char				framecount[2];
-	DDSURFACEDESC2              ddsd;
-	HRESULT						hRet;
+	int							hRet;
 	PFRM						FRMDat;
 	gzFile						stream;
 	int							bx,by;
@@ -361,21 +299,30 @@ HRESULT TFRMAnim6::Load(HWND hWnd, LPDIRECTDRAW7 g_pDD,const char* filename)
 	int							i,i2;
 	bool						frm_2;
 
-	wsprintf(fname,"%s",filename);
+	sprintf(fname,"%s",filename);
 	std::string fullname = GetFile(fname);
 
-	if (fullname=="") return InitFail(hWnd,DDERR_NOTLOADED,"File open error: %s",fname);
+	if (fullname=="") return InitFail(0,"File open error: %s",fname);
 
-	FREE_IMAGE_FORMAT filetype = FreeImage_GetFileType(fullname.c_str(),0);
+	int ffiletype = 0;
 
-	if (filetype == FIF_UNKNOWN) {
+	gzFile file = __IOopen(fname,"rb");
+	SDL_RWops *rwop = SDL_RWFromGzip(file);
+	if (IMG_isBMP(rwop)) ffiletype = 1;
+	gzseek(file, 0, SEEK_SET);
+	if (IMG_isJPG(rwop)) ffiletype = 1;
+	gzseek(file, 0, SEEK_SET);
+	if (IMG_isTIF(rwop)) ffiletype = 1;
+	gzclose(file);
+
+	if (ffiletype == 0) {
 		stream = __IOopen( filename,"rb");
 					
 		gzread(stream,buf,9);
 		if ((buf[0]!=0) ||
 			(buf[1]!=0) ||
 			(buf[2]!=0) ||
-			((buf[3]!=4) && (buf[3]!=5))) InitFail(hWnd,DDERR_NOTLOADED,"Unknown File Format: %s",fname);
+			((buf[3]!=4) && (buf[3]!=5))) return InitFail(0,"Unknown File Format: %s",fname);
 		frm_2 = (buf[3]==5);
 
 		gzread(stream,framecount,1);
@@ -409,37 +356,24 @@ HRESULT TFRMAnim6::Load(HWND hWnd, LPDIRECTDRAW7 g_pDD,const char* filename)
 		by2[i2]+=by;
 		//}
 
-		ZeroMemory(&ddsd, sizeof(ddsd));
-		ddsd.dwSize = sizeof(ddsd);
-		ddsd.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH | DDSD_PITCH;
-		ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY ;
-
-		ddsd.dwWidth = x;
-		ddsd.dwHeight = y;
-		if (BitDepth == 32) {
-			ddsd.lPitch = x*4;
-		} else {
-			ddsd.lPitch = x*2;
-		}
-
 		FRMList6[i2]->Insert( new TFRM() );
 
 		FRMDat = (PFRM)(FRMList6[i2]->FLast);
-		hRet = g_pDD->CreateSurface(&ddsd, &FRMDat->FRM, NULL);
-		if (hRet != DD_OK) return hRet;
-			
-		FRMDat->FRM->Lock(NULL, &ddsd, 0 , NULL);
-		LoadFRM(stream, ddsd.lpSurface, ddsd.dwWidth, ddsd.dwHeight, ddsd.lPitch,frm_2);
-		FRMDat->FRM->Unlock(NULL);
+		FRMDat->FRM = SDL_CreateRGBSurface(SDL_SWSURFACE, x,y, BitDepth, g_pDDPixelFormat->Rmask, g_pDDPixelFormat->Gmask,g_pDDPixelFormat->Bmask,g_pDDPixelFormat->Amask);
+		
+		SDL_LockSurface(FRMDat->FRM);
+		LoadFRM(stream, FRMDat->FRM->pixels, FRMDat->FRM->w, FRMDat->FRM->h, FRMDat->FRM->pitch,frm_2);
+		SDL_UnlockSurface(FRMDat->FRM);
 
 		FRMDat->x = x;
 		FRMDat->y = y;
 
 		FRMDat->bx = 16-(x/2-(bx1[i2]+bx2[i2]));
 		FRMDat->by = 8-(y-(by1[i2]+by2[i2]));
+	
+		SDL_UpdateRect(FRMDat->FRM,0,0,0,0);
 
-		DDSetColorKey(FRMDat->FRM, RGB(0,0,0));
-
+		SDL_SetColorKey(FRMDat->FRM, SDL_SRCCOLORKEY, 0);
 		}
 
 		for (i2=0; i2<6; i2++) Counter6[i2] = FRMList6[i2]->First();
@@ -447,76 +381,33 @@ HRESULT TFRMAnim6::Load(HWND hWnd, LPDIRECTDRAW7 g_pDD,const char* filename)
 		
 		gzclose(stream);
 	} else {
-		FIBITMAP* bitmap;
-		FIMULTIBITMAP* multibitmap;
-		if (filetype==FIF_TIFF) {
-			multibitmap = FreeImage_OpenMultiBitmap(FIF_TIFF, fullname.c_str(),true,true,false);
-			framecounter = FreeImage_GetPageCount(multibitmap)/6;
-			bitmap = FreeImage_LockPage(multibitmap,0);
-		} else {
-			framecounter = 1;
-			bitmap = FreeImage_Load(filetype, fullname.c_str(), 0);
-		}
-		
 		for (int i2=0; i2<6; i2++) {
-			for (int i=0; i<framecounter; i++) {
-				x = FreeImage_GetWidth(bitmap);
-				y = FreeImage_GetHeight(bitmap);
+			FRMList6[i2]->Insert( new TFRM() );
+			FRMDat = (PFRM)(FRMList6[i2]->FLast);
+			
+			gzFile file = __IOopen(fname,"rb");
+			SDL_RWops *rwop = SDL_RWFromGzip(file);
+			SDL_Surface* temp = IMG_Load_RW(rwop,1);
 
-				ZeroMemory(&ddsd, sizeof(ddsd));
-				ddsd.dwSize = sizeof(ddsd);
-				ddsd.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH | DDSD_PITCH;
-				ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY ;
+			FRMDat->FRM = SDL_ConvertSurface(temp, g_pDDPixelFormat, SDL_SWSURFACE);
+			SDL_FreeSurface(temp);
 
-				ddsd.dwWidth = x;
-				ddsd.dwHeight = y;
-				if (BitDepth == 32) {
-					ddsd.lPitch = x*4;
-				} else {
-					ddsd.lPitch = x*2;
-				}
+			x = FRMDat->FRM->w;
+			y = FRMDat->FRM->h;
 
-				FRMList6[i2]->Insert( new TFRM() );
-				FRMDat = (PFRM)(FRMList6[i2]->FLast);
+			FRMDat->x = x;
+			FRMDat->y = y;
 
-				hRet = g_pDD->CreateSurface(&ddsd, &FRMDat->FRM, NULL);
-				if (hRet != DD_OK) return hRet;
-				
-				int FIpitch = FreeImage_GetPitch(bitmap);
+			FRMDat->bx = 16-(x/2);
+			FRMDat->by = 8-(y);
+		
+			SDL_UpdateRect(FRMDat->FRM,0,0,0,0);
 
-				FRMDat->FRM->Lock(NULL, &ddsd, 0 , NULL);
-				
-				if (BitDepth == 32) {
-					FreeImage_ConvertToRawBits((BYTE*)ddsd.lpSurface, bitmap, ddsd.lPitch, 32,ddsd.ddpfPixelFormat.dwRBitMask,ddsd.ddpfPixelFormat.dwGBitMask,ddsd.ddpfPixelFormat.dwBBitMask,false);
-				} else {
-					FreeImage_ConvertToRawBits((BYTE*)ddsd.lpSurface, bitmap, ddsd.lPitch, 16,ddsd.ddpfPixelFormat.dwRBitMask,ddsd.ddpfPixelFormat.dwGBitMask,ddsd.ddpfPixelFormat.dwBBitMask,false);
-				}
-				FRMDat->FRM->Unlock(NULL);
-				
-				FRMDat->x = x;
-				FRMDat->y = y;
-
-				FRMDat->bx = 16-(x/2);
-				FRMDat->by = 8-(y);
-
-				DDSetColorKey(FRMDat->FRM, RGB(0,0,0));
-
-				if ((i!=framecounter-1) || (i2!=5)) {
-					FreeImage_UnlockPage(multibitmap,bitmap,false);
-					bitmap = FreeImage_LockPage(multibitmap,i+(i2*framecounter));
-				}
-			}
-		}
-
-		if (filetype==FIF_TIFF) {
-			FreeImage_UnlockPage(multibitmap,bitmap,false);
-			FreeImage_CloseMultiBitmap(multibitmap);
-		} else {
-			FreeImage_Unload(bitmap);
+			SDL_SetColorKey(FRMDat->FRM, SDL_SRCCOLORKEY, 0);
 		}
 	}
 	
-	return DD_OK;
+	return 0;
 }
 
 void TFRMAnim6::FirstFrame()
@@ -546,13 +437,13 @@ void TFRMAnim6::SetDir(int i_dir)
 //
 // ------------------
 
-HRESULT TFRMSingle::Load(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filename, int framenum)
+int TFRMSingle::Load(const char* filename, int framenum)
 {
+
     char						buf[100];
 	char						buf2[100];						
 	unsigned char				framedat[12];
-	DDSURFACEDESC2              ddsd;
-	HRESULT						hRet;
+	int							hRet;
 	gzFile						stream;
 	int							x, y;
 	int							bx,by;
@@ -561,18 +452,27 @@ HRESULT TFRMSingle::Load(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filename, i
 	unsigned char				bxx[2],byy[2];
 	int							i;
 	bool						frm_2;
-	LPVOID						ize;
+	void*						ize;
 
-	wsprintf(buf2,"%s",filename);
-	wsprintf(fname,"%s",filename);
- 
-	std::string fullname = GetFile(buf2);
+	sprintf(buf2,"%s",filename);
+	sprintf(fname,"%s",filename);
 
-	if (fullname=="") return InitFail(hWnd,DDERR_NOTLOADED,"File open error: %s",buf2);
+ 	std::string fullname = GetFile(buf2);
 
-	FREE_IMAGE_FORMAT filetype = FreeImage_GetFileType(fullname.c_str(),0);
+	if (fullname=="") return InitFail(0,"File open error: %s",buf2);
 
-	if (filetype == FIF_UNKNOWN) {
+	int ffiletype = 0;
+
+	gzFile file = __IOopen(fname,"rb");
+	SDL_RWops *rwop = SDL_RWFromGzip(file);
+	if (IMG_isBMP(rwop)) ffiletype = 1;
+	gzseek(file, 0, SEEK_SET);
+	if (IMG_isJPG(rwop)) ffiletype = 1;
+	gzseek(file, 0, SEEK_SET);
+	if (IMG_isTIF(rwop)) ffiletype = 1;
+	gzclose(file);
+	
+	if (ffiletype == 0) {
 
 		stream = __IOopen( fname,"rb");
 
@@ -580,7 +480,7 @@ HRESULT TFRMSingle::Load(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filename, i
 		if ((buf[0]!=0) ||
 			(buf[1]!=0) ||
 			(buf[2]!=0) ||
-			((buf[3]!=4) && (buf[3]!=5))) InitFail(hWnd,DDERR_NOTLOADED,"Unknown File Format: %s",buf2);
+			((buf[3]!=4) && (buf[3]!=5))) return InitFail(0,"Unknown File Format: %s",buf2);
 		frm_2 = (buf[3]==5);
 		gzread(stream,bxx,2);
 		gzread(stream,buf,10);
@@ -611,124 +511,77 @@ HRESULT TFRMSingle::Load(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filename, i
 		free(ize);
 		}
 		}
-
-		ZeroMemory(&ddsd, sizeof(ddsd));
-		ddsd.dwSize = sizeof(ddsd);
-		ddsd.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH | DDSD_PITCH;// | DDSD_PIXELFORMAT;
-		ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY ;
-
-		ddsd.dwWidth = x;
-		ddsd.dwHeight = y;
-		if (BitDepth == 32) {
-			ddsd.lPitch = x*4;
-		} else {
-			ddsd.lPitch = x*2;
-		}
-
-		if (FRM) {FRM->FRM->Release();delete FRM;};
+		
+		if (FRM) {SDL_FreeSurface(FRM->FRM);delete FRM;};
 	      
 		FRM = new TFRM();
-
-		hRet = g_pDD->CreateSurface(&ddsd, &FRM->FRM, NULL);
-		if (hRet != DD_OK) return hRet;
-		
-		FRM->FRM->Lock(NULL, &ddsd, 0 , NULL);
-		LoadFRM(stream, ddsd.lpSurface, ddsd.dwWidth, ddsd.dwHeight, ddsd.lPitch,frm_2);
-		FRM->FRM->Unlock(NULL);
+		FRM->FRM = SDL_CreateRGBSurface(SDL_SWSURFACE, x,y, BitDepth, g_pDDPixelFormat->Rmask, g_pDDPixelFormat->Gmask,g_pDDPixelFormat->Bmask,g_pDDPixelFormat->Amask);
+		SDL_LockSurface(FRM->FRM);
+		LoadFRM(stream, FRM->FRM->pixels, FRM->FRM->w, FRM->FRM->h, FRM->FRM->pitch, frm_2);
+		SDL_UnlockSurface(FRM->FRM);
 
 		FRM->x = x;
 		FRM->y = y;
 
 		FRM->bx = 16-(x/2-(bx1+bx2));
 		FRM->by = 8-(y-(by1+by2));
+	
+		SDL_SetColorKey(FRM->FRM, SDL_SRCCOLORKEY, 0);
 
-		DDSetColorKey(FRM->FRM, RGB(0,0,0));
-		//FRM->FRM->SetPalette(g_pDDPal);
+		SDL_UpdateRect(FRM->FRM,0,0,0,0);
+		SDL_SetClipRect(FRM->FRM, NULL);
+
 		gzclose(stream);
 	} else {
-		FIBITMAP* bitmap;
-		FIMULTIBITMAP* multibitmap;
-		if (filetype==FIF_TIFF) {
-			multibitmap = FreeImage_OpenMultiBitmap(FIF_TIFF, fullname.c_str(),false,true,false);
-			bitmap = FreeImage_LockPage(multibitmap,framenum-1);
-		} else {
-			bitmap = FreeImage_Load(filetype, fullname.c_str(), 0);
-		}
-		//FreeImage_ConvertTo32Bits(bitmap);
 		
-		x = FreeImage_GetWidth(bitmap);
-		y = FreeImage_GetHeight(bitmap);
-
-		ZeroMemory(&ddsd, sizeof(ddsd));
-		ddsd.dwSize = sizeof(ddsd);
-		ddsd.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH | DDSD_PITCH;// | DDSD_PIXELFORMAT;
-		ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY ;
-
-		ddsd.dwWidth = x;
-		ddsd.dwHeight = y;
-		if (BitDepth == 32) {
-			ddsd.lPitch = x*4;
-		} else {
-			ddsd.lPitch = x*2;
-		}
-
-		if (FRM) {FRM->FRM->Release();delete FRM;};
-     
+		if (FRM) {SDL_FreeSurface(FRM->FRM);delete FRM;};
 		FRM = new TFRM();
-		hRet = g_pDD->CreateSurface(&ddsd, &FRM->FRM, NULL);
-		if (hRet != DD_OK) return hRet;
-		
-		int FIpitch = FreeImage_GetPitch(bitmap);
 
-		FRM->FRM->Lock(NULL, &ddsd, 0 , NULL);
-		if (BitDepth == 32) {
-			FreeImage_ConvertToRawBits((BYTE*)ddsd.lpSurface, bitmap, ddsd.lPitch, 32,ddsd.ddpfPixelFormat.dwRBitMask,ddsd.ddpfPixelFormat.dwGBitMask,ddsd.ddpfPixelFormat.dwBBitMask,false);
-		} else {
-			FreeImage_ConvertToRawBits((BYTE*)ddsd.lpSurface, bitmap, ddsd.lPitch, 16,ddsd.ddpfPixelFormat.dwRBitMask,ddsd.ddpfPixelFormat.dwGBitMask,ddsd.ddpfPixelFormat.dwBBitMask,false);
-		}
-		FRM->FRM->Unlock(NULL);
-		
+		gzFile file = __IOopen(fname,"rb");
+		SDL_RWops *rwop = SDL_RWFromGzip(file);
+		SDL_Surface* temp = IMG_Load_RW(rwop,1);
+		FRM->FRM = SDL_ConvertSurface(temp, g_pDDPixelFormat, SDL_SWSURFACE);
+		SDL_FreeSurface(temp);
+
+		x = FRM->FRM->w;
+		y = FRM->FRM->h;
+
 		FRM->x = x;
 		FRM->y = y;
 
 		FRM->bx = 16-(x/2);
 		FRM->by = 8-(y);
+	
+		SDL_UpdateRect(FRM->FRM,0,0,0,0);
 
-		DDSetColorKey(FRM->FRM, RGB(0,0,0));
+		SDL_SetColorKey(FRM->FRM, SDL_SRCCOLORKEY, 0);
 
-		if (filetype==FIF_TIFF) {
-			FreeImage_UnlockPage(multibitmap,bitmap,false);
-			FreeImage_CloseMultiBitmap(multibitmap);
-		} else {
-			FreeImage_Unload(bitmap);
-		}
-
-		
+		//gzclose(file);
 	}
 
-	return DD_OK;
+	return 0;
 }
 
 
-int TFRMSingle::LoadFRM(gzFile stream, LPVOID LoadIn, int x, int y, int p, bool frm_2)
+int TFRMSingle::LoadFRM(gzFile stream, void* LoadIn, int x, int y, int p, bool frm_2)
 {
 	if (frm_2) {
-		LPSTR	PointTo,PointTo2,PointTo3;
-		WORD*	PointToInt;
-		DWORD*	PointToInt32;
+		char*	PointTo,*PointTo2,*PointTo3;
+		Uint16*	PointToInt;
+		Uint32*	PointToInt32;
 		int		i,i2;
 
-		PointTo3 = (LPSTR)malloc(x*3);
+		PointTo3 = (char*)malloc(x*3);
 	      	
 		for (i=0; i<y; i++)
 		{
 			PointTo2 = PointTo3;
 			gzread(stream, PointTo2, x*3);
-			PointTo = (LPSTR)LoadIn+(i*p);
+			PointTo = (char*)LoadIn+(i*p);
 			if (BitDepth == 32) {
-				PointToInt32 = (DWORD*)PointTo;
+				PointToInt32 = (Uint32*)PointTo;
 			} else {
-				PointToInt = (WORD*)PointTo;
+				PointToInt = (Uint16*)PointTo;
 			}
 			int r,g,b;
 
@@ -737,19 +590,11 @@ int TFRMSingle::LoadFRM(gzFile stream, LPVOID LoadIn, int x, int y, int p, bool 
 				g = (unsigned char)(*(PointTo2+1));
 				b = (unsigned char)(*(PointTo2+2));
 
-				r >>= (8-rsz);
-				g >>= (8-gsz);
-				b >>= (8-bsz);
-
-				r <<= rsh;
-				g <<= gsh;
-				b <<= bsh;
-
 				if (BitDepth == 32) {
-					*PointToInt32 = (DWORD)(r | g | b);
+					*PointToInt32 = (Uint32)SDL_MapRGB(g_pDDPixelFormat,r,g,b);
 					PointToInt32+=1;
 				} else {
-					*PointToInt = (WORD)(r | g | b);
+					*PointToInt = (Uint16)SDL_MapRGB(g_pDDPixelFormat,r,g,b);
 					PointToInt+=1;
 				}
 				PointTo2+=3;
@@ -758,29 +603,29 @@ int TFRMSingle::LoadFRM(gzFile stream, LPVOID LoadIn, int x, int y, int p, bool 
 
 		free(PointTo3);
    } else {
-		LPSTR	PointTo,PointTo2,PointTo3;
-		WORD*	PointToInt;
-		DWORD*	PointToInt32;
+		char*	PointTo,*PointTo2,*PointTo3;
+		Uint16*	PointToInt;
+		Uint32*	PointToInt32;
 		int		i,i2;
 
-		PointTo3 = (LPSTR)malloc(x);
+		PointTo3 = (char*)malloc(x);
 	      	
 		for (i=0; i<y; i++)
 		{
 			PointTo2 = PointTo3;
 			gzread(stream, PointTo2, x);
-			PointTo = (LPSTR)LoadIn+(i*p);
+			PointTo = (char*)LoadIn+(i*p);
 			if (BitDepth == 32) {
-				PointToInt32 = (DWORD*)PointTo;
+				PointToInt32 = (Uint32*)PointTo;
 			} else {
-				PointToInt = (WORD*)PointTo;
+				PointToInt = (Uint16*)PointTo;
 			}
 			for (i2=0;i2<x;i2++) {
 				if (BitDepth == 32) {
-					*PointToInt32 = (DWORD)(palcal[(unsigned char)*PointTo2]);
+					*PointToInt32 = (Uint32)(palcal[(unsigned char)*PointTo2]);
 					PointToInt32+=1;
 				} else {
-					*PointToInt = (WORD)(palcal[(unsigned char)*PointTo2]);
+					*PointToInt = (Uint16)(palcal[(unsigned char)*PointTo2]);
 					PointToInt+=1;
 				}
 				PointTo2+=1;

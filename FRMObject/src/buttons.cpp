@@ -7,14 +7,14 @@ PFRMSingle					MenuUp = NULL;
 PFRMSingle					MenuDown = NULL;
 PFRMSingle					Buttons[25][2];
 
-void buttons::TButton::Draw(LPDIRECTDRAWSURFACE7 Back,bool Press)
+void buttons::TButton::Draw(SDL_Surface* Back,bool Press)
 {
 	PFRM frm = Press ? on->FRM : off->FRM;
 	//AddToLog("x");
-	BlitTo(Back,0,0,frm->x,frm->y,x,y,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+	BlitTo(Back,0,0,frm->x,frm->y,x,y,0,frm->FRM);
 }
 
-void buttons::TButtonList::DrawButtons(LPDIRECTDRAWSURFACE7 Back,int Mx, int My, bool Press)
+void buttons::TButtonList::DrawButtons(SDL_Surface* Back,int Mx, int My, bool Press)
 {
 	PItem Item;
 	Item = Buttons->First();
@@ -38,6 +38,7 @@ int buttons::TButtonList::GetButton(int Mx, int My, bool Press)
 
 void buttons::ChangeButtonList(PButtonList &List, int mode)
 {
+	AddToLog(5,"Buttons> ButtonList changed to number %i",mode);
 	int addx = (GetMaxX-640)/2;
 	int addy = (GetMaxY-480)/2;
 

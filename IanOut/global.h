@@ -10,7 +10,7 @@
 #define NAME                "IanOut"
 #define TITLE               "IanOut: A Post-Nuclear Ian-Playing Game"
 
-#define VERSIONNUM	        "0.80 - Public Beta 3"
+#define VERSIONNUM	        "0.8.5 - Public Beta 4"
 
 #include "../FRMObject/player.h"
 #include "../commonutils/ddutil.h"
@@ -18,6 +18,6 @@
 #include "../commonutils/discutil.h"
 #include "resource.h"
 
-HRESULT BlitFRMTo(LPDIRECTDRAWSURFACE7 Target,PFRM Source,int x, int y,DWORD flags,signed char xAl,signed char yAl);
+int BlitFRMTo(SDL_Surface* Target,PFRM Source,int x, int y,Uint32 flags,signed char xAl,signed char yAl);
 
 #endif //__GLOBAL_H

@@ -4,6 +4,6 @@
 #include "global.h"
 
 void ReleaseAllObjects(void);
-HRESULT RestoreAll(void);
+int RestoreAll(void);
 
 #endif // __DONE_H

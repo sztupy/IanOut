@@ -1,3 +1,5 @@
+#include "windows.h"
+
 #include "sys\stat.h"
 #include "play.h"
 #include "../commonutils/mouse.h"
@@ -19,17 +21,15 @@ int tctype = 0;
 void play::EditCritters(void)
 {
     int									x,y;
-	HRESULT								hRet;
+	int								hRet;
 	static int							Frame = 0;
-	static DWORD						ThisTick;
-	static DWORD						LastTick = 0;
+	static Uint32						ThisTick;
+	static Uint32						LastTick = 0;
 	static int							mousetyp = 0;
 	int									i;
-	BOOL								kintvan;
-	BOOL								oldal[4];
+	bool								kintvan;
+	bool								oldal[4];
 	BlockType							BlDat;
-	DDBLTFX								ddbltfx;
-	RECT								rcRect;
 
 	static std::string FName = "untitled.act";
 	std::string FN;
@@ -43,21 +43,16 @@ void play::EditCritters(void)
 		}
 
 	if ((mousetyp>0) && (mousetyp<9)) mousetyp=0;
-	ThisTick = GetTickCount();
+	ThisTick = SDL_GetTicks();
 
-	if ((ThisTick - LastTick) > (DWORD)gameSpeed)
+	if ((ThisTick - LastTick) > (Uint32)gameSpeed)
         {
             LastTick = ThisTick;
         }
 
 // -------------------------------------------------------------------
-	olddims=dims;													//	
-	mouse::UpdateInputState();										//
 	if ((dims.lX == olddims.lX) && (dims.lY == olddims.lY)) Frame++; else Frame=0;
-																	//	
-	MousX += dims.lX;												//	
-	MousY += dims.lY;												//	
-																	//	
+
 	if ((MousX>=GetMaxX) && (MousY<=0)) {mousetyp = 2;} else    	//
 	if ((MousX>=GetMaxX) && (MousY>=GetMaxY)) {mousetyp = 4;} else  //
 	if ((MousX<=0)   && (MousY<=0)) {mousetyp = 8;} else    		//
@@ -67,19 +62,19 @@ void play::EditCritters(void)
 	if (MousY>=GetMaxY) {mousetyp = 5;} else						//
 	if (MousY<=0) {mousetyp = 1;}									//
 																	//
-	kintvan=FALSE;													//
-	oldal[0]=FALSE;oldal[2]=FALSE;									//
-	oldal[1]=FALSE;oldal[3]=FALSE;									//
+	kintvan=false;													//
+	oldal[0]=false;oldal[2]=false;									//
+	oldal[1]=false;oldal[3]=false;									//
 																	//
 	if (MousX>=GetMaxX) { MousX=GetMaxX; TerX-=16; }				//	
 	if (MousX<=0)   { MousX=0;   TerX+=16; }						//	
 	if (MousY>=GetMaxY) { MousY=GetMaxY; TerY-=12; }				//
 	if (MousY<=0)   { MousY=0;   TerY+=12; }						//	
 																	//
-	if ((mousetyp == 2) && (oldal[0] != oldal[3])) kintvan=FALSE;	//
-	if ((mousetyp == 4) && (oldal[1] != oldal[3])) kintvan=FALSE;	//
-	if ((mousetyp == 6) && (oldal[2] != oldal[1])) kintvan=FALSE;	//
-	if ((mousetyp == 8) && (oldal[2] != oldal[0])) kintvan=FALSE;	//
+	if ((mousetyp == 2) && (oldal[0] != oldal[3])) kintvan=false;	//
+	if ((mousetyp == 4) && (oldal[1] != oldal[3])) kintvan=false;	//
+	if ((mousetyp == 6) && (oldal[2] != oldal[1])) kintvan=false;	//
+	if ((mousetyp == 8) && (oldal[2] != oldal[0])) kintvan=false;	//
 																	//
 // -------------------------------------------------------------------
 	
@@ -130,7 +125,7 @@ void play::EditCritters(void)
 
 		if (mouse::MouseIn(cx,cy,cx+frm->x,cy+frm->y)) {
 			if (Counter == Selected) {
-				BlitToRo(g_pDDSBack,0,0,frm->x,frm->y,cx,cy,DDBLTFAST_SRCCOLORKEY,frm->FRM,palcal[color]);
+				BlitToRo(g_pDDSBack,0,0,frm->x,frm->y,cx,cy,0,frm->FRM,palcal[color]);
 				char buf[100];
 				sprintf(buf,"%08i",iter->second->Player.proto);
 				textfont::IanOutTextR(cx,cy,1,buf);
@@ -195,22 +190,8 @@ void play::EditCritters(void)
 
 	if (!drawn) Selected = 0;
 
-	ZeroMemory(&ddbltfx, sizeof(ddbltfx));
-    ddbltfx.dwSize = sizeof(ddbltfx);
-    ddbltfx.dwFillColor = 0;
-	
-	rcRect.top=GetMaxY-20;
-	rcRect.left=0;
-	rcRect.bottom=GetMaxY;
-	rcRect.right=GetMaxX;
-	g_pDDSBack->Blt(&rcRect, NULL, NULL, DDBLT_COLORFILL | DDBLT_WAIT, &ddbltfx);
-
-	rcRect.top=0;
-	rcRect.left=0;
-	rcRect.bottom=15;
-	rcRect.right=GetMaxX;
-	g_pDDSBack->Blt(&rcRect, NULL, NULL, DDBLT_COLORFILL | DDBLT_WAIT, &ddbltfx);
-
+	ClearRect(g_pDDSBack,0,GetMaxY-20,GetMaxX,GetMaxY,0);
+	ClearRect(g_pDDSBack,0,0,GetMaxX,15,0);
 	ClearRect(g_pDDSBack,GetMaxX-100,15,GetMaxX,GetMaxY-20,0);
 
 	textfont::IanOutText(0,GetMaxY-20,0,buf2);
@@ -243,7 +224,7 @@ void play::EditCritters(void)
 		if (CritterInf) delete CritterInf;
 		CritterInf = new TIanCritter();
 		FN+=FName;
-		CritterInf->LoadCritters(hWnd,g_pDD,FN.c_str(),StaticInf->TilesI);
+		CritterInf->LoadCritters(FN.c_str(),StaticInf->TilesI);
 	}
 	if (mouse::MouseIn(GetMaxX-100,30,GetMaxX,44)) InSide = true; else InSide = false;
 	textfont::IanOutTextC(GetMaxX-50,30,InSide ? 0 : 1,"SAVE");
@@ -251,7 +232,7 @@ void play::EditCritters(void)
 		int stream;
 		FN+=FName;
 		stream = _open(FN.c_str(),_O_BINARY | _O_RDWR | _O_TRUNC | _O_CREAT, _S_IREAD | _S_IWRITE  );
-		AddToLog(FN.c_str());
+		AddToLog(2,"Save> %s",FN.c_str());
 		if (stream != -1) {
 
 		CritterList::iterator iter;
@@ -317,7 +298,7 @@ void play::EditCritters(void)
 		if (CritterInf) delete CritterInf;
 		CritterInf = new TIanCritter();
 		FN+="blank.act";
-		CritterInf->LoadCritters(hWnd,g_pDD,FN.c_str(),StaticInf->TilesI);
+		CritterInf->LoadCritters(FN.c_str(),StaticInf->TilesI);
 	}
 
 
@@ -325,37 +306,37 @@ void play::EditCritters(void)
 	textfont::IanOutTextR(GetMaxX,105,1,"------------");
 		if (mouse::MouseIn(GetMaxX-100,120,GetMaxX,134))
 		{ InSide=true; ref_to = &tcid; } else { InSide=false; if (tcid<0) tcid=0; };
-	wsprintf(buf,"Id: %i",tcid);
+	sprintf(buf,"Id: %i",tcid);
 	textfont::IanOutText(GetMaxX-100,120,InSide ? 0 : 1,buf);
 
 	if (mouse::MouseIn(GetMaxX-100,135,GetMaxX,149))
 		{ InSide=true; ref_to = &tcvar1; } else { InSide=false; };
-	wsprintf(buf,"Var_1: %i",tcvar1); 
+	sprintf(buf,"Var_1: %i",tcvar1); 
 	textfont::IanOutText(GetMaxX-100,135,InSide ? 0 : 1,buf);
 
 	if (mouse::MouseIn(GetMaxX-100,150,GetMaxX,164))
 		{ InSide=true; ref_to = &tcvar2; }  else { InSide=false; };
-	wsprintf(buf,"Var_2: %i",tcvar2);
+	sprintf(buf,"Var_2: %i",tcvar2);
 	textfont::IanOutText(GetMaxX-100,150,InSide ? 0 : 1,buf);
 
 	if (mouse::MouseIn(GetMaxX-100,175,GetMaxX,189))
 		{ InSide=true; ref_to = &tcgroup; }  else { InSide=false; };
-	wsprintf(buf,"Group: %i",tcgroup);
+	sprintf(buf,"Group: %i",tcgroup);
 	textfont::IanOutText(GetMaxX-100,175,InSide ? 0 : 1,buf);
 
 	if (mouse::MouseIn(GetMaxX-100,190,GetMaxX,209))
 		{ InSide=true; ref_to = &tckarma; }  else { InSide=false; };
-	wsprintf(buf,"Karma: %i",tckarma);
+	sprintf(buf,"Karma: %i",tckarma);
 	textfont::IanOutText(GetMaxX-100,190,InSide ? 0 : 1,buf);
 
 	if (mouse::MouseIn(GetMaxX-100,215,GetMaxX,229))
 		{ InSide=true; ref_to = &tcx; }  else { InSide=false; };
-	wsprintf(buf,"X: %i",tcx);
+	sprintf(buf,"X: %i",tcx);
 	textfont::IanOutText(GetMaxX-100,215,InSide ? 0 : 1,buf);
 
 	if (mouse::MouseIn(GetMaxX-100,230,GetMaxX,244))
 		{ InSide=true; ref_to = &tcy; }  else { InSide=false; };
-	wsprintf(buf,"Y: %i",tcy);
+	sprintf(buf,"Y: %i",tcy);
 	textfont::IanOutText(GetMaxX-100,230,InSide ? 0 : 1,buf);
 
 	textfont::IanOutTextR(GetMaxX,260,1,"Create");
@@ -363,17 +344,17 @@ void play::EditCritters(void)
 
 	if (mouse::MouseIn(GetMaxX-100,290,GetMaxX,304))
 		{ InSide=true; ref_to = &tcproto; }  else { InSide=false; };
-	wsprintf(buf,"%08i",tcproto);
+	sprintf(buf,"%08i",tcproto);
 	textfont::IanOutText(GetMaxX-100,290,InSide ? 0 : 1,buf);
 
 	if (mouse::MouseIn(GetMaxX-100,305,GetMaxX,320))
 		{ InSide=true; ref_to = &tctype; }  else { InSide=false; };
-	wsprintf(buf,"Type: %i",tctype);
+	sprintf(buf,"Type: %i",tctype);
 	textfont::IanOutText(GetMaxX-100,305,InSide ? 0 : 1,buf);
 
 	if (mouse::MouseIn(GetMaxX-100,340,GetMaxX,355))
 		{ InSide=true; }  else { InSide=false; };
-	wsprintf(buf,"CREATE");
+	sprintf(buf,"CREATE");
 	textfont::IanOutText(GetMaxX-100,340,InSide ? 0 : 1,buf);
 	if (InSide && mouse::Pressed(3)) {
 			unsigned int x,proto;
@@ -396,12 +377,12 @@ void play::EditCritters(void)
 			PLoad.karma = tckarma;
 			PLoad.proto = tcproto;
 						
-			wsprintf(buf2,"CRITTERS_%i",num);
-			wsprintf(buf3,"%s",GetFile("\\proto\\critters.pro").c_str());
+			sprintf(buf2,"CRITTERS_%i",num);
+			sprintf(buf3,"%s",GetFile("\\proto\\critters.pro").c_str());
 			GetPrivateProfileString("CRITTERS",buf2,"",buf4,150,buf3);
-			wsprintf(buf,"\\data\\critters\\%s",buf4);
+			sprintf(buf,"\\data\\critters\\%s",buf4);
 
-			wsprintf(buf3,"%s",GetFile(buf).c_str());
+			sprintf(buf3,"%s",GetFile(buf).c_str());
 			sprintf(buf4,"%s",textutil::GetFromXML(buf3,".graphics").c_str());
 
 			PLoad.deflocation = GetFile(buf);
@@ -421,23 +402,23 @@ void play::EditCritters(void)
 			int unarmedloc;
 			PLoad.Unarmed1 = new TWeapon();
 			unarmedloc = atoi2(textutil::GetFromXML(PLoad.protolocation.c_str(),"/unarmed.hand1").c_str());
-			if (unarmedloc<65536) LoadNewItem(hWnd,g_pDD,StaticInf->TilesI,unarmedloc);
+			if (unarmedloc<65536) LoadNewItem(StaticInf->TilesI,unarmedloc);
 			PLoad.Unarmed1->Load(unarmedloc,StaticInf->TilesI);
 			
 			PLoad.Unarmed2 = new TWeapon();
 			unarmedloc = atoi2(textutil::GetFromXML(PLoad.protolocation.c_str(),"/unarmed.hand2").c_str());
-			if (unarmedloc<65536) LoadNewItem(hWnd,g_pDD,StaticInf->TilesI,unarmedloc);
+			if (unarmedloc<65536) LoadNewItem(StaticInf->TilesI,unarmedloc);
 			PLoad.Unarmed2->Load(unarmedloc,StaticInf->TilesI);
 
 			Ian = new TFRMPlayer(PLoad,Inven);
-			Ian->LoadPlayer(hWnd,g_pDD,false);
+			Ian->LoadPlayer(false);
 			Ian->MoveTo(DeCompLocX(x),DeCompLocY(x));
 			CritterInf->Critters.insert( Critter_Pair(num,Ian));
 			Ian = NULL;
 	}
 
 
-    if ((mousetyp<1) || (mousetyp>8)) BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,MousX,MousY,DDBLTFAST_SRCCOLORKEY,Mouse->FRM->FRM);
+    if ((mousetyp<1) || (mousetyp>8)) BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,MousX,MousY,0,Mouse->FRM->FRM);
 	
 	textfont::DisplayNum(55,0,1,x,3);
 	textfont::DisplayNum(85,0,1,y,3);
@@ -449,22 +430,22 @@ void play::EditCritters(void)
 		x = MouseScr[mousetyp-1][i]->FRM->x;
 		y = MouseScr[mousetyp-1][i]->FRM->y;
 		if ((mousetyp==1) || (mousetyp>6))
-		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==2)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==3)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==4)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY-y,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY-y,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==5)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY-y,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY-y,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==6)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY-y,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY-y,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 
 	}
@@ -475,19 +456,6 @@ void play::EditCritters(void)
 	textutil::DisplayFrameRate();
 
 	// Flip the surfaces
-    while (TRUE)
-    {
-        hRet = g_pDDSPrimary->Flip(NULL, 0);
-        if  (hRet == DD_OK)
-            break;
-        if (hRet == DDERR_SURFACELOST)
-        {
-            hRet = RestoreAll();
-            if (hRet != DD_OK)
-                break;
-        }
-        if (hRet != DDERR_WASSTILLDRAWING)
-            break;
-    }
+    SDL_Flip(g_pDDSBack);
 	
 }

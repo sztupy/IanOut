@@ -5,6 +5,10 @@
 	Name="zLib"
 	ProjectGUID="{9FAE0C44-A516-4076-AE48-11ABA9D0154A}"
 	RootNamespace="zLib"
+	SccProjectName="IanOutB3"
+	SccAuxPath=""
+	SccLocalPath=".."
+	SccProvider="MSSCCI:Jalindi Igloo"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -62,7 +66,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="$(ProjectDir)"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				RuntimeLibrary="4"
+				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"

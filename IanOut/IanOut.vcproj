@@ -5,6 +5,10 @@
 	Name="IanOut"
 	ProjectGUID="{C73C38FC-4DB6-4F11-8438-5370754EA146}"
 	RootNamespace="IanOut"
+	SccProjectName="IanOutB3"
+	SccAuxPath=""
+	SccLocalPath=".."
+	SccProvider="MSSCCI:Jalindi Igloo"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -23,9 +27,9 @@
 				InlineFunctionExpansion="1"
 				OmitFramePointers="TRUE"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)/luabind&quot;;&quot;$(SolutionDir)/lualib&quot;;&quot;$(SolutionDir)/boostlib&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				StringPooling="TRUE"
-				RuntimeLibrary="4"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -35,11 +39,11 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="luabind.lib lualib.lib tinyxml.lib frmobject.lib commonutils.lib freeimage.lib dxguid.lib ddraw.lib dinput.lib msimg32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib"
+				AdditionalDependencies="sdl_mixer.lib sdl_image.lib sdlmain.lib sdl.lib luabind.lib lualib.lib tinyxml.lib frmobject.lib commonutils.lib"
 				OutputFile="$(SolutionDir)/_Output/IanOut.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
-				SubSystem="2"
+				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"/>
@@ -137,9 +141,6 @@
 				RelativePath=".\done.h">
 			</File>
 			<File
-				RelativePath=".\FreeImage.h">
-			</File>
-			<File
 				RelativePath=".\global.h">
 			</File>
 			<File
@@ -171,19 +172,10 @@
 			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="res\ALL.BMP">
-			</File>
-			<File
 				RelativePath="res\IanOut.ico">
 			</File>
 			<File
-				RelativePath="IanOut.rc">
-			</File>
-			<File
-				RelativePath="res\MASK.BMP">
-			</File>
-			<File
-				RelativePath="res\Mask2.bmp">
+				RelativePath=".\IanOut.rc">
 			</File>
 		</Filter>
 	</Files>

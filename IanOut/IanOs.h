@@ -7,11 +7,6 @@
 #include <iostream>
 #include "../frmobject/player.h"
 
-#undef ERROR
-#undef TRUE
-#undef FALSE
-#undef max
-
 namespace IanOs {
 
 	namespace GVar {

@@ -1,5 +1,5 @@
 /*
-** $Id: lcode.c,v 1.117 2003/04/03 13:35:34 roberto Exp $
+** $Id: lcode.c,v 1.1 2003/09/17 20:51:19 sztupy Exp $
 ** Code generator for Lua
 ** See Copyright Notice in lua.h
 */

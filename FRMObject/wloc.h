@@ -58,9 +58,9 @@ public:
 		};
 	~TMapLoader();
 
-	void SaveLocations(HWND hWnd, LPDIRECTDRAW7 g_pDD);
-	HRESULT InitMainChar(HWND hWnd, LPDIRECTDRAW7 g_pDD);
-	HRESULT LoadMap(HWND hWnd, LPDIRECTDRAW7 g_pDD, char* filename, char* actorfile);
+	void SaveLocations();
+	int InitMainChar();
+	int LoadMap(char* filename, char* actorfile);
 
 	std::string fname;
 	std::string actorname;

@@ -4,6 +4,8 @@
 
 #define LUABIND_MAX_ARITY 10
 
+#include "windows.h"
+
 #include "IanOs.h"
 #include "../frmobject/player.h"
 #include "stdlib.h"
@@ -35,8 +37,8 @@ extern "C"
 #include <../luabind/luabind/adopt_policy.hpp>
 
 #undef ERROR
-#undef TRUE
-#undef FALSE
+#undef true
+#undef false
 #undef max
 #undef NAME
 
@@ -104,7 +106,7 @@ public:
 	c_TInventory& operator=(const c_TInventory& InvC) { HolderItem = InvC.HolderItem; return *this; };
 
 	void f_AddItem(int type, int count) {
-		LoadNewItem(hWnd,g_pDD,StaticInf->TilesI,type);
+		LoadNewItem(StaticInf->TilesI,type);
 		HolderItem->AddItem(type,count,0,StaticInf->TilesI);
 	}
 	int f_CountItem(int type) {
@@ -165,11 +167,29 @@ public:
 	}
 
 	void f_Kill(int type) {
-		HolderItem->KillPerson(hWnd,g_pDD,type);
+		HolderItem->KillPerson(type);
 	}
 
 	void f_Erase() {
 		HolderItem->curth = 260;
+	}
+
+	void f_UseItem(int itemnum)
+	{
+		FRMLocationMap::iterator iter;
+		FRMLocationMap::iterator iter2;
+		iter2 = StaticInf->Map.end();
+		iter = StaticInf->Map.begin();
+		while (iter != StaticInf->Map.end()) {
+			if (iter->second->ItemDesc)
+			if (iter->second->ItemDesc->Count == itemnum) iter2=iter;
+			iter++;
+		}
+		if (iter2 == StaticInf->Map.end()) {
+			return;
+		}
+		HolderItem->UseOn(iter2->second,*Block,1,0,0);
+
 	}
 
 	int f_IncHp(int amount) {
@@ -209,6 +229,10 @@ public:
 		HolderItem->GenerateTree(mx,my,*Block);
 	}
 
+	void f_LookAt(int atx, int aty) {
+		HolderItem->LookAt(atx,aty);
+	}
+
 	void f_MoveRandom(int radius) {
 		PFRMPlayer Ply = HolderItem;
 		int x=Ply->x;
@@ -231,7 +255,7 @@ public:
 		PFRMPlayer Ply = HolderItem;
 		if (Ply) {
 			TerX = -LocConvertX(Ply->x,Ply->y)*16+GetMaxX/2;
-			TerY = -LocConvertY(Ply->x,Ply->y)*12+100+(GetMaxY/2);
+			TerY = -LocConvertY(Ply->x,Ply->y)*12-100+(GetMaxY/2);
 		}
 	}
 
@@ -269,10 +293,10 @@ void f_AddLog(const object& text)
 	if (text.type() == LUA_TNUMBER) {
 		char buf[20];
 		sprintf(buf,"%d",object_cast<int>(text));
-		AddToLog(buf);
+		AddToLog(0,"Script> %s",buf);
 	}
 	if (text.type() == LUA_TSTRING) {
-		AddToLog(object_cast<std::string>(text).c_str());
+		AddToLog(0,"Script> %s",object_cast<std::string>(text).c_str());
 	}
 }
 
@@ -295,6 +319,7 @@ c_TItem* f_SetActualItem(int number)
 	iter2 = StaticInf->Map.end();
 	iter = StaticInf->Map.begin();
 	while (iter != StaticInf->Map.end()) {
+		if (iter->second->ItemDesc)
 		if (iter->second->ItemDesc->Count == number) iter2=iter;
 		iter++;
 	}
@@ -312,6 +337,7 @@ c_TItem* f_GetItem(int number)
 	iter2 = StaticInf->Map.end();
 	iter = StaticInf->Map.begin();
 	while (iter != StaticInf->Map.end()) {
+		if (iter->second->ItemDesc)
 		if (iter->second->ItemDesc->Count == number) iter2=iter;
 		iter++;
 	}
@@ -393,12 +419,12 @@ c_TCharacter* f_CreateCharacter(int pl1, int pl2, int pl3, int pl4, int pl5)
 	PLoad.karma = 0;
 	PLoad.proto = pl4;
 				
-	wsprintf(buf2,"CRITTERS_%i",num);
-	wsprintf(buf3,"%s",GetFile("\\proto\\critters.pro").c_str());
+	sprintf(buf2,"CRITTERS_%i",num);
+	sprintf(buf3,"%s",GetFile("\\proto\\critters.pro").c_str());
 	GetPrivateProfileString("CRITTERS",buf2,"",buf4,150,buf3);
-	wsprintf(buf,"\\data\\critters\\%s",buf4);
+	sprintf(buf,"\\data\\critters\\%s",buf4);
 
-	wsprintf(buf3,"%s",GetFile(buf).c_str());
+	sprintf(buf3,"%s",GetFile(buf).c_str());
 	sprintf(buf4,"%s",textutil::GetFromXML(buf3,".graphics").c_str());
 
 	PLoad.deflocation = GetFile(buf);
@@ -418,16 +444,16 @@ c_TCharacter* f_CreateCharacter(int pl1, int pl2, int pl3, int pl4, int pl5)
 	int unarmedloc;
 	PLoad.Unarmed1 = new TWeapon();
 	unarmedloc = atoi2(textutil::GetFromXML(PLoad.protolocation.c_str(),"/unarmed.hand1").c_str());
-	if (unarmedloc<65536) LoadNewItem(hWnd,g_pDD,StaticInf->TilesI,unarmedloc);
+	if (unarmedloc<65536) LoadNewItem(StaticInf->TilesI,unarmedloc);
 	PLoad.Unarmed1->Load(unarmedloc,StaticInf->TilesI);
 	
 	PLoad.Unarmed2 = new TWeapon();
 	unarmedloc = atoi2(textutil::GetFromXML(PLoad.protolocation.c_str(),"/unarmed.hand2").c_str());
-	if (unarmedloc<65536) LoadNewItem(hWnd,g_pDD,StaticInf->TilesI,unarmedloc);
+	if (unarmedloc<65536) LoadNewItem(StaticInf->TilesI,unarmedloc);
 	PLoad.Unarmed2->Load(unarmedloc,StaticInf->TilesI);
 
 	Ian = new TFRMPlayer(PLoad,Inven);
-	Ian->LoadPlayer(hWnd,g_pDD,false);
+	Ian->LoadPlayer(false);
 	Ian->MoveTo(DeCompLocX(x),DeCompLocY(x));
 	CritterInf->Critters.insert( Critter_Pair(num,Ian));
 	
@@ -596,7 +622,6 @@ void Text::AddLine(std::string newtext,int newtodo, int newcolor)
 
 std::string f_GetFile(std::string filename)
 {
-	AddToLog(GetFile("\\scripts\\"+filename).c_str());
 	return GetFile("\\scripts\\"+filename);
 }
 
@@ -617,17 +642,17 @@ void f_RunFile(std::string filename)
 		lua_Debug ar;
 		lua_getstack (Ll, 0,&ar);
 		lua_getinfo (Ll, "nSlu",&ar);
-		AddToLog("--------------------------");
-		AddToLog("LuaScript Error in file: %s.",filename.c_str());
-		AddToLog("Long Source:",ar.source);
-		AddToLog("Short Source:",ar.short_src);
-		AddToLog("Linedefined:",ar.linedefined);
-		AddToLog("What:",ar.what);
-		AddToLog("Currentline:",ar.currentline);
-		AddToLog("Name:",ar.name);
-		AddToLog("NameWhat:",ar.namewhat);
-		AddToLog("Nups:",ar.nups);
-		AddToLog("--------------------------");
+		AddToLog(0,"Script> ""--------------------------");
+		AddToLog(0,"Script> ""LuaScript Error in file: %s.",filename.c_str());
+		AddToLog(0,"Script> ""Long Source:",ar.source);
+		AddToLog(0,"Script> ""Short Source:",ar.short_src);
+		AddToLog(0,"Script> ""Linedefined:",ar.linedefined);
+		AddToLog(0,"Script> ""What:",ar.what);
+		AddToLog(0,"Script> ""Currentline:",ar.currentline);
+		AddToLog(0,"Script> ""Name:",ar.name);
+		AddToLog(0,"Script> ""NameWhat:",ar.namewhat);
+		AddToLog(0,"Script> ""Nups:",ar.nups);
+		AddToLog(0,"Script> ""--------------------------");
 		textutil::AddString("LuaScript Error in file: "+filename+". See Log File for details.",1);
 	}
 }
@@ -646,17 +671,17 @@ void RunStat(std::string statement)
 		lua_Debug ar;
 		lua_getstack (Ll, 0,&ar);
 		lua_getinfo (Ll, "nSlu",&ar);
-		AddToLog("--------------------------");
-		AddToLog("LuaScript Error in statement: %s.",statement.c_str());
-		AddToLog("Long Source:",ar.source);
-		AddToLog("Short Source:",ar.short_src);
-		AddToLog("Linedefined:",ar.linedefined);
-		AddToLog("What:",ar.what);
-		AddToLog("Currentline:",ar.currentline);
-		AddToLog("Name:",ar.name);
-		AddToLog("NameWhat:",ar.namewhat);
-		AddToLog("Nups:",ar.nups);
-		AddToLog("--------------------------");
+		AddToLog(0,"Script> ""--------------------------");
+		AddToLog(0,"Script> ""LuaScript Error in statement: %s.",statement.c_str());
+		AddToLog(0,"Script> ""Long Source:",ar.source);
+		AddToLog(0,"Script> ""Short Source:",ar.short_src);
+		AddToLog(0,"Script> ""Linedefined:",ar.linedefined);
+		AddToLog(0,"Script> ""What:",ar.what);
+		AddToLog(0,"Script> ""Currentline:",ar.currentline);
+		AddToLog(0,"Script> ""Name:",ar.name);
+		AddToLog(0,"Script> ""NameWhat:",ar.namewhat);
+		AddToLog(0,"Script> ""Nups:",ar.nups);
+		AddToLog(0,"Script> ""--------------------------");
 		textutil::AddString("LuaScript Error in statement. See Log File for details.",1);
 	}
 	L = NULL;
@@ -756,6 +781,8 @@ void Init_Lua(lua_State* L)
 				.def("Taunt",&c_TCharacter::f_Taunt)
 				.def("MoveRel",&c_TCharacter::f_MoveRel)
 				.def("MoveAbs",&c_TCharacter::f_MoveAbs)
+				.def("UseItem",&c_TCharacter::f_UseItem)
+				.def("LookAt",&c_TCharacter::f_LookAt)
 				.def("MoveRandom",&c_TCharacter::f_MoveRandom)
 				.def("CenterScreen",&c_TCharacter::f_CenterScreen)
 				.property("var1",&c_TCharacter::GetVar1,&c_TCharacter::SetVar1)

@@ -13,6 +13,7 @@ namespace palette {
 	void SetPaletteNo();
 	void SetPaletteWh(int Frame);
 	void FadeOutWh();
+	void SetGamma128();
 }
 
 #endif //__PALETTE_H

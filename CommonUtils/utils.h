@@ -7,8 +7,8 @@
 extern "C" {            /* Assume C declarations for C++ */
 #endif	/* __cplusplus */
 
-extern HRESULT              InitFail(HWND hWnd, HRESULT hRet, LPCTSTR szError, ...);
-extern HRESULT				LogFail(HRESULT hRet, LPCTSTR szError,...);
+extern int					InitFail(int hRet, const char* szError, ...);
+extern int					LogFail(int hRet, const char* szError,...);
 extern int					atoi2(const char * str);
 
 #ifdef __cplusplus

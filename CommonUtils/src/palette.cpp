@@ -1,62 +1,29 @@
 #include "palette.h"
-//#include "done.h"
 #include <limits>
 #include "engine.h"
 
-int rsz, gsz, bsz; 	//bitsize of field
-int rsh, gsh, bsh;	//0’s on left (the shift value)
+#define PAL_ANIM_SPEED 2500
 
-int GetMaskInfo (DWORD Bitmask, int* lpShift)
+void palette::SetGamma128()
 {
-    int Precision, Shift;
+	for (int i=0; i<256; i++) {
+		rramp2[i]=i*255;
+		gramp2[i]=i*255;
+		bramp2[i]=i*255;
 
-    Precision = Shift = 0;
-    //count the zeros on right hand side
-    while (!(Bitmask & 0x01L))
-    {
-        Bitmask >>= 1;
-        Shift++;
-    }
-	
-    //count the ones on right hand side
-    while (Bitmask & 0x01L)
-    {
-        Bitmask >>= 1;
-        Precision++;
-    }
-    *lpShift = Shift;
-    return Precision;
+		rramp[i]=i*255;
+		gramp[i]=i*255;
+		bramp[i]=i*255;
+	}
+	SDL_SetGammaRamp(rramp,gramp,bramp);
 }
 
 void palette::Calculate16bit()
 {
-
-    DDPIXELFORMAT DDpf;
-	DWORD r,g,b;
-
-    ZeroMemory (&DDpf, sizeof(DDpf));
-    DDpf.dwSize = sizeof(DDpf);
-    g_pDDSPrimary->GetPixelFormat(&DDpf);
-	
-    rsz = GetMaskInfo (DDpf.dwRBitMask, &rsh);
-    gsz = GetMaskInfo (DDpf.dwGBitMask, &gsh);
-    bsz = GetMaskInfo (DDpf.dwBBitMask, &bsh);
-
+	AddToLog(4,"Palette> Calculating 8bit conversion table");
 	int i;
 	for (i=0; i<256; i++) {
-		r = pe[i].peRed;
-		g = pe[i].peGreen;
-		b = pe[i].peBlue;
-
-		r >>= (8-rsz);	//keep only the MSB bits of component
-		g >>= (8-gsz);
-		b >>= (8-bsz);
-
-		r <<= rsh;	//SHIFT THEM INTO PLACE
-		g <<= gsh;
-		b <<= bsh;
-
-		palcal[i] = (DWORD)(r | g | b);
+		palcal[i] = SDL_MapRGB(g_pDDSBack->format,pe[i].r,pe[i].g,pe[i].b);
 	}
 }
 
@@ -78,9 +45,9 @@ void palette::SetPaletteBl(int Frame)
 		Green = Frame;
 		Red = Frame;
 		
-		if (Red>(int)(DDGammaOld.red[i]*gamma)) Red = (int)(DDGammaOld.red[i]*gamma);
-		if (Blue>(int)(DDGammaOld.blue[i]*gamma)) Blue = (int)(DDGammaOld.blue[i]*gamma);
-		if (Green>(int)(DDGammaOld.green[i]*gamma)) Green = (int)(DDGammaOld.green[i]*gamma);
+		if (Red>(int)(rramp2[i]*gamma)) Red = (int)(rramp2[i]*gamma);
+		if (Blue>(int)(bramp2[i]*gamma)) Blue = (int)(gramp2[i]*gamma);
+		if (Green>(int)(gramp2[i]*gamma)) Green = (int)(bramp2[i]*gamma);
 
 		if (Blue>65535) Blue=65535;
 		if (Red>65535) Red=65535;
@@ -89,26 +56,30 @@ void palette::SetPaletteBl(int Frame)
 		if (Red<0) Red=0;
 		if (Green<0) Green=0;
 
-		DDGammaRamp.blue[i] = Blue;
-		DDGammaRamp.red[i] = Red;
-		DDGammaRamp.green[i] = Green;
+		bramp[i] = Blue;
+		rramp[i] = Red;
+		gramp[i] = Green;
 	}
-	
-	lpDDGammaControl->SetGammaRamp(0, &DDGammaRamp);
+	SDL_SetGammaRamp(rramp,gramp,bramp);
+
 }
 
 void palette::FadeOut()
 {
-	for (int i=65535; i>0; i-=3000)
+	AddToLog(5,"Palette> FadeOut");
+	for (int i=65535; i>-PAL_ANIM_SPEED; i-=PAL_ANIM_SPEED)
 	{
 		SetPaletteBl(i);
 	}
+	ClearSurface(g_pDDSBack,0,0,0);
+	SDL_Flip(g_pDDSBack);
 
 }
 
 void palette::FadeIn()
 {
-	for (int i=0; i<65535; i+=3000)
+	AddToLog(5,"Palette> FadeIn");
+	for (int i=0; i<65535+PAL_ANIM_SPEED; i+=PAL_ANIM_SPEED)
 	{
 		SetPaletteBl(i);
 	}
@@ -117,13 +88,13 @@ void palette::FadeIn()
 
 void palette::SetPaletteNo()
 {
-	lpDDGammaControl->SetGammaRamp(0, &DDGammaRamp);
+	SDL_SetGammaRamp(rramp,gramp,bramp);
 }
 
 
 void palette::SetPaletteWh(int Frame)
 {
-	int i;
+int i;
 	int Blue;
 	int Green;
 	int Red;
@@ -135,9 +106,9 @@ void palette::SetPaletteWh(int Frame)
 		Green = 65535-Frame;
 		Red = 65535-Frame;
 		
-		if (Red<(int)(DDGammaOld.red[i]*gamma)) Red = (int)(DDGammaOld.red[i]*gamma);
-		if (Blue<(int)(DDGammaOld.blue[i]*gamma)) Blue = (int)(DDGammaOld.blue[i]*gamma);
-		if (Green<(int)(DDGammaOld.green[i]*gamma)) Green = (int)(DDGammaOld.green[i]*gamma);
+		if (Red<(int)(rramp2[i]*gamma)) Red = (int)(rramp2[i]*gamma);
+		if (Blue<(int)(bramp2[i]*gamma)) Blue = (int)(gramp2[i]*gamma);
+		if (Green<(int)(gramp2[i]*gamma)) Green = (int)(bramp2[i]*gamma);
 
 		if (Blue>65535) Blue=65535;
 		if (Red>65535) Red=65535;
@@ -146,26 +117,29 @@ void palette::SetPaletteWh(int Frame)
 		if (Red<0) Red=0;
 		if (Green<0) Green=0;
 
-		DDGammaRamp.blue[i] = Blue;
-		DDGammaRamp.red[i] = Red;
-		DDGammaRamp.green[i] = Green;
+		bramp[i] = Blue;
+		rramp[i] = Red;
+		gramp[i] = Green;
 	}
-	
-	lpDDGammaControl->SetGammaRamp(0, &DDGammaRamp);
+	SDL_SetGammaRamp(rramp,gramp,bramp);
 }
 
 void palette::FadeOutWh()
 {
-	for (int i=65535; i>0; i-=3000)
+	AddToLog(5,"Palette> FadeOut to White");
+	for (int i=65535; i>-PAL_ANIM_SPEED; i-=PAL_ANIM_SPEED)
 	{
 		SetPaletteWh(i);
 	}
+	ClearSurface(g_pDDSBack,255,255,255);
+	SDL_Flip(g_pDDSBack);
 
 }
 
 void palette::FadeInWh()
 {
-	for (int i=0; i<65535; i+=3000)
+	AddToLog(5,"Palette> FadeIn from White");
+	for (int i=0; i<65535+PAL_ANIM_SPEED; i+=PAL_ANIM_SPEED)
 	{
 		SetPaletteWh(i);
 	}

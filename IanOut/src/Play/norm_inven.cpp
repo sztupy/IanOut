@@ -9,14 +9,14 @@ void play::InventoryMode(void)
 
 	int i,i2;
 	int max1;
-	if ((lstrcmpi(Temporary[1]->fname,"\\art\\intrface\\invbox.frm")))
+	if ((strcmp(Temporary[1]->fname,"\\art\\intrface\\invbox.frm")))
 	{
-		LoadFRMSingle(&Temporary[1],hWnd,"\\art\\intrface\\invbox.frm",1);
+		LoadFRMSingle(&Temporary[1],"\\art\\intrface\\invbox.frm",1);
 	}
 	BlitTo(g_pDDSBack,0,0,Temporary[1]->FRM->x,Temporary[1]->FRM->y,
 						addx+70,
 						addy+8,
-						DDBLTFAST_SRCCOLORKEY,Temporary[1]->FRM->FRM);
+						0,Temporary[1]->FRM->FRM);
 
 
     if (mouse::MInPr(addx+70+152,addy+8+283,addx+70+242,addy+8+348,0))
@@ -37,7 +37,7 @@ void play::InventoryMode(void)
 	}
 
 	if (mousetyp==25)
-	if ((olddims.rgbButtons[0] & 0x80) && !(dims.rgbButtons[0] & 0x80)) {
+	if ((olddims.buttons[0]) && !(dims.buttons[0])) {
 		if (mouse::MouseIn(addx+70+152,addy+8+283,addx+70+242,addy+8+348)) {
 			if (source == 1) {
 				if (Ian->Hand1->ammotype==num) {
@@ -56,7 +56,7 @@ void play::InventoryMode(void)
 					if (Ian->Hand1->number<=65536) {
 						Ian->Inven->AddItem(Ian->Hand1->number,1,Ian->Hand1->numammo,StaticInf->TilesI);
 					}
-					Ian->ChangeWeapon(hWnd,g_pDD,true,num,state,StaticInf->TilesI);
+					Ian->ChangeWeapon(true,num,state,StaticInf->TilesI);
 					delete Ian->Inven->GetItem(num,state,1);
 				}
 			}
@@ -64,8 +64,8 @@ void play::InventoryMode(void)
 				if (Ian->Hand1->number<=65536) {
 					Ian->Inven->AddItem(Ian->Hand1->number,1,Ian->Hand1->numammo,StaticInf->TilesI);
 				}
-				Ian->ChangeWeapon(hWnd,g_pDD,true,Ian->Hand2->number,Ian->Hand2->numammo,StaticInf->TilesI);
-				Ian->ChangeWeapon(hWnd,g_pDD,false,20000000,0,StaticInf->TilesI);
+				Ian->ChangeWeapon(true,Ian->Hand2->number,Ian->Hand2->numammo,StaticInf->TilesI);
+				Ian->ChangeWeapon(false,20000000,0,StaticInf->TilesI);
 			}
 		}
 		if (mouse::MouseIn(addx+70+246,addy+8+283,addx+70+337,addy+8+348)) {
@@ -86,7 +86,7 @@ void play::InventoryMode(void)
 					if (Ian->Hand2->number<=65536) {
 						Ian->Inven->AddItem(Ian->Hand2->number,1,Ian->Hand2->numammo,StaticInf->TilesI);
 					}
-					Ian->ChangeWeapon(hWnd,g_pDD,false,num,state,StaticInf->TilesI);
+					Ian->ChangeWeapon(false,num,state,StaticInf->TilesI);
 					delete Ian->Inven->GetItem(num,state,1);
 				}
 			}
@@ -94,8 +94,8 @@ void play::InventoryMode(void)
 				if (Ian->Hand2->number<=65536) {
 					Ian->Inven->AddItem(Ian->Hand2->number,1,Ian->Hand2->numammo,StaticInf->TilesI);
 				}
-				Ian->ChangeWeapon(hWnd,g_pDD,false,Ian->Hand1->number,Ian->Hand1->numammo,StaticInf->TilesI);
-				Ian->ChangeWeapon(hWnd,g_pDD,true,20000000,0,StaticInf->TilesI);
+				Ian->ChangeWeapon(false,Ian->Hand1->number,Ian->Hand1->numammo,StaticInf->TilesI);
+				Ian->ChangeWeapon(true,20000000,0,StaticInf->TilesI);
 			}
 		}
 		if (mouse::MouseIn(addx+70+46,addy+8+38,addx+70+110,addy+8+336)) {
@@ -103,13 +103,13 @@ void play::InventoryMode(void)
 				if (Ian->Hand1->number<=65536) {
 					Ian->Inven->AddItem(Ian->Hand1->number,1,Ian->Hand1->numammo,StaticInf->TilesI);
 				}
-				Ian->ChangeWeapon(hWnd,g_pDD,true,20000000,0,StaticInf->TilesI);
+				Ian->ChangeWeapon(true,20000000,0,StaticInf->TilesI);
 			}
 			if (source == 3) {
 				if (Ian->Hand2->number<=65536) {
 					Ian->Inven->AddItem(Ian->Hand2->number,1,Ian->Hand2->numammo,StaticInf->TilesI);
 				}
-				Ian->ChangeWeapon(hWnd,g_pDD,false,20000000,0,StaticInf->TilesI);
+				Ian->ChangeWeapon(false,20000000,0,StaticInf->TilesI);
 			}
 		
 		}
@@ -129,14 +129,14 @@ void play::InventoryMode(void)
 			PFRM frm = ((PInventoryItem)Item)->FRMA->GetCurFrame();
 			if ((frm->x>50) || (frm->y>50)) {
 				double d = ((double)frm->y/(double)frm->x*50);
-				BlitToStretch(g_pDDSBack,0,0,frm->x,frm->y,addx+70+50,addy+8+70+i*55-d/2,addx+70+50+50,addy+8+70+i*55+d/2,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+				BlitToStretch(g_pDDSBack,0,0,frm->x,frm->y,addx+70+50,addy+8+70+i*55-d/2,addx+70+50+50,addy+8+70+i*55+d/2,0,frm->FRM);
 			} else {
-				BlitTo(g_pDDSBack,0,0,frm->x,frm->y,addx+70+50,addy+8+45+i*55,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+				BlitTo(g_pDDSBack,0,0,frm->x,frm->y,addx+70+50,addy+8+45+i*55,0,frm->FRM);
 			}
 			int count = ((PInventoryItem)Item)->count;
 			if (count>1) {
 				char buf[20];
-				wsprintf(buf,"x%i",count);
+				sprintf(buf,"x%i",count);
 				textfont::IanOutTextR(addx+170,addy+95+i*55,0,buf);
 			}
 			if (mouse::MInPr(addx+70+50,addy+8+45+i*55,addx+170,addy+8+95+i*55,0)) {
@@ -195,7 +195,7 @@ void play::InventoryMode(void)
 						}
 						case 13: {
 							char buf[20];
-							wsprintf(buf,"ITEMS_%i",PInventoryItem(Item)->num);
+							sprintf(buf,"ITEMS_%i",PInventoryItem(Item)->num);
 							std::string xXx;
 							xXx = "\\data\\items\\"+textutil::GetFromProf(GetFile("\\proto\\items.pro"),"ITEMS",buf);
 							textutil::AddString(textutil::GetFromXML(GetFile(xXx),"/text.lookat"),1);
@@ -217,7 +217,7 @@ void play::InventoryMode(void)
 							//std::string xXx = textutil::GetFromXML(Weapon->deflocation,"/"+Weapon->GetCurrentMode()->name,"SCRIPTCHR");
 							std::string xXx = textutil::GetFromXML(Weapon->deflocation,"/desc/onuse/script:");
 							if (xXx!="") {
-								Ian->UseCommand(hWnd,g_pDD,Ian,true,BlDat,true,xXx);
+								Ian->UseCommand(Ian,true,BlDat,true,xXx);
 							}
 							delete Weapon;
 							break;
@@ -244,9 +244,9 @@ void play::InventoryMode(void)
 	textutil::DrawStuff();
 	ButtonList->DrawButtons(g_pDDSBack,MousX,MousY,mouse::Pressed(6));
 	DrawIanCucc(mouse::MouseIn(addx+266,GetMaxY-99+27,addx+266+188,GetMaxY-99+27+67) && (mouse::Pressed(6) || mouse::Pressed(7)));
-	if ((mousetyp==0) || (mousetyp==9)) BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,MousX,MousY,DDBLTFAST_SRCCOLORKEY,Mouse->FRM->FRM);
+	if ((mousetyp==0) || (mousetyp==9)) BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,MousX,MousY,0,Mouse->FRM->FRM);
 
-	if (mousetyp==25) BlitTo(g_pDDSBack,0,0,FRMMouse->x,FRMMouse->y,MousX-FRMMouse->x/2,MousY-FRMMouse->y/2,DDBLTFAST_SRCCOLORKEY,FRMMouse->FRM);
+	if (mousetyp==25) BlitTo(g_pDDSBack,0,0,FRMMouse->x,FRMMouse->y,MousX-FRMMouse->x/2,MousY-FRMMouse->y/2,0,FRMMouse->FRM);
 
 	if (bdown == 2)
 		{

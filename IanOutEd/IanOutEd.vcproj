@@ -4,6 +4,10 @@
 	Version="7.10"
 	Name="IanOutEd"
 	ProjectGUID="{CB018737-BA7B-4AD0-836E-A75DF45B76B7}"
+	SccProjectName="IanOutB3"
+	SccAuxPath=""
+	SccLocalPath=".."
+	SccProvider="MSSCCI:Jalindi Igloo"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -21,9 +25,9 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				OmitFramePointers="TRUE"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				StringPooling="TRUE"
-				RuntimeLibrary="4"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -33,11 +37,11 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="tinyxml.lib zlib.lib freeimage.lib commonutils.lib frmobject.lib dxguid.lib ddraw.lib dinput.lib msimg32.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib"
+				AdditionalDependencies="sdl_image.lib tinyxml.lib zlib.lib commonutils.lib frmobject.lib sdl.lib sdlmain.lib"
 				OutputFile="$(SolutionDir)/_Output/IanOutEd.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
-				SubSystem="2"
+				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"/>
@@ -132,7 +136,7 @@
 			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="IanOutEd.rc">
+				RelativePath=".\IanOutEd.rc">
 			</File>
 		</Filter>
 	</Files>

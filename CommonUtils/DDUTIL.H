@@ -9,31 +9,23 @@
 #ifndef __ddutil_h
 #define __ddutil_h
 
-#include "ddraw.h"
+#include "sdl.h"
 
-extern RECT							ClipRect;
+extern SDL_Rect						ClipRect;
 extern unsigned char				DarkMask[256][10];
-//extern PALETTEENTRY					ConvertEntry[256];
 
 #ifdef __cplusplus
 extern "C" {            /* Assume C declarations for C++ */
 #endif	/* __cplusplus */
 
-extern IDirectDrawPalette  *DDLoadPalette(IDirectDraw7 *pdd, LPCSTR szBitmap);
-extern IDirectDrawSurface7 *DDLoadBitmap(IDirectDraw7 *pdd, LPCSTR szBitmap, int dx, int dy, HRESULT *hRet, const long caps);
-extern HRESULT              DDReLoadBitmap(IDirectDrawSurface7 *pdds, LPCSTR szBitmap);
-extern HRESULT              DDCopyBitmap(IDirectDrawSurface7 *pdds, HBITMAP hbm, int x, int y, int dx, int dy);
-extern DWORD                DDColorMatch(IDirectDrawSurface7 *pdds, COLORREF rgb);
-extern void					SetClipRect(int left,int top,int right,int bottom);
-extern HRESULT              DDSetColorKey(IDirectDrawSurface7 *pdds, COLORREF rgb);
-extern HRESULT				BlitTo(LPDIRECTDRAWSURFACE7 Blit,int Sx1, int Sy1, int Sx2, int Sy2, int Dx, int Dy, DWORD flags, LPDIRECTDRAWSURFACE7 surf);
-extern HRESULT				BlitToStretch(LPDIRECTDRAWSURFACE7 Blit,int Sx1, int Sy1, int Sx2, int Sy2, int Dx, int Dy, int Dx2, int Dy2, DWORD flags, LPDIRECTDRAWSURFACE7 surf);
-extern HRESULT				BlitToAlpha(LPDIRECTDRAWSURFACE7 Blit,int Sx1, int Sy1, int Sx2, int Sy2, int Dx, int Dy, DWORD flags, LPDIRECTDRAWSURFACE7 surf, int alpha);
-extern HRESULT				BlitToAlt(LPDIRECTDRAWSURFACE7 Blit,int Sx1, int Sy1, int Sx2, int Sy2, int Dx, int Dy, DWORD flags, LPDIRECTDRAWSURFACE7 surf, int cback);
-extern HRESULT				BlitToRo(LPDIRECTDRAWSURFACE7 Blit,int Sx1, int Sy1, int Sx2, int Sy2, int Dx, int Dy, DWORD flags, LPDIRECTDRAWSURFACE7 surf, DWORD cback);
-extern HRESULT				BlitToMask(LPDIRECTDRAWSURFACE7 Blit,int Sx1, int Sy1, int Sx2, int Sy2, int Dx, int Dy, DWORD flags, LPDIRECTDRAWSURFACE7 surf, HBITMAP mask);
-extern void					ClearRect(LPDIRECTDRAWSURFACE7 Surf, int Sx1, int Sy1, int Sx2, int Sy2, int c);
-extern void					ClearSurface(LPDIRECTDRAWSURFACE7 Surf, int r, int g, int b);
+extern void					SetClipRect(int x,int y,int x2,int y2);
+extern int					BlitTo(SDL_Surface* Blit,int Sx1, int Sy1, int Sx2, int Sy2, int Dx, int Dy, Uint32 flags, SDL_Surface* surf);
+extern int					BlitToStretch(SDL_Surface* Blit,int Sx1, int Sy1, int Sx2, int Sy2, int Dx, int Dy, int Dx2, int Dy2, Uint32 flags, SDL_Surface* surf);
+extern int					BlitToAlpha(SDL_Surface* Blit,int Sx1, int Sy1, int Sx2, int Sy2, int Dx, int Dy, Uint32 flags, SDL_Surface* surf, int alpha);
+extern int					BlitToAlt(SDL_Surface* Blit,int Sx1, int Sy1, int Sx2, int Sy2, int Dx, int Dy, Uint32 flags, SDL_Surface* surf, int cback);
+extern int					BlitToRo(SDL_Surface* Blit,int Sx1, int Sy1, int Sx2, int Sy2, int Dx, int Dy, Uint32 flags, SDL_Surface* surf, Uint32 cback);
+extern void					ClearRect(SDL_Surface* Blit, int Sx1, int Sy1, int Sx2, int Sy2, int c);
+extern void					ClearSurface(SDL_Surface* Blit, int r, int g, int b);
 extern void					CalculateEntries();
 
 #ifdef __cplusplus

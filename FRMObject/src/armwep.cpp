@@ -101,7 +101,7 @@ namespace textfont {
 
 #pragma warning (disable : 4244)
 
-HRESULT TWeapon::DrawOut(LPDIRECTDRAWSURFACE7 Back,int x, int y)
+int TWeapon::DrawOut(SDL_Surface* Back,int x, int y)
 {
 	if ((HasGraphic) && (Picture)) {
 		y+=4;
@@ -110,13 +110,13 @@ HRESULT TWeapon::DrawOut(LPDIRECTDRAWSURFACE7 Back,int x, int y)
 		//BlitTo(Back,0,0,frm->x,frm->y,x+99-frm->x/2,y+33-frm->y/2,DDBLTFAST_SRCCOLORKEY,frm->FRM);
 		if ((frm->x>maxx)) {
 			double d = ((double)frm->y/(double)frm->x*maxx);
-			BlitToStretch(Back,0,0,frm->x,frm->y,x,y+30-d/2,x+maxx,y+30+d/2,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+			BlitToStretch(Back,0,0,frm->x,frm->y,x,y+30-d/2,x+maxx,y+30+d/2,0,frm->FRM);
 		} else {
 		if (frm->y>60) {
 			double d = ((double)frm->x/(double)frm->y*60);
-			BlitToStretch(Back,0,0,frm->x,frm->y,x+maxx/2-d/2,y,x+maxx/2+d/2,y+60,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+			BlitToStretch(Back,0,0,frm->x,frm->y,x+maxx/2-d/2,y,x+maxx/2+d/2,y+60,0,frm->FRM);
 		} else
-			BlitTo(Back,0,0,frm->x,frm->y,x+maxx/2-frm->x/2,y+30-frm->y/2,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+			BlitTo(Back,0,0,frm->x,frm->y,x+maxx/2-frm->x/2,y+30-frm->y/2,0,frm->FRM);
 		}
 		y-=4;
 
@@ -126,27 +126,27 @@ HRESULT TWeapon::DrawOut(LPDIRECTDRAWSURFACE7 Back,int x, int y)
 		textfont::IanOutTextR(x+170,y+10,2,Item->name);
 		if (Item->apuse>0) {
 			char buf[10];
-			wsprintf(buf,"%i AP",Item->apuse);
+			sprintf(buf,"%i AP",Item->apuse);
 			textfont::IanOutText(x+10,y+45,2,buf);
 		}
 	}
-	return DD_OK;
+	return 0;
 }
 
-HRESULT TWeapon::DrawOutSmall(LPDIRECTDRAWSURFACE7 Back,int x, int y,int maxx)
+int TWeapon::DrawOutSmall(SDL_Surface* Back,int x, int y,int maxx)
 {
 	if ((HasGraphic) && (Picture)) {
 		PFRM frm = Picture->GetCurFrame();
 		if ((frm->x>maxx)) {
 			double d = ((double)frm->y/(double)frm->x*maxx);
-			BlitToStretch(Back,0,0,frm->x,frm->y,x,y+30-d/2,x+maxx,y+30+d/2,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+			BlitToStretch(Back,0,0,frm->x,frm->y,x,y+30-d/2,x+maxx,y+30+d/2,0,frm->FRM);
 		} else {
 		if (frm->y>60) {
 			double d = ((double)frm->x/(double)frm->y*60);
-			BlitToStretch(Back,0,0,frm->x,frm->y,x+maxx/2-d/2,y,x+maxx/2+d/2,y+60,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+			BlitToStretch(Back,0,0,frm->x,frm->y,x+maxx/2-d/2,y,x+maxx/2+d/2,y+60,0,frm->FRM);
 		} else
-			BlitTo(Back,0,0,frm->x,frm->y,x+maxx/2-frm->x/2,y+30-frm->y/2,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+			BlitTo(Back,0,0,frm->x,frm->y,x+maxx/2-frm->x/2,y+30-frm->y/2,0,frm->FRM);
 		}
 	}
-	return DD_OK;
+	return 0;
 }

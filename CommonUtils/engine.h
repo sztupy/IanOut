@@ -1,51 +1,59 @@
 #ifndef __ENGINE_H
 #define __ENGINE_H
 
-#include "ddutil.h"
 #include "utils.h"
 #include "discutil.h"
-#include <dinput.h>
-#include "utils.h"
+#include "ddutil.h"
+#include "sdl_mixer.h"
 
-extern DWORD						dwFrameCount;
-extern DWORD						dwFrameTime;
-extern DWORD						dwFrames;
-extern DWORD						dwFramesLast;
-extern char							szBitmap[];
+typedef struct MouseState {
+	Uint16 x, y;
+	Sint16 lX, lY;
+	Uint8 buttons[3];
+} MouseState;
+
+extern int							dwFrameCount;
+extern int							dwFrameTime;
+extern int							dwFrames;
+extern int							dwFramesLast;
 
 extern int							MousX;
 extern int							MousY;
 
-extern LPDIRECTDRAW7				g_pDD;
-extern LPDIRECTDRAWSURFACE7			g_pDDSPrimary;
-extern LPDIRECTDRAWSURFACE7			g_pDDSBack;
-extern LPDIRECTDRAWSURFACE7			g_pDDSBack2;
-extern LPDIRECTDRAWSURFACE7			g_pDDSOne;
+extern SDL_PixelFormat*				g_pDDPixelFormat;
+extern SDL_Surface*					g_pDDSBack;
+extern SDL_Surface*					g_pDDSBack2;
+extern SDL_Surface*					g_pDDSBack3;
+extern SDL_Surface*					g_pDDSOne;
 
-extern LPDIRECTDRAWPALETTE			g_pDDPal;
+extern SDL_Color					pe[256];
+extern SDL_Color					pe2[256];
+extern Uint32						palcal[256];
 
-extern DIMOUSESTATE					dims;
-extern DIMOUSESTATE					olddims;
-extern IDirectInput*				g_pDI;
-extern IDirectInputDevice*			g_pMouse;
+extern Uint16						rramp[256];
+extern Uint16						gramp[256];
+extern Uint16						bramp[256];
 
-extern PALETTEENTRY					pe[256];
-extern PALETTEENTRY					pe2[256];
-extern DWORD						palcal[256];
+extern Uint16						rramp2[256];
+extern Uint16						gramp2[256];
+extern Uint16						bramp2[256];
 
-extern LPDIRECTDRAWGAMMACONTROL		lpDDGammaControl;
-extern DDGAMMARAMP					DDGammaRamp;
-extern DDGAMMARAMP					DDGammaOld;
+extern MouseState					dims;
+extern MouseState					olddims;
 
 extern double						gamma;
 extern int							gameSpeed;
-extern HWND							hWnd;
+//extern HWND							hWnd;
 
 extern int							GetMaxX;
 extern int							GetMaxY;
 extern int							BitDepth;
+extern bool							usefullscreen;
 
-extern LPVOID						lpSurface;
+extern void*						lpSurface;
 extern bool							g_bActive;
+
+extern bool							usingsound;
+extern Mix_Music*					MusicData;
 
 #endif //__ENGINE_H

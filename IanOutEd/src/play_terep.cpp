@@ -1,3 +1,5 @@
+#include "windows.h"
+
 #include "play.h"
 #include "load.h"
 #include "../commonutils/mouse.h"
@@ -8,15 +10,14 @@
 
 void play::ChooseTerep(void)
 {
-	HRESULT								hRet;
+	int								hRet;
 	static int							Frame = 0;
 	static int							Frame2 = 0;
 	static int							mode = 0;
 	int									cpos;
-	static DWORD						ThisTick;
-	static DWORD						LastTick = 0;
+	static Uint32						ThisTick;
+	static Uint32						LastTick = 0;
 	static int							mousetyp = 0;
-	DDBLTFX								ddbltfx;
 	int									i;
 	char								buf[150];
 	char								buf2[150];
@@ -28,29 +29,19 @@ void play::ChooseTerep(void)
 	FRMPairCollection::iterator			iterP;
 
 	if ((mousetyp>0) && (mousetyp<9)) mousetyp=0;
-	ThisTick = GetTickCount();
+	ThisTick = SDL_GetTicks();
 
-	if ((ThisTick - LastTick) > (DWORD)gameSpeed)
+	if ((ThisTick - LastTick) > (Uint32)gameSpeed)
         {
             LastTick = ThisTick;
         }
 
-	olddims=dims;
-	mouse::UpdateInputState();
-															
-	MousX += dims.lX;									
-	MousY += dims.lY;									
-														
+				
 	if (MousX>=GetMaxX) { MousX=GetMaxX; }
 	if (MousX<=0)		{ MousX=0;   }							
 	if (MousY>=GetMaxY) { MousY=GetMaxY; }							
 	if (MousY<=0)		{ MousY=0;   }						
 
-	ZeroMemory(&ddbltfx, sizeof(ddbltfx));
-    ddbltfx.dwSize = sizeof(ddbltfx);
-    ddbltfx.dwFillColor = 0;
-	g_pDDSBack->Blt(NULL, NULL, NULL, DDBLT_COLORFILL | DDBLT_WAIT, &ddbltfx);
-	
 	textfont::IanOutText(100,0,1,"Main Menu");
 	textfont::IanOutText(30,10,1,"Current elements:");
 	textfont::IanOutText(30,400,1,"UP");
@@ -130,32 +121,32 @@ void play::ChooseTerep(void)
 	{
 		if (mode==0) 
 		{
-			wsprintf(buf,"WALLS_%i",Frame*30+i);
-			wsprintf(buf3,"%s",xXxloc.c_str());
+			sprintf(buf,"WALLS_%i",Frame*30+i);
+			sprintf(buf3,"%s",xXxloc.c_str());
 			textutil::WriteFromProf(490,30+i*12,(Selected==Frame*30+i) ? 0 : 1,1,buf3,"WALLS",buf);
 		}
 		if (mode==1) 
 		{
-			wsprintf(buf,"TILES_%i",Frame*30+i);
-			wsprintf(buf3,"%s",xXxloc.c_str());
+			sprintf(buf,"TILES_%i",Frame*30+i);
+			sprintf(buf3,"%s",xXxloc.c_str());
 			textutil::WriteFromProf(490,30+i*12,(Selected==Frame*30+i) ? 0 : 1,1,buf3,"TILES",buf);
 		}
 		if (mode==2) 
 		{
-			wsprintf(buf,"SCENERY_%i",Frame*30+i);
-			wsprintf(buf3,"%s",xXxloc.c_str());
+			sprintf(buf,"SCENERY_%i",Frame*30+i);
+			sprintf(buf3,"%s",xXxloc.c_str());
 			textutil::WriteFromProf(490,30+i*12,(Selected==Frame*30+i) ? 0 : 1,1,buf3,"SCENERY",buf);
 		}
 		if (mode==3) 
 		{
-			wsprintf(buf,"ITEMS_%i",Frame*30+i);
-			wsprintf(buf3,"%s",xXxloc.c_str());
+			sprintf(buf,"ITEMS_%i",Frame*30+i);
+			sprintf(buf3,"%s",xXxloc.c_str());
 			textutil::WriteFromProf(490,30+i*12,(Selected==Frame*30+i) ? 0 : 1,1,buf3,"ITEMS",buf);
 		}
 		if (mode==4) 
 		{
-			wsprintf(buf,"OBJECTS_%i",Frame*30+i);
-			wsprintf(buf3,"%s",xXxloc.c_str());
+			sprintf(buf,"OBJECTS_%i",Frame*30+i);
+			sprintf(buf3,"%s",xXxloc.c_str());
 			textutil::WriteFromProf(490,30+i*12,(Selected==Frame*30+i) ? 0 : 1,1,buf3,"OBJECTS",buf);
 		}
 		textfont::DisplayNum(430,30+i*12,(Selected==Frame*30+i) ? 0 : 1,Frame*30+i,5);
@@ -210,100 +201,91 @@ void play::ChooseTerep(void)
 	}
 	
 	if (mode==0){
-		wsprintf(buf,"WALLS_%i",Selected);
-		wsprintf(buf3,"%s",GetFile("\\proto\\walls.pro").c_str());
-		wsprintf(buf2,"\\art\\walls\\%s",textutil::GetFromProf(buf3,"WALLS",buf).c_str());
+		sprintf(buf,"WALLS_%i",Selected);
+		sprintf(buf3,"%s",GetFile("\\proto\\walls.pro").c_str());
+		sprintf(buf2,"\\art\\walls\\%s",textutil::GetFromProf(buf3,"WALLS",buf).c_str());
 	}
 	if (mode==1){
-		wsprintf(buf,"TILES_%i",Selected);
-		wsprintf(buf3,"%s",GetFile("\\proto\\tiles.pro").c_str());
-		wsprintf(buf2,"\\art\\tiles\\%s",textutil::GetFromProf(buf3,"TILES",buf).c_str());
+		sprintf(buf,"TILES_%i",Selected);
+		sprintf(buf3,"%s",GetFile("\\proto\\tiles.pro").c_str());
+		sprintf(buf2,"\\art\\tiles\\%s",textutil::GetFromProf(buf3,"TILES",buf).c_str());
 	}
 	if (mode==2){
-		wsprintf(buf,"SCENERY_%i",Selected);
-		wsprintf(buf3,"%s",GetFile("\\proto\\scenery.pro").c_str());
-		wsprintf(buf2,"\\art\\scenery\\%s",textutil::GetFromProf(buf3,"SCENERY",buf).c_str());
+		sprintf(buf,"SCENERY_%i",Selected);
+		sprintf(buf3,"%s",GetFile("\\proto\\scenery.pro").c_str());
+		sprintf(buf2,"\\art\\scenery\\%s",textutil::GetFromProf(buf3,"SCENERY",buf).c_str());
 	}
 	if (mode==3){
-		wsprintf(buf,"ITEMS_%i",Selected);
-		wsprintf(buf3,"%s",GetFile("\\proto\\items.pro").c_str());
-		wsprintf(buf2,"\\data\\items\\%s",textutil::GetFromProf(buf3,"ITEMS",buf).c_str());
-		wsprintf(buf,"%s",GetFile(buf2).c_str());
-		//wsprintf(buf2,"\\art\\inven\\%s.frm",textutil::GetFromXML(buf,"/graphic.inventory").c_str());
-		wsprintf(buf2,"");
+		sprintf(buf,"ITEMS_%i",Selected);
+		sprintf(buf3,"%s",GetFile("\\proto\\items.pro").c_str());
+		sprintf(buf2,"\\data\\items\\%s",textutil::GetFromProf(buf3,"ITEMS",buf).c_str());
+		sprintf(buf,"%s",GetFile(buf2).c_str());
+		if (CanOpen(buf))
+			sprintf(buf2,"\\art\\inven\\%s.frm",textutil::GetFromXML(buf,"/graphic.inventory").c_str());
+		else
+			sprintf(buf2,"");
 	}
 	if (mode==4){
-		wsprintf(buf,"OBJECTS_%i",Selected);
-		wsprintf(buf3,"%s",GetFile("\\proto\\objects.pro").c_str());
-		wsprintf(buf2,"\\data\\objects\\%s",textutil::GetFromProf(buf3,"OBJECTS",buf).c_str());
-		wsprintf(buf,"%s",GetFile(buf2).c_str());
-		//wsprintf(buf2,"\\art\\%s.frm",textutil::GetFromXML(buf,"/graphic.picture").c_str());
-		wsprintf(buf2,"");
+		sprintf(buf,"OBJECTS_%i",Selected);
+		sprintf(buf3,"%s",GetFile("\\proto\\objects.pro").c_str());
+		sprintf(buf2,"\\data\\objects\\%s",textutil::GetFromProf(buf3,"OBJECTS",buf).c_str());
+		sprintf(buf,"%s",GetFile(buf2).c_str());
+		if (CanOpen(buf))
+			sprintf(buf2,"\\art\\%s.frm",textutil::GetFromXML(buf,"/graphic.picture").c_str());
+		else
+			sprintf(buf2,"");
 	}
 	//textfont::IanOutText(240,40,0,buf2);
 	if (!CanOpen2(buf2)) {
-		wsprintf(buf2,"\\art\\intrface\\Scr8x.frm");
+		sprintf(buf2,"\\art\\intrface\\Scr8x.frm");
 	}	
 
 	if (mouse::MInPr(430,430,500,444,0)) {
 		if (point) {
 			if (point->count(Selected) != 0) delete (*point)[Selected];
 			(*point)[Selected] = new TFRMSingle();
-			hRet = (*point)[Selected]->Load(hWnd,g_pDD,buf2,1);			
-			if (hRet!=DD_OK) InitFail(hWnd,hRet,"ERROR");
+			hRet = (*point)[Selected]->Load(buf2,1);			
+			if (hRet!=0) InitFail(hRet,"ERROR");
 		}
 		if (pointP) {
 			if (mode==3) {
-				LoadNewItem(hWnd,g_pDD,StaticInf->TilesI,Selected);
+				LoadNewItem(StaticInf->TilesI,Selected);
 			}
 			if (mode==4) {
 				char buf4[150];
-				wsprintf(buf,"OBJECTS_%i",Selected);
-				wsprintf(buf3,"%s",GetFile("\\proto\\objects.pro").c_str());
+				sprintf(buf,"OBJECTS_%i",Selected);
+				sprintf(buf3,"%s",GetFile("\\proto\\objects.pro").c_str());
 				GetPrivateProfileString("OBJECTS",buf,"",buf4,150,buf3);
 				std::string str;
 				PFRMPair Pair;
 				Pair = StaticInf->TilesO[Selected] = new TFRMPair();
 				Pair->FRM = NULL;
 				Pair->FRMA = new TFRMAnim();
-				wsprintf(buf,"\\data\\objects\\%s",buf4);
+				sprintf(buf,"\\data\\objects\\%s",buf4);
 				str = "\\art\\"+textutil::GetFromXML(GetFile(buf),"/graphic.picture")+".frm";
-				hRet = Pair->FRMA->Load(hWnd,g_pDD,str.c_str(),-1);
-				if (hRet != DD_OK) InitFail(hWnd,hRet,str.c_str());
+				hRet = Pair->FRMA->Load(str.c_str(),-1);
+				if (hRet != 0) InitFail(hRet,str.c_str());
 				Pair->FRMA->FirstFrame();
 			}
 		}
 	}
 
-	if ((lstrcmpi(FullScreen->fname,buf2)))
+	if ((strcmp(FullScreen->fname,buf2)))
 	{
-   		LoadFRMSingle(&FullScreen,hWnd,buf2,1);
+   		LoadFRMSingle(&FullScreen,buf2,1);
 	}
 
 	if (mouse::MInPr(100,0,200,12,0)) {
 		GamePos = 0;
 	}
 
-	BlitTo(g_pDDSBack,0,0,FullScreen->FRM->x,FullScreen->FRM->y,240,40,DDBLTFAST_SRCCOLORKEY,FullScreen->FRM->FRM);
+	BlitTo(g_pDDSBack,0,0,FullScreen->FRM->x,FullScreen->FRM->y,240,40,0,FullScreen->FRM->FRM);
 
-    BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,MousX,MousY,DDBLTFAST_SRCCOLORKEY,Mouse->FRM->FRM);
+    BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,MousX,MousY,0,Mouse->FRM->FRM);
 
 	textutil::DisplayFrameRate();
 
 	// Flip the surfaces
-    while (TRUE)
-    {
-        hRet = g_pDDSPrimary->Flip(NULL, 0);
-        if  (hRet == DD_OK)
-            break;
-        if (hRet == DDERR_SURFACELOST)
-        {
-            hRet = RestoreAll();
-            if (hRet != DD_OK)
-                break;
-        }
-        if (hRet != DDERR_WASSTILLDRAWING)
-            break;
-    }
+    SDL_Flip(g_pDDSBack);
 	
 }

@@ -3,29 +3,14 @@
 #include "../commonutils/mouse.h"
 #include "../commonutils/textutil.h"
 
-#include "../frmobject/freeimage.h"
-
 void ReleaseAllObjects(void)
 {
 	int i;
-    if (g_pDD != NULL)
+    if (g_pDDSOne != NULL)
     {
-        if (g_pDDSPrimary != NULL)
-        {
-            g_pDDSPrimary->Release();
-            g_pDDSPrimary = NULL;
-        }
-        if (g_pDDSOne != NULL)
-        {
-            g_pDDSOne->Release();
-            g_pDDSOne = NULL;
-        }
-        if (g_pDDPal != NULL)
-        {
-            g_pDDPal->Release();
-            g_pDDPal = NULL;
-        }
-	
+        SDL_FreeSurface(g_pDDSOne);
+        g_pDDSOne = NULL;
+    }
 	if (Mouse) delete Mouse;
 	if (FullScreen) delete FullScreen;
 	if (MenuUp) delete MenuUp;
@@ -44,10 +29,6 @@ void ReleaseAllObjects(void)
 	{
 		if (Buttons[i]) delete Buttons[i];
 	}
-
-        g_pDD->Release();
-        g_pDD = NULL;
-    }
 	for (i=0; i<75; i++)
 	{
 		LINIStr[i]->~TIniStr();
@@ -56,26 +37,12 @@ void ReleaseAllObjects(void)
 
 	if (AnimList) delete AnimList;
 
-
-	FreeImage_DeInitialise();
-
-	mouse::FreeDirectInput();
+	SDL_Quit();
 }
 
 
-HRESULT 
+int 
 RestoreAll(void)
 {
-    HRESULT                     hRet;
-
-    hRet = g_pDDSPrimary->Restore();
-    if (hRet == DD_OK)
-    {
-        hRet = g_pDDSOne->Restore();
-        if (hRet == DD_OK)
-        {
-            DDReLoadBitmap(g_pDDSOne, szBitmap);
-        }
-    }
-    return hRet;
+	return 0;
 }

@@ -4,6 +4,10 @@
 	Version="7.10"
 	Name="LuaLib"
 	ProjectGUID="{2A220BF0-716C-4B89-A792-090C36B744FE}"
+	SccProjectName="IanOutB3"
+	SccAuxPath=""
+	SccLocalPath=".."
+	SccProvider="MSSCCI:Jalindi Igloo"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -71,7 +75,7 @@
 				OmitFramePointers="TRUE"
 				PreprocessorDefinitions="WIN32"
 				StringPooling="TRUE"
-				RuntimeLibrary="4"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"

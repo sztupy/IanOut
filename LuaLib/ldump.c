@@ -1,5 +1,5 @@
 /*
-** $Id: ldump.c,v 1.4 2003/02/11 23:52:12 lhf Exp $
+** $Id: ldump.c,v 1.1 2003/09/17 20:51:09 sztupy Exp $
 ** save bytecodes
 ** See Copyright Notice in lua.h
 */

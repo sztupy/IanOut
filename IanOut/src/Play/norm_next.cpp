@@ -6,9 +6,9 @@ void play::OnNextFr(void)
     CritterList::iterator iter2;
 	iter2 = CritterInf->Critters.begin();
 	while (iter2 != CritterInf->Critters.end()) {
-		iter2->second->Next(hWnd,g_pDD,BlDat,StaticInf->Map,CritterInf->Critters);
+		iter2->second->Next(BlDat,StaticInf->Map,CritterInf->Critters);
 
-		if (TurnBasedMode || (!AllowUserInteract)) {
+		if (TurnBasedMode/* || (!AllowUserInteract)*/) {
 		} else {
 		if (rand()%400 == 0) {
 			std::string xXx;
@@ -61,7 +61,7 @@ void play::OnNextFr(void)
 		iter3 = iter2;
 		iter2++;
 		if (iter3->second->curth >= 255) {
-			if (iter3->second->curth == 255) iter3->second->Die(hWnd,g_pDD,StaticInf);
+			if (iter3->second->curth == 255) iter3->second->Die(StaticInf);
 			delete iter3->second;
 			CritterInf->Critters.erase(iter3);
 		}

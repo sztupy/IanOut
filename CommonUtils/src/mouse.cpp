@@ -1,7 +1,7 @@
 #include "mouse.h"
 //#include "engine.h"
 
-HRESULT mouse::InitDirectInput( HWND hDlg,HINSTANCE g_hInst )
+/*HRESULT mouse::InitDirectInput( HWND hDlg,HINSTANCE g_hInst )
 {
     HRESULT hr;
 
@@ -20,7 +20,7 @@ HRESULT mouse::InitDirectInput( HWND hDlg,HINSTANCE g_hInst )
         return InitFail(hDlg,hr,"SetCooperativeLevel (mouse) failed");
 
     return S_OK;
-}
+}*/
 
 bool mouse::MouseIn(int x1,int y1,int x2,int y2)
 {
@@ -30,12 +30,12 @@ bool mouse::MouseIn(int x1,int y1,int x2,int y2)
 bool mouse::Pressed(int i)
 {
 	if ((i>=0) && (i<=2)) {
-		return ((dims.rgbButtons[i] & 0x80) && !(olddims.rgbButtons[i] & 0x80)); 
+		return ((dims.buttons[i]==1) && !(olddims.buttons[i]==1)); 
 	} else {
 		if ((i>=3) && (i<=5)) {
-			return ((olddims.rgbButtons[i-3] & 0x80) && !(dims.rgbButtons[i-3] & 0x80)); 
+			return ((olddims.buttons[i-3]==1) && !(dims.buttons[i-3]==1)); 
 		} else {
-			return ((dims.rgbButtons[i-6] & 0x80) != 0); 
+			return (dims.buttons[i-6]==1); 
 		}
 	}
 }
@@ -53,7 +53,7 @@ bool mouse::MInPr(int x1,int y1, int x2, int y2,int i)
 //       Input device must be acquired before the GetDeviceState is called
 //
 //-----------------------------------------------------------------------------
-HRESULT mouse::SetAcquire( )
+/*HRESULT mouse::SetAcquire( )
 {
 
     if (NULL == g_pMouse)
@@ -70,7 +70,7 @@ HRESULT mouse::SetAcquire( )
 
     return S_OK;
 }
-
+*/
 //-----------------------------------------------------------------------------
 // Function: UpdateInputState
 //
@@ -78,7 +78,7 @@ HRESULT mouse::SetAcquire( )
 //      Get the input device's state and display it.
 //
 //-----------------------------------------------------------------------------
-HRESULT mouse::UpdateInputState( )
+/*HRESULT mouse::UpdateInputState( )
 {
    
     if (NULL != g_pMouse) 
@@ -107,7 +107,7 @@ HRESULT mouse::UpdateInputState( )
 
     return S_OK;
 }
-
+*/
 
 
 
@@ -118,7 +118,7 @@ HRESULT mouse::UpdateInputState( )
 //      Initialize the DirectInput variables.
 //
 //-----------------------------------------------------------------------------
-HRESULT mouse::FreeDirectInput()
+/*HRESULT mouse::FreeDirectInput()
 {
     if (NULL != g_pMouse) 
     {
@@ -136,3 +136,4 @@ HRESULT mouse::FreeDirectInput()
     return S_OK;
 }
 
+*/

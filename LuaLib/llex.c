@@ -1,5 +1,5 @@
 /*
-** $Id: llex.c,v 1.119 2003/03/24 12:39:34 roberto Exp $
+** $Id: llex.c,v 1.1 2003/09/17 20:51:00 sztupy Exp $
 ** Lexical Analyzer
 ** See Copyright Notice in lua.h
 */

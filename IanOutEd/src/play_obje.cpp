@@ -17,17 +17,16 @@ int t5id = 0;
 void play::EditObjects(void)
 {
     int									x,y;
-	HRESULT								hRet;
+	int								hRet;
 	static int							Frame = 0;
-	static DWORD						ThisTick;
-	static DWORD						LastTick = 0;
+	static Uint32						ThisTick;
+	static Uint32						LastTick = 0;
 	static int							mousetyp = 0;
 	int									i;
-	BOOL								kintvan;
-	BOOL								oldal[4];
+	bool								kintvan;
+	bool								oldal[4];
 	BlockType							BlDat;
-	DDBLTFX								ddbltfx;
-	RECT								rcRect;
+	SDL_Rect							rcRect;
 
 	static int color;
 
@@ -38,21 +37,14 @@ void play::EditObjects(void)
 		}
 
 	if ((mousetyp>0) && (mousetyp<9)) mousetyp=0;
-	ThisTick = GetTickCount();
+	ThisTick = SDL_GetTicks();
 
-	if ((ThisTick - LastTick) > (DWORD)gameSpeed)
+	if ((ThisTick - LastTick) > (Uint32)gameSpeed)
         {
             LastTick = ThisTick;
         }
 
 // -------------------------------------------------------------------
-	olddims=dims;													//	
-	mouse::UpdateInputState();										//
-	if ((dims.lX == olddims.lX) && (dims.lY == olddims.lY)) Frame++; else Frame=0;
-																	//	
-	MousX += dims.lX;												//	
-	MousY += dims.lY;												//	
-																	//	
 	if ((MousX>=GetMaxX) && (MousY<=0)) {mousetyp = 2;} else    	//
 	if ((MousX>=GetMaxX) && (MousY>=GetMaxY)) {mousetyp = 4;} else  //
 	if ((MousX<=0)   && (MousY<=0)) {mousetyp = 8;} else    		//
@@ -62,19 +54,19 @@ void play::EditObjects(void)
 	if (MousY>=GetMaxY) {mousetyp = 5;} else						//
 	if (MousY<=0) {mousetyp = 1;}									//
 																	//
-	kintvan=FALSE;													//
-	oldal[0]=FALSE;oldal[2]=FALSE;									//
-	oldal[1]=FALSE;oldal[3]=FALSE;									//
+	kintvan=false;													//
+	oldal[0]=false;oldal[2]=false;									//
+	oldal[1]=false;oldal[3]=false;									//
 																	//
 	if (MousX>=GetMaxX) { MousX=GetMaxX; TerX-=16; }				//	
 	if (MousX<=0)   { MousX=0;   TerX+=16; }						//	
 	if (MousY>=GetMaxY) { MousY=GetMaxY; TerY-=12; }				//
 	if (MousY<=0)   { MousY=0;   TerY+=12; }						//	
 																	//
-	if ((mousetyp == 2) && (oldal[0] != oldal[3])) kintvan=FALSE;	//
-	if ((mousetyp == 4) && (oldal[1] != oldal[3])) kintvan=FALSE;	//
-	if ((mousetyp == 6) && (oldal[2] != oldal[1])) kintvan=FALSE;	//
-	if ((mousetyp == 8) && (oldal[2] != oldal[0])) kintvan=FALSE;	//
+	if ((mousetyp == 2) && (oldal[0] != oldal[3])) kintvan=false;	//
+	if ((mousetyp == 4) && (oldal[1] != oldal[3])) kintvan=false;	//
+	if ((mousetyp == 6) && (oldal[2] != oldal[1])) kintvan=false;	//
+	if ((mousetyp == 8) && (oldal[2] != oldal[0])) kintvan=false;	//
 																	//
 // -------------------------------------------------------------------
 	
@@ -125,7 +117,7 @@ void play::EditObjects(void)
 
 		if (mouse::MouseIn(cx,cy,cx+frm->x,cy+frm->y)) {
 			if (Counter == Selected) {
-				BlitToRo(g_pDDSBack,0,0,frm->x,frm->y,cx,cy,DDBLTFAST_SRCCOLORKEY,frm->FRM,palcal[color]);
+				BlitToRo(g_pDDSBack,0,0,frm->x,frm->y,cx,cy,0,frm->FRM,palcal[color]);
 				char buf[100];
 				sprintf(buf2,"Location: %i (x: %i y: %i) Type: %i",iter->second->loc,
 					DeCompLocX(iter->second->loc),
@@ -228,22 +220,8 @@ void play::EditObjects(void)
 	}
 	if (!drawn) Selected = 0;
 
-	ZeroMemory(&ddbltfx, sizeof(ddbltfx));
-    ddbltfx.dwSize = sizeof(ddbltfx);
-    ddbltfx.dwFillColor = 0;
-	
-	rcRect.top=GetMaxY-20;
-	rcRect.left=0;
-	rcRect.bottom=GetMaxY;
-	rcRect.right=GetMaxX;
-	g_pDDSBack->Blt(&rcRect, NULL, NULL, DDBLT_COLORFILL | DDBLT_WAIT, &ddbltfx);
-
-	rcRect.top=0;
-	rcRect.left=0;
-	rcRect.bottom=15;
-	rcRect.right=GetMaxX;
-	g_pDDSBack->Blt(&rcRect, NULL, NULL, DDBLT_COLORFILL | DDBLT_WAIT, &ddbltfx);
-
+	ClearRect(g_pDDSBack,0,GetMaxY-20,GetMaxX,GetMaxY,0);
+	ClearRect(g_pDDSBack,0,0,GetMaxX,15,0);
 	ClearRect(g_pDDSBack,GetMaxX-100,15,GetMaxX,GetMaxY-20,0);
 
 	textfont::IanOutText(0,GetMaxY-20,0,buf2);
@@ -255,22 +233,22 @@ void play::EditObjects(void)
 	textfont::IanOutTextR(GetMaxX,45,1,"------------");
 	if (mouse::MouseIn(GetMaxX-100,60,GetMaxX,75))
 		{ InSide=true; ref_to = &t2amount; } else { InSide=false; if (t2amount<1) t2amount=1; };
-	wsprintf(buf,"Amun: %i",t2amount);
+	sprintf(buf,"Amun: %i",t2amount);
 	textfont::IanOutText(GetMaxX-100,60,InSide ? 0 : 1,buf);
 
 	textfont::IanOutTextR(GetMaxX,90,ActualType == 3 ? 0 : 1,"Objects");
 	textfont::IanOutTextR(GetMaxX,105,1,"------------");
 	if (mouse::MouseIn(GetMaxX-100,120,GetMaxX,134))
 		{ InSide=true; ref_to = &t3id; } else { InSide=false; if (t3id<0) t3id=0; };
-	wsprintf(buf,"Id: %i",t3id);
+	sprintf(buf,"Id: %i",t3id);
 	textfont::IanOutText(GetMaxX-100,120,InSide ? 0 : 1,buf);
 	if (mouse::MouseIn(GetMaxX-100,135,GetMaxX,149))
 		{ InSide=true; ref_to = &t3var1; } else { InSide=false; };
-	wsprintf(buf,"Var_1: %i",t3var1); 
+	sprintf(buf,"Var_1: %i",t3var1); 
 	textfont::IanOutText(GetMaxX-100,135,InSide ? 0 : 1,buf);
 	if (mouse::MouseIn(GetMaxX-100,150,GetMaxX,164))
 		{ InSide=true; ref_to = &t3var2; }  else { InSide=false; };
-	wsprintf(buf,"Var_2: %i",t3var2);
+	sprintf(buf,"Var_2: %i",t3var2);
 	textfont::IanOutText(GetMaxX-100,150,InSide ? 0 : 1,buf);
 
 	textfont::IanOutTextR(GetMaxX,180,ActualType == 4 ? 0 : 1,"Exit grid");
@@ -279,21 +257,21 @@ void play::EditObjects(void)
 		if (mouse::MouseIn(GetMaxX-100,240,GetMaxX,254))
 			{ InSide=true; } else {InSide = false; }
 			if ((InSide) && (mouse::Pressed(0))) t4type = !t4type;
-		wsprintf(buf,"World Map");
+		sprintf(buf,"World Map");
 		textfont::IanOutText(GetMaxX-100,240,InSide ? 0 : 1,buf);
 	} else {
 		if (mouse::MouseIn(GetMaxX-100,225,GetMaxX,239))
 			{ InSide=true; ref_to = &t4loc; }  else { InSide=false; if (t4loc<0) t4loc=0; };
-		wsprintf(buf,"Entr: %i",t4loc);
+		sprintf(buf,"Entr: %i",t4loc);
 		textfont::IanOutText(GetMaxX-100,225,InSide ? 0 : 1,buf);
 		if (mouse::MouseIn(GetMaxX-100,210,GetMaxX,224))
 			{ InSide=true; ref_to = &t4entr; }  else { InSide=false; if (t4entr<0) t4entr=0; };
-		wsprintf(buf,"Loc: %i",t4entr);
+		sprintf(buf,"Loc: %i",t4entr);
 		textfont::IanOutText(GetMaxX-100,210,InSide ? 0 : 1,buf);
 		if (mouse::MouseIn(GetMaxX-100,240,GetMaxX,254))
 			{ InSide=true; } else {InSide = false; }
 			if ((InSide) && (mouse::Pressed(0))) t4type = !t4type;
-		wsprintf(buf,"Location");
+		sprintf(buf,"Location");
 		textfont::IanOutText(GetMaxX-100,240,InSide ? 0 : 1,buf);
 	}
 
@@ -301,7 +279,7 @@ void play::EditObjects(void)
 	textfont::IanOutTextR(GetMaxX,285,1,"------------");
 	if (mouse::MouseIn(GetMaxX-100,300,GetMaxX,314))
 			{ InSide=true; ref_to = &t5id; }  else { InSide=false; if (t5id<0) t5id=0; };
-	wsprintf(buf,"Id: %i",t5id);
+	sprintf(buf,"Id: %i",t5id);
 	textfont::IanOutText(GetMaxX-100,300,InSide ? 0 : 1,buf);
 
 	textfont::IanOutText(380,GetMaxY-20,mouse::MouseIn(380,GetMaxY-20,390,GetMaxY) ? 0 : 1,"+");
@@ -316,7 +294,7 @@ void play::EditObjects(void)
 	textfont::IanOutTextR(540,GetMaxY-20,block_plane ? 0 : 1,"BLCK");
 
 
-    if ((mousetyp<1) || (mousetyp>8)) BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,MousX,MousY,DDBLTFAST_SRCCOLORKEY,Mouse->FRM->FRM);
+    if ((mousetyp<1) || (mousetyp>8)) BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,MousX,MousY,0,Mouse->FRM->FRM);
 	
 	textfont::DisplayNum(55,0,1,x,3);
 	textfont::DisplayNum(85,0,1,y,3);
@@ -328,22 +306,22 @@ void play::EditObjects(void)
 		x = MouseScr[mousetyp-1][i]->FRM->x;
 		y = MouseScr[mousetyp-1][i]->FRM->y;
 		if ((mousetyp==1) || (mousetyp>6))
-		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==2)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==3)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==4)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY-y,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY-y,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==5)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY-y,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY-y,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==6)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY-y,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY-y,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 
 	}
@@ -354,19 +332,6 @@ void play::EditObjects(void)
 	textutil::DisplayFrameRate();
 
 	// Flip the surfaces
-    while (TRUE)
-    {
-        hRet = g_pDDSPrimary->Flip(NULL, 0);
-        if  (hRet == DD_OK)
-            break;
-        if (hRet == DDERR_SURFACELOST)
-        {
-            hRet = RestoreAll();
-            if (hRet != DD_OK)
-                break;
-        }
-        if (hRet != DDERR_WASSTILLDRAWING)
-            break;
-    }
+    SDL_Flip(g_pDDSBack);
 	
 }

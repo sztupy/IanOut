@@ -1,4 +1,5 @@
 #include "ddraw.h"
+#include "discutil.h"
 #include "io.h"
 #include <string>
 #include <fcntl.h>
@@ -7,11 +8,20 @@
 
 #include "datextract.h"
 
-std::string FileSorrend[10];
-PDATLocation DATSorrend[10];
+std::string FileSorrend[16];
+PDATLocation DATSorrend[16];
+int ActualLogLevel = 0;
 
-extern void AddToLog(const char* text,...)
+void SetLogLevel(int newlevel)
 {
+	if (newlevel<0) newlevel=0;
+	ActualLogLevel = newlevel;
+	AddToLog(0,"Global> Entering loglevel %i",newlevel);
+}
+
+extern void AddToLog(int loglevel, const char* text,...)
+{
+	if (loglevel<=ActualLogLevel) {
 	FILE *f;
 	if ((f = fopen("log.txt","a+")) == NULL)
 		return;
@@ -23,8 +33,10 @@ extern void AddToLog(const char* text,...)
     vsprintf(szBuff, text, vl);
 	va_end(vl);
 
-	fprintf(f,"%s\n",szBuff);
+	if (loglevel>0) fprintf(f,"%s (%i)\n",szBuff,loglevel); else fprintf(f,"%s\n",szBuff);
+	if (loglevel>0) printf("%s (%i)\n",szBuff,loglevel); else printf("%s\n",szBuff);
 	fclose(f);
+	}
 }
 
 extern bool CanOpen(const char* fname)
@@ -40,7 +52,10 @@ extern bool CanOpen2(std::string filename)
 {
 	int i;
 	gzFile file;
-	for (i=0; i<10; i++) {
+	if (CanOpen((filename).c_str())) return true;
+	for (i=0; i<16; i++) 
+	if (FileSorrend[i]!="")
+	{
 		if (DATSorrend[i] != NULL) {
 			file = DATSorrend[i]->OpenFile(filename);
 			if (file != NULL) { gzclose(file); return true; }
@@ -63,7 +78,7 @@ extern void ClearLogFile(void)
 extern void SetFile(int i, std::string filename)
 {
 	if (CanOpen(filename.c_str())) {
-		FileSorrend[i] = "";
+		FileSorrend[i] = "-";
 		DATSorrend[i] = new TDATLocation(filename);
 	} else {
 		FileSorrend[i] = filename;	
@@ -75,7 +90,12 @@ extern gzFile __IOopen(std::string filename, const char* mode)
 {
 	int i;
 	gzFile file;
-	for (i=0; i<10; i++) {
+	if (CanOpen((filename).c_str())) {
+			return gzopen((filename).c_str(),mode);
+		}
+	for (i=0; i<16; i++)
+	if (FileSorrend[i]!="")
+	{
 		if (DATSorrend[i] != NULL) {
 			file = DATSorrend[i]->OpenFile(filename);
 			if (file != NULL) return file;
@@ -91,7 +111,52 @@ extern std::string GetFile(std::string filename)
 {
 	int i;
 	gzFile file;
-	for (i=0; i<10; i++) {
+	if (CanOpen((filename).c_str())) {
+			return filename;
+		}
+	for (i=0; i<16; i++)
+	if (FileSorrend[i]!="")
+	{
+		if (DATSorrend[i] != NULL) {
+			file = DATSorrend[i]->OpenFile(filename);
+			if (file != NULL) { gzclose(file); return DATSorrend[i]->fname+filename; }
+		} else
+		if (CanOpen((FileSorrend[i]+filename).c_str())) {
+			return FileSorrend[i]+filename;
+		}
+	}
+	return "";
+}
+
+extern std::string GetMusicFile(std::string fname)
+{
+	int i;
+	gzFile file;
+	std::string filename;
+
+	filename = fname+".WAV";
+	if (CanOpen((filename).c_str())) {
+			return filename;
+		}
+	for (i=0; i<16; i++)
+	if (FileSorrend[i]!="")
+	{
+		if (DATSorrend[i] != NULL) {
+			file = DATSorrend[i]->OpenFile(filename);
+			if (file != NULL) { gzclose(file); return DATSorrend[i]->fname+filename; }
+		} else
+		if (CanOpen((FileSorrend[i]+filename).c_str())) {
+			return FileSorrend[i]+filename;
+		}
+	}
+
+	filename = fname+".OGG";
+	if (CanOpen((filename).c_str())) {
+			return filename;
+		}
+	for (i=0; i<16; i++)
+	if (FileSorrend[i]!="")
+	{
 		if (DATSorrend[i] != NULL) {
 			file = DATSorrend[i]->OpenFile(filename);
 			if (file != NULL) { gzclose(file); return DATSorrend[i]->fname+filename; }

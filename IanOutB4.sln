@@ -47,6 +47,46 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaBind", "LuaBind\LuaBind.
 	EndProjectSection
 EndProject
 Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 9
+		SccProjectName0 = IanOutB3
+		SccLocalPath0 = .
+		SccProvider0 = MSSCCI:Jalindi\u0020Igloo
+		CanCheckoutShared = false
+		SolutionUniqueID = {568D69BF-5215-468B-8C4F-748F3B9DAF06}
+		SccProjectUniqueName1 = CommonUtils\\CommonUtils.vcproj
+		SccLocalPath1 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection1 = CommonUtils\\
+		SccProjectUniqueName2 = FRMObject\\FRMObject.vcproj
+		SccLocalPath2 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection2 = FRMObject\\
+		SccProjectUniqueName3 = IanOut\\IanOut.vcproj
+		SccLocalPath3 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection3 = IanOut\\
+		SccProjectUniqueName4 = IanOutEd\\IanOutEd.vcproj
+		SccLocalPath4 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection4 = IanOutEd\\
+		SccProjectUniqueName5 = LuaBind\\LuaBind.vcproj
+		SccLocalPath5 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection5 = LuaBind\\
+		SccProjectUniqueName6 = LuaLib\\LuaLib.vcproj
+		SccLocalPath6 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection6 = LuaLib\\
+		SccProjectUniqueName7 = TinyXML\\tinyxmlSTL.vcproj
+		SccLocalPath7 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection7 = TinyXML\\
+		SccProjectUniqueName8 = zLib\\zLib.vcproj
+		SccLocalPath8 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection8 = zLib\\
+	EndGlobalSection
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
 		Release = Release

@@ -44,7 +44,7 @@ gzFile TDATLocation::OpenFile(std::string filename)
 		file_siz = *(int*)(ptr+filename_len+5);
 		file_pos = *(int*)(ptr+filename_len+9);
 		
-		printf("%s\n",ptr);
+		//printf("%s\n",ptr);
 		if (!lstrcmpi(filename.c_str(),ptr)) {
 			h_dat = _open(fname.c_str(),_O_RDONLY|_O_BINARY);
 			_lseek(h_dat,file_pos,SEEK_SET);

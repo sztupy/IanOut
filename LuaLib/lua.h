@@ -1,5 +1,5 @@
 /*
-** $Id: lua.h,v 1.175 2003/03/18 12:31:39 roberto Exp $
+** $Id: lua.h,v 1.1 2003/09/17 20:50:27 sztupy Exp $
 ** Lua - An Extensible Extension Language
 ** Tecgraf: Computer Graphics Technology Group, PUC-Rio, Brazil
 ** http://www.lua.org	mailto:info@lua.org

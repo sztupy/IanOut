@@ -9,30 +9,15 @@
 #include "graphic.h"
 #include "vars.h"
 
-#include "../frmobject/freeimage.h"
-
 void ReleaseAllObjects(void)
 {
 	DeleteTempDir();
 	int i,i2;
-    if (g_pDD != NULL)
-    {
-        if (g_pDDSPrimary != NULL)
-        {
-            g_pDDSPrimary->Release();
-            g_pDDSPrimary = NULL;
-        }
-        if (g_pDDSOne != NULL)
-        {
-            g_pDDSOne->Release();
-            g_pDDSOne = NULL;
-        }
-        if (g_pDDPal != NULL)
-        {
-            g_pDDPal->Release();
-            g_pDDPal = NULL;
-        }
-	
+	if (g_pDDSOne != NULL)
+	{
+		SDL_FreeSurface(g_pDDSOne);
+	}
+
 	if (Mouse) delete Mouse; Mouse = NULL;
 	if (Mouse2) delete Mouse2; Mouse2 = NULL;
 	if (KezeloP) delete KezeloP; KezeloP = NULL;
@@ -77,35 +62,22 @@ void ReleaseAllObjects(void)
 	{
 		if (Buttons[i2][i]) delete Buttons[i2][i];Buttons[i2][i] = NULL;
 	}
-        g_pDD->Release();
-        g_pDD = NULL;
-    }
+
 	for (i=0; i<75; i++)
 	{
 		delete LINIStr[i];//->~TIniStr();
 		LINIStr[i] = NULL;
 	}
 
-	FreeImage_DeInitialise();
-
-	mouse::FreeDirectInput();
-
+	if (usingsound) {
+		if (MusicData) {
+			Mix_FreeMusic(MusicData);
+			MusicData=NULL;
+		}
+		AddToLog(2,"Done> DeInitialising SDL_MIXER");
+		Mix_CloseAudio();
 	}
 
+	SDL_Quit();
 
-HRESULT 
-RestoreAll(void)
-{
-    HRESULT                     hRet;
-
-    hRet = g_pDDSPrimary->Restore();
-    if (hRet == DD_OK)
-    {
-        hRet = g_pDDSOne->Restore();
-        if (hRet == DD_OK)
-        {
-            DDReLoadBitmap(g_pDDSOne, szBitmap);
-        }
-    }
-    return hRet;
 }

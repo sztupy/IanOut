@@ -3,7 +3,6 @@
 
 #include "../commonutils/ItemObj.h"
 #include <stdio.h>
-#include <ddraw.h>
 #include <string>
 #include <vector>
 #include "FRM.H"
@@ -64,9 +63,9 @@ public:
 	TIanCritter() {};
 	~TIanCritter();
 
-	HRESULT LoadCritters(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filename, FRMPairCollection &TilesI);
-	HRESULT LoadMainCharacter(HWND hWnd, LPDIRECTDRAW7 g_pDD, FRMPairCollection &TilesI);
-	HRESULT ClearButMain();
+	int LoadCritters(const char* filename, FRMPairCollection &TilesI);
+	int LoadMainCharacter(FRMPairCollection &TilesI);
+	int ClearButMain();
 
 	CritterList Critters;
 };
@@ -112,22 +111,22 @@ public:
 
 	std::string GetGraphicNameWeapon(char* descriptor, PWeapon Weapon);
 	std::string GetGraphicName(char* descriptor);
-	void LoadPlayer(HWND hWnd, LPDIRECTDRAW7 g_pDD, bool isLoaded);
+	void LoadPlayer(bool isLoaded);
 	
-	void Draw(LPDIRECTDRAWSURFACE7 g_pDDSBack,int TerX, int TerY, int colorinf);
+	void Draw(SDL_Surface* g_pDDSBack,int TerX, int TerY, int colorinf);
 
 	void TFRMPlayer::GetDraw(int& XX, int& YY);
 
-	void UseCommand(HWND hWnd, LPDIRECTDRAW7 g_pDD,PItem Item,bool ChrType,BlockType &Block,bool type,std::string command);
-	void UseOn(HWND hWnd, LPDIRECTDRAW7 g_pDD,PLocationDat LocDat,BlockType &Block,bool type, signed char dirx, signed char diry);
-	void Pickup(HWND hWnd, LPDIRECTDRAW7 g_pDD,PLocationDat LocDat,BlockType &Block);
-	void Attack(HWND hWnd, LPDIRECTDRAW7 g_pDD,PFRMPlayer Item,PWeapon AttackWh);
-	void TFRMPlayer::HitAndMiss(HWND hWnd, LPDIRECTDRAW7 g_pDD,int type);
+	void UseCommand(PItem Item,bool ChrType,BlockType &Block,bool type,std::string command);
+	void UseOn(PLocationDat LocDat,BlockType &Block,bool type, signed char dirx, signed char diry);
+	void Pickup(PLocationDat LocDat,BlockType &Block);
+	void Attack(PFRMPlayer Item,PWeapon AttackWh);
+	void TFRMPlayer::HitAndMiss(int type);
 
 	int RealDistance(int tx, int ty, BlockType &Block);
 	void GenerateTree(int tx, int ty, BlockType &Block);
 	void MoveTo(int t_x, int t_y) {x = t_x; y=t_y; };
-	void Next(HWND hWnd, LPDIRECTDRAW7 g_pDD,BlockType &Block,FRMLocationMap &FRMMap,CritterList &Critters);
+	void Next(BlockType &Block,FRMLocationMap &FRMMap,CritterList &Critters);
 	void Move(BlockType &Block);
 
 	void SetStaticState();
@@ -137,11 +136,11 @@ public:
 	void GoAround(int atx, int aty, BlockType &Block);
 	inline int Distance(int atx,int aty);
 
-	void KillPerson(HWND hWnd, LPDIRECTDRAW7 g_pDD, int diemode);
-	void Die(HWND hWnd, LPDIRECTDRAW7 g_pDD, PIanStatic StaticInf);
+	void KillPerson(int diemode);
+	void Die(PIanStatic StaticInf);
 
-	void ChangeWeapon(HWND hWnd, LPDIRECTDRAW7 g_pDD, bool whichhand, unsigned int num, unsigned int ammonum, FRMPairCollection &TilesI);
-	void ChangeHand(HWND hWnd, LPDIRECTDRAW7 g_pDD);
+	void ChangeWeapon(bool whichhand, unsigned int num, unsigned int ammonum, FRMPairCollection &TilesI);
+	void ChangeHand();
 
 	int GetDir();
 

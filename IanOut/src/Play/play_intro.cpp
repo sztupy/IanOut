@@ -8,9 +8,7 @@
 
 void play::Intro()
 {
-	HRESULT								hRet;
-	DDBLTFX								ddbltfx;
-	RECT								rcRect;
+/*	int									hRet;
 
 	static int							Fram = -255;
 	static double						Lines[25];							
@@ -18,8 +16,8 @@ void play::Intro()
 	static int							Lince[25];
 	static int							Linti[25];
 	int									Frame;
-	static DWORD						ThisTick;
-	static DWORD						LastTick = 0;
+	static Uint32						ThisTick;
+	static Uint32						LastTick = 0;
 	char								buf[150];
 	char								buf2[10];
 	int									stringnumb;
@@ -30,7 +28,7 @@ void play::Intro()
 
 	GetPrivateProfileString("Intro","text","0",buf,80,GetFile("\\text\\dialog\\intro.sve").c_str());
 	stringnumb = atoi(buf);
-	ThisTick = GetTickCount();
+	ThisTick = SDL_GetTicks();
 	
 	if (Fram==-255)
 	{
@@ -67,11 +65,9 @@ void play::Intro()
 	Frame = Fram;
 	if (Frame<0) Frame=0;
 	palette::SetPaletteBl((Fram+255)*256);
-    ZeroMemory(&ddbltfx, sizeof(ddbltfx));
-    ddbltfx.dwSize = sizeof(ddbltfx);
-    ddbltfx.dwFillColor = RGB(0,0,0);
-    g_pDDSBack->Blt(NULL, NULL, NULL, DDBLT_COLORFILL | DDBLT_WAIT, &ddbltfx);
 
+	ClearSurface(g_pDDSBack,0,0,0);
+    
 	ZeroMemory(&ddbltfx, sizeof(ddbltfx));
     ddbltfx.dwSize = sizeof(ddbltfx);
     ddbltfx.dwFillColor = 5;
@@ -80,26 +76,28 @@ void play::Intro()
 	  rcRect.left=addx+50;
 	rcRect.bottom=addy+450;
 	 rcRect.right=addx+590;
+
+	 ClearRect(g_pDDSBack,0,0,0);
     g_pDDSBack->Blt(&rcRect, NULL, NULL, DDBLT_COLORFILL | DDBLT_WAIT, &ddbltfx);
 
-	wsprintf(buf2,"text%i",(Frame/50));
+	sprintf(buf2,"text%i",(Frame/50));
 	GetPrivateProfileString("Intro",buf2,"",buf,80,GetFile("\\text\\dialog\\intro.sve").c_str());
 	textfont::IanOutTextC(addx+320,addy+460,0,buf);
 
 	if ((Frame>=0) && (Frame<=54))
 	{
-	 if ((lstrcmpi(FullScreen2->fname,"\\art\\intrface\\intro0.frm")))
+	 if ((strcmp(FullScreen2->fname,"\\art\\intrface\\intro0.frm")))
 	 {
-      LoadFRMSingle(&FullScreen2,hWnd,"\\art\\intrface\\intro0.frm",1);
+      LoadFRMSingle(&FullScreen2,"\\art\\intrface\\intro0.frm",1);
 	 }
 	 BlitTo(g_pDDSBack,0,0,540,400,addx+50,addy+50,0,FullScreen2->FRM->FRM);
 	}
 
 	if ((Frame>=50) && (Frame<=325))
 	{
-	 if ((lstrcmpi(FullScreen->fname,"\\art\\intrface\\intro1.frm")))
+	 if ((strcmp(FullScreen->fname,"\\art\\intrface\\intro1.frm")))
 	 {
-      LoadFRMSingle(&FullScreen,hWnd,"\\art\\intrface\\intro1.frm",1);
+      LoadFRMSingle(&FullScreen,"\\art\\intrface\\intro1.frm",1);
 	 }
 	 if ((Frame>=25) && (Frame<=54))
 	 {
@@ -113,9 +111,9 @@ void play::Intro()
 
 	if ((Frame>=321) && (Frame<=665+50))
 	{
-	 if ((lstrcmpi(FullScreen2->fname,"\\art\\intrface\\intro2.frm")))
+	 if ((strcmp(FullScreen2->fname,"\\art\\intrface\\intro2.frm")))
 	 {
-      LoadFRMSingle(&FullScreen2,hWnd,"\\art\\intrface\\intro2.frm",1);
+      LoadFRMSingle(&FullScreen2,"\\art\\intrface\\intro2.frm",1);
 	 }
 	 if ((Frame>=300) && (Frame<=325))
 	 {
@@ -128,9 +126,9 @@ void play::Intro()
 
 	if ((Frame>=661+50) && (Frame<=875))
     {
-	 if ((lstrcmpi(FullScreen->fname,"\\art\\intrface\\intro4.frm")))
+	 if ((strcmp(FullScreen->fname,"\\art\\intrface\\intro4.frm")))
      {
-      LoadFRMSingle(&FullScreen,hWnd,"\\art\\intrface\\intro4.frm",1);
+      LoadFRMSingle(&FullScreen,"\\art\\intrface\\intro4.frm",1);
      }
      if ((Frame>=700) && (Frame<=665+50))
 	 {
@@ -143,9 +141,9 @@ void play::Intro()
 
 	if ((Frame>=871) && (Frame<=1000))
 	{
-	 if ((lstrcmpi(FullScreen2->fname,"\\art\\intrface\\intro3.frm")))
+	 if ((strcmp(FullScreen2->fname,"\\art\\intrface\\intro3.frm")))
 	 {
-      LoadFRMSingle(&FullScreen2,hWnd,"\\art\\intrface\\intro3.frm",1);
+      LoadFRMSingle(&FullScreen2,"\\art\\intrface\\intro3.frm",1);
 	 }
 	 if ((Frame>=850) && (Frame<=875))
 	 {
@@ -191,22 +189,10 @@ void play::Intro()
 	}
 
 	mouse::UpdateInputState();
-	if (((Frame/50))>stringnumb) { Fram = -255; GamePos=0; palette::FadeOut(); /*SetPaletteBl(65535);*/return;}
-	if ((dims.rgbButtons[0] & 0x80)) { Fram = -255; GamePos=0; palette::FadeOut(); /*SetPaletteBl(65535);*/return;}
+	if (((Frame/50))>stringnumb) { Fram = -255; GamePos=0; palette::FadeOut(); return;}
+	if ((dims.rgbButtons[0] & 0x80)) { Fram = -255; GamePos=0; palette::FadeOut(); return;}
 	
-    while (TRUE)
-    {
-        hRet = g_pDDSPrimary->Flip(NULL, 0);
-        if (hRet == DD_OK)
-            break;
-        if (hRet == DDERR_SURFACELOST)
-        {
-            hRet = RestoreAll();
-            if (hRet != DD_OK)
-                break;
-        }
-        if (hRet != DDERR_WASSTILLDRAWING)
-            break;
-    }
-	
+    SDL_Flip(g_pDDSBack);
+*/	
+	GamePos=0;
 }

@@ -8,14 +8,14 @@ namespace play {
 
 void play::MoveMult(void)
 {
-	if ((lstrcmpi(Temporary[2]->fname,"\\art\\intrface\\movemult.frm")))
+	if ((strcmp(Temporary[2]->fname,"\\art\\intrface\\movemult.frm")))
 	{
-		LoadFRMSingle(&Temporary[2],hWnd,"\\art\\intrface\\movemult.frm",1);
+		LoadFRMSingle(&Temporary[2],"\\art\\intrface\\movemult.frm",1);
 	}
 	BlitTo(g_pDDSBack,0,0,Temporary[2]->FRM->x,Temporary[2]->FRM->y,
 						addx+190,
 						addy+109,
-						DDBLTFAST_SRCCOLORKEY,Temporary[2]->FRM->FRM);
+						0,Temporary[2]->FRM->FRM);
 }
 
 void play::LootMode(void)
@@ -26,17 +26,17 @@ void play::LootMode(void)
 	int i,i2;
 	PInventory IanInventory = Ian->Inven;
 	PInventory ItemInventory = IanOs::ActualItem->ItemDesc->Inven;
-	if ((lstrcmpi(Temporary[1]->fname,"\\art\\intrface\\loot.frm")))
+	if ((strcmp(Temporary[1]->fname,"\\art\\intrface\\loot.frm")))
 	{
-		LoadFRMSingle(&Temporary[1],hWnd,"\\art\\intrface\\loot.frm",1);
+		LoadFRMSingle(&Temporary[1],"\\art\\intrface\\loot.frm",1);
 	}
 	BlitTo(g_pDDSBack,0,0,Temporary[1]->FRM->x,Temporary[1]->FRM->y,
 						addx+51,
 						addy+4,
-						DDBLTFAST_SRCCOLORKEY,Temporary[1]->FRM->FRM);
+						0,Temporary[1]->FRM->FRM);
 
 	if (mousetyp==25)
-	if ((olddims.rgbButtons[0] & 0x80) && !(dims.rgbButtons[0] & 0x80)) {
+	if ((olddims.buttons[0]) && !(dims.buttons[0])) {
 		mousetyp = 9;
 		if (mouse::MouseIn(addx+50+180,addy+35+4,addx+280,addy+4+340)) {
 			if (InvenT != IanInventory) {
@@ -64,14 +64,14 @@ void play::LootMode(void)
 			PFRM frm = ((PInventoryItem)Item)->FRMA->GetCurFrame();
 			if ((frm->x>50) || (frm->y>50)) {
 				double d = ((double)frm->y/(double)frm->x*50);
-				BlitToStretch(g_pDDSBack,0,0,frm->x,frm->y,addx+230,addy+8+70+i*55-d/2,addx+230+50,addy+8+70+i*55+d/2,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+				BlitToStretch(g_pDDSBack,0,0,frm->x,frm->y,addx+230,addy+8+70+i*55-d/2,addx+230+50,addy+8+70+i*55+d/2,0,frm->FRM);
 			} else {
-				BlitTo(g_pDDSBack,0,0,frm->x,frm->y,addx+230,addy+8+45+i*55,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+				BlitTo(g_pDDSBack,0,0,frm->x,frm->y,addx+230,addy+8+45+i*55,0,frm->FRM);
 			}
 			int count = ((PInventoryItem)Item)->count;
 			if (count!=1) {
 				char buf[20];
-				wsprintf(buf,"x%i",count);
+				sprintf(buf,"x%i",count);
 				textfont::IanOutTextR(addx+280,addy+95+i*55,0,buf);
 			}
 			if (mouse::MInPr(addx+230,addy+8+45+i*55,addx+230+50,addy+8+95+i*55,0)) {
@@ -95,14 +95,14 @@ void play::LootMode(void)
 			PFRM frm = ((PInventoryItem)Item)->FRMA->GetCurFrame();
 			if ((frm->x>50) || (frm->y>50)) {
 				double d = ((double)frm->y/(double)frm->x*50);
-				BlitToStretch(g_pDDSBack,0,0,frm->x,frm->y,addx+350,addy+8+70+i*55-d/2,addx+400,addy+8+70+i*55+d/2,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+				BlitToStretch(g_pDDSBack,0,0,frm->x,frm->y,addx+350,addy+8+70+i*55-d/2,addx+400,addy+8+70+i*55+d/2,0,frm->FRM);
 			} else {
-				BlitTo(g_pDDSBack,0,0,frm->x,frm->y,addx+350,addy+8+45+i*55,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+				BlitTo(g_pDDSBack,0,0,frm->x,frm->y,addx+350,addy+8+45+i*55,0,frm->FRM);
 			}
 			int count = ((PInventoryItem)Item)->count;
 			if (count!=1) {
 				char buf[20];
-				wsprintf(buf,"x%i",count);
+				sprintf(buf,"x%i",count);
 				textfont::IanOutTextR(addx+400,addy+95+i*55,0,buf);
 			}
 			if (mouse::MInPr(addx+350,addy+8+45+i*55,addx+400,addy+8+95+i*55,0)) {
@@ -156,6 +156,6 @@ void play::LootMode(void)
 	textutil::DrawStuff();
 	ButtonList->DrawButtons(g_pDDSBack,MousX,MousY,mouse::Pressed(6));
 	DrawIanCucc(mouse::MouseIn(addx+266,GetMaxY-99+27,addx+266+188,GetMaxY-99+27+67) && (mouse::Pressed(6) || mouse::Pressed(7)));
-	if ((mousetyp==0) || (mousetyp==9)) BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,MousX,MousY,DDBLTFAST_SRCCOLORKEY,Mouse->FRM->FRM);
-	if (mousetyp==25) BlitTo(g_pDDSBack,0,0,FRMMouse->x,FRMMouse->y,MousX-FRMMouse->x/2,MousY-FRMMouse->y/2,DDBLTFAST_SRCCOLORKEY,FRMMouse->FRM);
+	if ((mousetyp==0) || (mousetyp==9)) BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,MousX,MousY,0,Mouse->FRM->FRM);
+	if (mousetyp==25) BlitTo(g_pDDSBack,0,0,FRMMouse->x,FRMMouse->y,MousX-FRMMouse->x/2,MousY-FRMMouse->y/2,0,FRMMouse->FRM);
 }

@@ -39,8 +39,10 @@ extern PLocationList				MapLocations;
 
 extern PMapLoader					MapLoader;
 
-extern RECT							TerepBound;
+extern SDL_Rect						TerepBound;
 extern bool							TerepBoundType;
+
+extern bool							graphoptions[8];
 
 namespace play {
 	extern PFRMPlayer					Ian;

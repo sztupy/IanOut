@@ -3,11 +3,10 @@
 
 #include "global.h"
 
-HRESULT LoadLevel(HWND hWnd, const char* filename);
-HRESULT LoadFRMSingle(PFRMSingle *LoadIn, HWND hWnd, char* filename, int i);
-//HRESULT AddAnim(HWND hWnd, const char filename[10]);
+int LoadLevel(const char* filename);
+int LoadFRMSingle(PFRMSingle *LoadIn, char* filename, int i);
 void CreateIanPalette();
-IDirectDrawPalette *  LoadSplashScreen(LPDIRECTDRAWSURFACE7 g_pDDSB);
-HRESULT InitApp(HINSTANCE hInstance, int nCmdShow);
+void  LoadSplashScreen();
+int InitApplication();
 
 #endif //__LOAD_H

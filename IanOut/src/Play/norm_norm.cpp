@@ -31,7 +31,7 @@ void play::NormalMode(void)
 					} else {
 						if (!usedItem) if (TurnBasedMode) Ian->PlayerSkill.secondary[1]-=Weapon->GetCurrentMode()->apuse;
 						usedItem = true;
-						Ian->UseCommand(hWnd,g_pDD,iter2->second,true,BlDat,true,xXx);
+						Ian->UseCommand(iter2->second,true,BlDat,true,xXx);
 					}
 				}
 			}
@@ -62,7 +62,7 @@ void play::NormalMode(void)
 						if ((TurnBasedMode && (Ian->PlayerSkill.secondary[1]<=Weapon->GetCurrentMode()->apuse-1))) {
 							textutil::AddString("Not enough Action Points",1);
 						} else {
-							Ian->Attack(hWnd,g_pDD,iter2->second,Weapon);
+							Ian->Attack(iter2->second,Weapon);
 							if (!usedItem) if (TurnBasedMode) Ian->PlayerSkill.secondary[1]-=Weapon->GetCurrentMode()->apuse;
 							usedItem = true;
 						}
@@ -84,7 +84,7 @@ void play::NormalMode(void)
 		//mousetyp=9;
 	}
 
-	if (mouse::MouseIn(0,0,GetMaxX,GetMaxY-101) && (mousetyp==9) && (dims.rgbButtons[0] & 0x80) && (Frame>1)) 
+	if (mouse::MouseIn(0,0,GetMaxX,GetMaxY-101) && (mousetyp==9) && (dims.buttons[0]) && (Frame>1)) 
 	{
 		menet=0;
 		mousetyp = 10;
@@ -177,7 +177,7 @@ void play::NormalMode(void)
 							textutil::AddString("Not enough Action Points",1);
 						} else {
 							if (TurnBasedMode) Ian->PlayerSkill.secondary[1]-=2;
-							Ian->Pickup(hWnd,g_pDD,itersave->second,BlDat);
+							Ian->Pickup(itersave->second,BlDat);
 						}
 					break;
 				}
@@ -194,7 +194,7 @@ void play::NormalMode(void)
 							textutil::AddString("Not enough Action Points",1);
 						} else {
 							if (TurnBasedMode) Ian->PlayerSkill.secondary[1]-=2;
-							Ian->UseOn(hWnd,g_pDD,itersave->second,BlDat,type,directionX,directionY);
+							Ian->UseOn(itersave->second,BlDat,type,directionX,directionY);
 						}
 						break;
 					} }
@@ -204,7 +204,7 @@ void play::NormalMode(void)
 							textutil::AddString("Not enough Action Points",1);
 						} else {
 							if (TurnBasedMode) Ian->PlayerSkill.secondary[1]-=2;
-							Ian->UseOn(hWnd,g_pDD,itersave->second,BlDat,0,0,0);
+							Ian->UseOn(itersave->second,BlDat,0,0,0);
 						}
 						break;
 					}
@@ -227,7 +227,7 @@ void play::NormalMode(void)
 				if (mouse::MouseIn(cx,cy,cx+frm->x,cy+frm->y)) {
 					switch (iter->second->type) {
 						case 2: {
-							BlitToRo(g_pDDSBack,0,0,frm->x,frm->y,cx,cy,DDBLTFAST_SRCCOLORKEY,frm->FRM,60);
+							BlitToRo(g_pDDSBack,0,0,frm->x,frm->y,cx,cy,0,frm->FRM,60);
 							break;
 						}
 					}
@@ -252,7 +252,7 @@ void play::NormalMode(void)
 				switch (iter->second->type) {
 					case 1: {
 						char buf[20];
-						wsprintf(buf,"SCENERY_%i",iter->second->num);
+						sprintf(buf,"SCENERY_%i",iter->second->num);
 						std::string xXx;
 						xXx = textutil::GetFromProf(GetFile("\\text\\scenery.sve"),"SCENERY",buf);
 						if (xXx != "") {
@@ -262,7 +262,7 @@ void play::NormalMode(void)
 						}
 					case 2: {
 						char buf[20];
-						wsprintf(buf,"ITEMS_%i",iter->second->num);
+						sprintf(buf,"ITEMS_%i",iter->second->num);
 						std::string xXx;
 						xXx = "\\data\\items\\"+textutil::GetFromProf(GetFile("\\proto\\items.pro"),"ITEMS",buf);
 						textutil::AddString("You see: "+textutil::GetFromXML(GetFile(xXx),"/text.yousee"),1);
@@ -270,7 +270,7 @@ void play::NormalMode(void)
 						}
 					case 3: {
 						//char buf[20];
-						//wsprintf(buf,"OBJECTS_%i",iter->second->num);
+						//sprintf(buf,"OBJECTS_%i",iter->second->num);
 						std::string xXx;
 						xXx = iter->second->ItemDesc->desclocation;//"\\data\\objects\\"+textutil::GetFromProf(GetFile("\\proto\\objects.pro"),"OBJECTS",buf);
 						textutil::AddString("You see: "+textutil::GetFromXML(GetFile(xXx),"/text.yousee"),1);
@@ -311,7 +311,7 @@ void play::NormalMode(void)
 				switch (itersave->second->type) {
 					case 1: {
 						char buf[20];
-						wsprintf(buf,"SCENERY_%i",itersave->second->num);
+						sprintf(buf,"SCENERY_%i",itersave->second->num);
 						std::string xXx;
 						xXx = textutil::GetFromProf(GetFile("\\text\\scenery2.sve"),"SCENERY",buf);
 						if (xXx != "") {
@@ -321,7 +321,7 @@ void play::NormalMode(void)
 						}
 					case 2: {
 						char buf[20];
-						wsprintf(buf,"ITEMS_%i",itersave->second->num);
+						sprintf(buf,"ITEMS_%i",itersave->second->num);
 						std::string xXx;
 						xXx = "\\data\\items\\"+textutil::GetFromProf(GetFile("\\proto\\items.pro"),"ITEMS",buf);
 						textutil::AddString(textutil::GetFromXML(GetFile(xXx),"/text.lookat"),1);

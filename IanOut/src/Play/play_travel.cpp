@@ -15,35 +15,31 @@ double sourX,sourY;
 
 void play::Travel(void)
 {
-	DDBLTFX ddbltfx;
-	HRESULT hRet;
+	int hRet;
 
-	static DWORD						ThisTick;
-	static DWORD						LastTick = 0;
+	static Uint32						ThisTick;
+	static Uint32						LastTick = 0;
 	static int							Frame = 0;
 
 	static int							mousetyp = 0;
-	BOOL								kintvan;
-	BOOL								oldal[4];
+	bool								kintvan;
+	bool								oldal[4];
 	int									i,x,y;
 	char								buf[150];
 	
     int addx = (GetMaxX - 640) /2;
 	int addy = (GetMaxY - 480) /2;
 
-	ZeroMemory(&ddbltfx, sizeof(ddbltfx));
-    ddbltfx.dwSize = sizeof(ddbltfx);
-    ddbltfx.dwFillColor = RGB(0,0,0);
-    g_pDDSBack->Blt(NULL, NULL, NULL, DDBLT_COLORFILL | DDBLT_WAIT, &ddbltfx);
+	ClearSurface(g_pDDSBack,0,0,0);
 
-	if ((lstrcmpi(FullScreen->fname,"\\art\\intrface\\wmapbox.frm")))
+	if ((strcmp(FullScreen->fname,"\\art\\intrface\\wmapbox.frm")))
 	{
-		LoadFRMSingle(&FullScreen,hWnd,"\\art\\intrface\\wmapbox.frm",1);
+		LoadFRMSingle(&FullScreen,"\\art\\intrface\\wmapbox.frm",1);
 	}
 
-	if ((lstrcmpi(TempAnim[0]->fname,"\\art\\intrface\\wmdial.frm")))
+	if ((strcmp(TempAnim[0]->fname,"\\art\\intrface\\wmdial.frm")))
 	{
-    	LoadFRMAnim(&TempAnim[0],hWnd,"\\art\\intrface\\wmdial.frm");
+    	LoadFRMAnim(&TempAnim[0],"\\art\\intrface\\wmdial.frm");
 		int hour;
 		hour = date::Hour-12;
 		if (hour<0) hour+=24;
@@ -52,51 +48,43 @@ void play::Travel(void)
 	}
 
 	
-	if ((lstrcmpi(Temporary[9]->fname,"\\art\\intrface\\wmpatrg2.frm")))
+	if ((strcmp(Temporary[9]->fname,"\\art\\intrface\\wmaptrg2.frm")))
 		{
-    		LoadFRMSingle(&Temporary[9],hWnd,"\\art\\intrface\\wmaptrg2.frm",1);
+    		LoadFRMSingle(&Temporary[9],"\\art\\intrface\\wmaptrg2.frm",1);
 		}
 
 	bool MPressed = false;
 	if (destX!=-1) {
-		if ((lstrcmpi(Temporary[10]->fname,"\\art\\intrface\\wmaploc.frm")))
+		if ((strcmp(Temporary[10]->fname,"\\art\\intrface\\wmaploc.frm")))
 			{
-    			LoadFRMSingle(&Temporary[10],hWnd,"\\art\\intrface\\wmaploc.frm",1);
-				//AddToLog("Change");
+    			LoadFRMSingle(&Temporary[10],"\\art\\intrface\\wmaploc.frm",1);
 			}
-	} else { if (mouse::MInPr(TerX+TravelMapX-12+22,TerY+TravelMapY-7+22,TerX+TravelMapX+13+22,TerY+TravelMapY+8+22,6)) {
-		if ((lstrcmpi(Temporary[10]->fname,"\\art\\intrface\\hotspot2.frm")))
+	} else { 
+		if (mouse::MInPr(TerX+TravelMapX-12+22,TerY+TravelMapY-7+22,TerX+TravelMapX+13+22,TerY+TravelMapY+8+22,6)) {
+			if ((strcmp(Temporary[10]->fname,"\\art\\intrface\\hotspot2.frm")))
 			{
-    			//AddToLog("Change");
-				LoadFRMSingle(&Temporary[10],hWnd,"\\art\\intrface\\hotspot2.frm",1);
+				LoadFRMSingle(&Temporary[10],"\\art\\intrface\\hotspot2.frm",1);
 			}
 			MPressed = true;
-	} else {
-		if ((lstrcmpi(Temporary[10]->fname,"\\art\\intrface\\hotspot1.frm")))
+		} else {
+			if ((strcmp(Temporary[10]->fname,"\\art\\intrface\\hotspot1.frm")))
 			{
-				//AddToLog("Change");
-    			LoadFRMSingle(&Temporary[10],hWnd,"\\art\\intrface\\hotspot1.frm",1);
+    			LoadFRMSingle(&Temporary[10],"\\art\\intrface\\hotspot1.frm",1);
 			}
 		}
     }
 	//AddToLog("%i %i %i %i",TerX+TravelMapX-12,TerY+TravelMapY-7,TerX+TravelMapX+13,TerY+TravelMapY+8);
-	if ((lstrcmpi(Temporary[16]->fname,"\\art\\intrface\\wmtabs.frm")))
+	if ((strcmp(Temporary[16]->fname,"\\art\\intrface\\wmtabs.frm")))
 		{
-    		LoadFRMSingle(&Temporary[16],hWnd,"\\art\\intrface\\wmtabs.frm",1);
+    		LoadFRMSingle(&Temporary[16],"\\art\\intrface\\wmtabs.frm",1);
 		}
-	if ((lstrcmpi(Temporary[15]->fname,"\\art\\intrface\\months.frm")))
+	if ((strcmp(Temporary[15]->fname,"\\art\\intrface\\months.frm")))
 		{
-    		LoadFRMSingle(&Temporary[15],hWnd,"\\art\\intrface\\months.frm",1);
+    		LoadFRMSingle(&Temporary[15],"\\art\\intrface\\months.frm",1);
 		}
 
 	SetClipRect(addx,addy,addx+640,addy+480);
 
-	olddims = dims;
-	mouse::UpdateInputState();
-
-	MousX += dims.lX;
-	MousY += dims.lY;
-						
 	mousetyp = 0;
 
 	if ((MousX>=640) && (MousY<=0)) {mousetyp = 2;} else    		//
@@ -108,9 +96,9 @@ void play::Travel(void)
 	if (MousY>=480) {mousetyp = 5;} else							//
 	if (MousY<=0) {mousetyp = 1;}									//
 																	//
-	kintvan=FALSE;													//
-	oldal[0]=FALSE;oldal[2]=FALSE;									//
-	oldal[1]=FALSE;oldal[3]=FALSE;									//
+	kintvan=false;													//
+	oldal[0]=false;oldal[2]=false;									//
+	oldal[1]=false;oldal[3]=false;									//
 																	//
 	if (MousX>=640) { MousX=640; TerX-=3; }						//	
 	if (MousX<=0)   { MousX=0;   TerX+=3; }						//	
@@ -129,17 +117,17 @@ void play::Travel(void)
 		ix = abs(TerX/350)+x;
 		iy = abs(TerY/300)+y;
 		i = iy*4+ix;
-		if (i<10) wsprintf(buf,"\\art\\intrface\\wrldmp0%i.frm",i);
-		if ((i>=10) && (i<20)) wsprintf(buf,"\\art\\intrface\\wrldmp%i.frm",i);
-		if ((lstrcmpi(Temporary[x*3+y]->fname,buf)))
+		if (i<10) sprintf(buf,"\\art\\intrface\\wrldmp0%i.frm",i);
+		if ((i>=10) && (i<20)) sprintf(buf,"\\art\\intrface\\wrldmp%i.frm",i);
+		if ((strcmp(Temporary[x*3+y]->fname,buf)))
 		{
-    		LoadFRMSingle(&Temporary[x*3+y],hWnd,buf,1);
+    		LoadFRMSingle(&Temporary[x*3+y],buf,1);
 		}
 	}
 
-	ThisTick = GetTickCount();
+	ThisTick = SDL_GetTicks();
 
-	if ((ThisTick - LastTick) > (DWORD)gameSpeed)
+	if ((ThisTick - LastTick) > (Uint32)gameSpeed)
         {
             LastTick = ThisTick;
 			Frame++;
@@ -187,18 +175,18 @@ void play::Travel(void)
 		for (int yy=0; yy<6; yy++) {
 			if (((inty+y)*6+yy<30) && ((intx+x)*7+xx<28)) {
 				if (TravelMap[(intx+x)*7+xx][(inty+y)*6+yy] == 1)
-        			BlitToAlt(g_pDDSBack,xx*50,yy*50,xx*50+50,yy*50+50,TerX+(intx+x)*350+22+addx+xx*50,TerY+(inty+y)*300+22+addy+yy*50,DDBLTFAST_SRCCOLORKEY,Temporary[x*3+y]->FRM->FRM,3);
+        			BlitToAlt(g_pDDSBack,xx*50,yy*50,xx*50+50,yy*50+50,TerX+(intx+x)*350+22+addx+xx*50,TerY+(inty+y)*300+22+addy+yy*50,0,Temporary[x*3+y]->FRM->FRM,3);
 				if (TravelMap[(intx+x)*7+xx][(inty+y)*6+yy] >= 2)
-        			BlitTo(g_pDDSBack,xx*50,yy*50,xx*50+50,yy*50+50,TerX+(intx+x)*350+22+addx+xx*50,TerY+(inty+y)*300+22+addy+yy*50,DDBLTFAST_SRCCOLORKEY,Temporary[x*3+y]->FRM->FRM);
+        			BlitTo(g_pDDSBack,xx*50,yy*50,xx*50+50,yy*50+50,TerX+(intx+x)*350+22+addx+xx*50,TerY+(inty+y)*300+22+addy+yy*50,0,Temporary[x*3+y]->FRM->FRM);
 			}
 		}
 	}
 
-	//BlitTo(g_pDDSBack,0,186,50,186+50,addx+TerX+150+22,addy+TerY+100+22,DDBLTFAST_SRCCOLORKEY,g_pDDSOne);
-	//BlitTo(g_pDDSBack,50,186,75,186+25,addx+TerX+250+22,addy+TerY+100+22,DDBLTFAST_SRCCOLORKEY,g_pDDSOne);
-	//BlitTo(g_pDDSBack,75,186,88,186+13,addx+TerX+300+22,addy+TerY+100+22,DDBLTFAST_SRCCOLORKEY,g_pDDSOne);
+	//BlitTo(g_pDDSBack,0,186,50,186+50,addx+TerX+150+22,addy+TerY+100+22,0,g_pDDSOne);
+	//BlitTo(g_pDDSBack,50,186,75,186+25,addx+TerX+250+22,addy+TerY+100+22,0,g_pDDSOne);
+	//BlitTo(g_pDDSBack,75,186,88,186+13,addx+TerX+300+22,addy+TerY+100+22,0,g_pDDSOne);
 
-	//BlitTo(g_pDDSBack,0,186,50,186+50,addx+TerX+1200+22,addy+TerY+1300+22,DDBLTFAST_SRCCOLORKEY,g_pDDSOne);
+	//BlitTo(g_pDDSBack,0,186,50,186+50,addx+TerX+1200+22,addy+TerY+1300+22,0,g_pDDSOne);
 
 	PLocation Item;
 	Item = PLocation(MapLocations->Locations->First());
@@ -207,26 +195,26 @@ void play::Travel(void)
 		if (TravelMap[(Item->x/50)][Item->y/50]>0)
 		switch (Item->size) {
 			case 1:
-				BlitTo(g_pDDSBack,75,186,88,186+13,addx+TerX+Item->x+15,addy+TerY+Item->y+15,DDBLTFAST_SRCCOLORKEY,g_pDDSOne);
+				BlitTo(g_pDDSBack,75,186,88,186+13,addx+TerX+Item->x+15,addy+TerY+Item->y+15,0,g_pDDSOne);
 				textfont::IanOutTextC(addx+TerX+Item->x+22,addy+TerY+Item->y+30,1,Item->name);
 				break;
 			case 2:
-				BlitTo(g_pDDSBack,50,186,75,186+25,addx+TerX+Item->x+10,addy+TerY+Item->y+10,DDBLTFAST_SRCCOLORKEY,g_pDDSOne);
+				BlitTo(g_pDDSBack,50,186,75,186+25,addx+TerX+Item->x+10,addy+TerY+Item->y+10,0,g_pDDSOne);
 				textfont::IanOutTextC(addx+TerX+Item->x+22,addy+TerY+Item->y+37,1,Item->name);
 				break;
 			default:
-				BlitTo(g_pDDSBack,0,186,50,186+50,addx+TerX+Item->x-3,addy+TerY+Item->y-3,DDBLTFAST_SRCCOLORKEY,g_pDDSOne);
+				BlitTo(g_pDDSBack,0,186,50,186+50,addx+TerX+Item->x-3,addy+TerY+Item->y-3,0,g_pDDSOne);
 				textfont::IanOutTextC(addx+TerX+Item->x+22,addy+TerY+Item->y+50,1,Item->name);
 				break;
 		}
 		Item = PLocation(MapLocations->Locations->Next(Item));
 	}
 
-	BlitFRMTo(g_pDDSBack,Temporary[10]->FRM,TerX+TravelMapX+addx+22,TerY+TravelMapY+addy+22,DDBLTFAST_SRCCOLORKEY,0,0);
+	BlitFRMTo(g_pDDSBack,Temporary[10]->FRM,TerX+TravelMapX+addx+22,TerY+TravelMapY+addy+22,0,0,0);
 	if (destX != -1)
-		BlitFRMTo(g_pDDSBack,Temporary[9]->FRM,TerX+destX+addx+22,TerY+destY+addy+22,DDBLTFAST_SRCCOLORKEY,0,0);
+		BlitFRMTo(g_pDDSBack,Temporary[9]->FRM,TerX+destX+addx+22,TerY+destY+addy+22,0,0,0);
 	
-	BlitTo(g_pDDSBack,0,0,145,480,GetMaxX-addx-145,addy+0,DDBLTFAST_SRCCOLORKEY,Temporary[16]->FRM->FRM);
+	BlitTo(g_pDDSBack,0,0,145,480,GetMaxX-addx-145,addy+0,0,Temporary[16]->FRM->FRM);
 	//PLocation Item;
 	Item = PLocation(MapLocations->Locations->First());
 	x = 0;
@@ -261,12 +249,12 @@ void play::Travel(void)
 		destY = -1;
 	}
 
-	BlitTo(g_pDDSBack,0,0,640,480,addx+0,addy+0,DDBLTFAST_SRCCOLORKEY,FullScreen->FRM->FRM);
-	BlitTo(g_pDDSBack,0,0,TempAnim[0]->GetCurFrame()->x,TempAnim[0]->GetCurFrame()->y,addx+532,addy+45,DDBLTFAST_SRCCOLORKEY,TempAnim[0]->GetCurFrame()->FRM);
+	BlitTo(g_pDDSBack,0,0,640,480,addx+0,addy+0,0,FullScreen->FRM->FRM);
+	BlitTo(g_pDDSBack,0,0,TempAnim[0]->GetCurFrame()->x,TempAnim[0]->GetCurFrame()->y,addx+532,addy+45,0,TempAnim[0]->GetCurFrame()->FRM);
 
 	textfont::DisplayNum(addx+486-8,addy+12,8,date::Day,2);
 	textfont::DisplayNum(addx+547-8,addy+12,8,date::Year,4);
-	BlitTo(g_pDDSBack,0,date::Month*15,29,date::Month*15+14,addx+513,addy+13,DDBLTFAST_SRCCOLORKEY,Temporary[15]->FRM->FRM);
+	BlitTo(g_pDDSBack,0,date::Month*15,29,date::Month*15+14,addx+513,addy+13,0,Temporary[15]->FRM->FRM);
 	textfont::DisplayNum(addx+592-7,addy+12,8,date::Hour,2);
 	textfont::DisplayNum(addx+611-8,addy+12,8,date::Minute,2);
 
@@ -288,7 +276,7 @@ void play::Travel(void)
 					(TravelMapY-Item->y)*(TravelMapY-Item->y)<=temp*temp) {
 						palette::FadeOut();
 						ClearSurface(g_pDDSBack,0,0,0);
-						ClearSurface(g_pDDSPrimary,0,0,0);
+//						ClearSurface(g_pDDSPrimary,0,0,0);
 						char buf[150],buf2[150];
 						int i,i2;
 						sprintf(buf,"/area-id=%i/start.loc",Item->num);
@@ -313,45 +301,32 @@ void play::Travel(void)
 		x = MouseScr[mousetyp-1][i]->FRM->x; 
 		y = MouseScr[mousetyp-1][i]->FRM->y;
 		if ((mousetyp==1) || (mousetyp>6))
-		BlitTo(g_pDDSBack,0,0,x,y,addx+MousX,addy+MousY,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,addx+MousX,addy+MousY,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==2)
-		BlitTo(g_pDDSBack,0,0,x,y,addx+MousX-x,addy+MousY,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,addx+MousX-x,addy+MousY,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==3)
-		BlitTo(g_pDDSBack,0,0,x,y,addx+MousX-x,addy+MousY,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,addx+MousX-x,addy+MousY,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==4)
-		BlitTo(g_pDDSBack,0,0,x,y,addx+MousX-x,addy+MousY-y,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,addx+MousX-x,addy+MousY-y,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==5)
-		BlitTo(g_pDDSBack,0,0,x,y,addx+MousX,addy+MousY-y,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,addx+MousX,addy+MousY-y,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==6)
-		BlitTo(g_pDDSBack,0,0,x,y,addx+MousX,addy+MousY-y,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,addx+MousX,addy+MousY-y,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 
 		
 	}
 
-	if (mousetyp==0) BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,addx+MousX,addy+MousY,DDBLTFAST_SRCCOLORKEY,Mouse->FRM->FRM);	 
+	if (mousetyp==0) BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,addx+MousX,addy+MousY,0,Mouse->FRM->FRM);	 
 
 	SetClipRect(0,0,GetMaxX,GetMaxY);
 
 	textutil::DisplayFrameRate();
-	while (TRUE)
-    {
-        hRet = g_pDDSPrimary->Flip(NULL, 0);
-        if (hRet == DD_OK)
-            break;
-        if (hRet == DDERR_SURFACELOST)
-        {
-            hRet = RestoreAll();
-            if (hRet != DD_OK)
-                break;
-        }
-        if (hRet != DDERR_WASSTILLDRAWING)
-            break;
-    }
+	SDL_Flip(g_pDDSBack);
 	
 }

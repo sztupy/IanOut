@@ -23,7 +23,7 @@ extern PFRMSingle					MenuScr[10][2];
 
 extern PFRMAnim						WaitMouse;
 
-extern HBITMAP						MaskBMP;
-extern HBITMAP						MaskBMP2;
+//extern HBITMAP						MaskBMP;
+//extern HBITMAP						MaskBMP2;
 
 #endif //__GRAPHIC_H

@@ -3,8 +3,8 @@
 
 #include "../commonutils/ItemObj.h"
 #include "../commonutils/discutil.h"
+#include "sdl.h"
 #include <stdio.h>
-#include <ddraw.h>
 
 class TFRM;
 class TFRMAnim;
@@ -25,12 +25,9 @@ class TFRM : public TItem
 public:
   TFRM(void) {};
   ~TFRM(void) {};
-//protected:
   int x,y;
   int bx,by;
-  LPDIRECTDRAWSURFACE7 FRM;
-
-// friend class TFRMAnim;
+  SDL_Surface* FRM;
 };
 
 class TFRMAnim : public TItem
@@ -39,7 +36,7 @@ public:
 	TFRMAnim() { FRMList = new TList(); refcount = 0;};
 	~TFRMAnim();
 	
-	virtual HRESULT Load(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filename, int direction);
+	virtual int Load(const char* filename, int direction);
 
 	virtual void FirstFrame() { Counter = FRMList->First(); };
 	virtual void LastFrame() { Counter = FRMList->Last(); };
@@ -56,7 +53,7 @@ public:
 	char fname[100];
 	int refcount;
 
-	virtual int LoadFRM(gzFile stream, LPVOID LoadIn, int x, int y, int p, bool frm_2);
+	virtual int LoadFRM(gzFile stream, void* LoadIn, int x, int y, int p, bool frm_2);
 	PItem Counter;
 	
 	PList FRMList;
@@ -68,7 +65,7 @@ class TFRMAnim6 : public TFRMAnim
 public:
 	TFRMAnim6();
 	~TFRMAnim6();
-	virtual HRESULT Load(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filename);
+	virtual int Load(const char* filename);
 
 	virtual void FirstFrame();
 	virtual void NextFrame();
@@ -86,13 +83,13 @@ class TFRMSingle : public TItem
 public:
 	PFRM FRM;
 	TFRMSingle() {FRM = NULL;};
-	~TFRMSingle() { if (FRM) {FRM->FRM->Release();delete FRM;}};
+	~TFRMSingle() { if (FRM) {SDL_FreeSurface(FRM->FRM);delete FRM;}};
 
-	HRESULT Load(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filename, int framenum);
+	int Load(const char* filename, int framenum);
 	
 	char fname[100];
 protected:
-	int LoadFRM(gzFile stream, LPVOID LoadIn, int x, int y, int p, bool frm_2);
+	int LoadFRM(gzFile stream, void* LoadIn, int x, int y, int p, bool frm_2);
 };
 
 class TFRMCommunicator// : public TFRMAnim

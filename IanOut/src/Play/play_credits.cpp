@@ -10,25 +10,18 @@
 
 void play::Credits(void)
 {
-	HRESULT hRet;
-	DDBLTFX                     ddbltfx;
-
+	int hRet;
 	std::string					Dumcsi[300];
-
-
 	int i,c;
 	static int							Frame = -20;
-	static DWORD						ThisTick;
-	static DWORD						LastTick = 0;
+	static Uint32						ThisTick;
+	static Uint32						LastTick = 0;
 	char								buf[80];
-	//char								buf2[80];
-	//time_t								ltime,ltime2;
-	//tm									pointtm;
 	int Stringnumb;
 	FILE*	stream;
 
 	Stringnumb=0;
-	stream = fopen("master.dat\\text\\credits.txt","rt");
+	stream = fopen(GetFile("\\text\\credits.txt").c_str(),"rt");
 
 	while (!(feof(stream)))
 	{
@@ -40,7 +33,7 @@ void play::Credits(void)
 	fclose(stream);
 
 	
-	ThisTick = GetTickCount();
+	ThisTick = SDL_GetTicks();
 
 	if ((ThisTick - LastTick) > 40)
         {
@@ -49,16 +42,13 @@ void play::Credits(void)
 	
         }
 
-    ZeroMemory(&ddbltfx, sizeof(ddbltfx));
-    ddbltfx.dwSize = sizeof(ddbltfx);
-    ddbltfx.dwFillColor = RGB(0,0,0);
-    g_pDDSBack->Blt(NULL, NULL, NULL, DDBLT_COLORFILL | DDBLT_WAIT, &ddbltfx);
+    ClearSurface(g_pDDSBack,0,0,0);
 
 	for (i=0; i<Stringnumb; i++)
 	{
 		if (((i*12+GetMaxY-Frame)<=700) && ((i*12+GetMaxY-Frame)>-15))
 		{
-			wsprintf(buf,"%s",(Dumcsi)[i].c_str());
+			sprintf(buf,"%s",(Dumcsi)[i].c_str());
 			c=0;
 			switch (buf[0]) {
 			case '1':c = 1;break;
@@ -85,27 +75,12 @@ void play::Credits(void)
 		}
 	}
 	textutil::DisplayFrameRate();
-	olddims = dims;
 	MousX = 200;
-	mouse::UpdateInputState();
-	if (dims.rgbButtons[1] & 0x80) Frame--;
-	if (((Stringnumb*12+GetMaxY-Frame)<-15) || (dims.rgbButtons[0] & 0x80)) { Frame = -20; GamePos=0; palette::FadeOut(); /*SetPaletteBl(65535);*/return;}
+	if (dims.buttons[1]) Frame--;
+	if (((Stringnumb*12+GetMaxY-Frame)<-15) || (dims.buttons[0])) { Frame = -20; GamePos=0; palette::FadeOut(); /*SetPaletteBl(65535);*/return;}
 
 
-    while (TRUE)
-    {
-        hRet = g_pDDSPrimary->Flip(NULL, 0);
-        if (hRet == DD_OK)
-            break;
-        if (hRet == DDERR_SURFACELOST)
-        {
-            hRet = RestoreAll();
-            if (hRet != DD_OK)
-                break;
-        }
-        if (hRet != DDERR_WASSTILLDRAWING)
-            break;
-    }
+    SDL_Flip(g_pDDSBack);
 
 	if (Frame<-10) palette::SetPaletteBl(65535);
 

@@ -27,13 +27,13 @@ void play::NextInTurn(void)
 			Item = CurrentPlayer->Inven->Inven->Next(Item);
 		}
 		if (Item2!=NULL) {
-			CurrentPlayer->ChangeWeapon(hWnd,g_pDD,true,PInventoryItem(Item2)->num,PInventoryItem(Item2)->state,StaticInf->TilesI);
+			CurrentPlayer->ChangeWeapon(true,PInventoryItem(Item2)->num,PInventoryItem(Item2)->state,StaticInf->TilesI);
 			delete CurrentPlayer->Inven->GetItem(PInventoryItem(Item2));
 		} else {
 			if (CurrentPlayer->Hand1->number<=65536) {
 					CurrentPlayer->Inven->AddItem(CurrentPlayer->Hand1->number,1,CurrentPlayer->Hand1->numammo,StaticInf->TilesI);
 				}
-			CurrentPlayer->ChangeWeapon(hWnd,g_pDD,true,20000000,0,StaticInf->TilesI);
+			CurrentPlayer->ChangeWeapon(true,20000000,0,StaticInf->TilesI);
 		}
 		}
 	} else {
@@ -82,7 +82,7 @@ void play::AiMove(void)
 					if (!((Weapon->capacity!=0) && (Weapon->numammo==0))) {
 						if (CurrentPlayer->PlayerSkill.secondary[1]<=Weapon->GetCurrentMode()->apuse-1) {
 							} else {
-								CurrentPlayer->Attack(hWnd,g_pDD,Ian,Weapon);
+								CurrentPlayer->Attack(Ian,Weapon);
 								CurrentPlayer->PlayerSkill.secondary[1]-=Weapon->GetCurrentMode()->apuse;
 							}
 					} else {

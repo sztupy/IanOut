@@ -30,8 +30,6 @@ PIanMap						MapInf;
 PIanStatic					StaticInf;
 PIanCritter					CritterInf;
 
-BYTE						paldat[128][256];
-
 int							GamePos = 0;
 
 int							wallpos[6][2];
@@ -46,11 +44,10 @@ bool						auto_block = true;
 
 bool						show_wall = true;
 bool						show_item = true;
+bool						show_roof = true;
 
 int							putmode	= 1;
 int							Selected = -1;
-
-RECT						ScreenRect;
 
 TRect						BoundRect;
 bool						BoundType = false;
@@ -59,6 +56,8 @@ bool						BoundTest = false;
 
 int							*ref_to = NULL;
 std::string					*ref_str = NULL;
+
+int							BrushSize = 1;
 
 int oldGamePos;
 bool middlePressed;

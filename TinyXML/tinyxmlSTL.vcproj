@@ -5,8 +5,10 @@
 	Name="tinyxmlSTL"
 	ProjectGUID="{E73CC306-76CC-47AB-8DB0-71338B7BC73F}"
 	RootNamespace="tinyxmlSTL"
-	SccProjectName=""
-	SccLocalPath="">
+	SccProjectName="IanOutB3"
+	SccAuxPath=""
+	SccLocalPath=".."
+	SccProvider="MSSCCI:Jalindi Igloo">
 	<Platforms>
 		<Platform
 			Name="Win32"/>
@@ -74,7 +76,7 @@
 				InlineFunctionExpansion="1"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;TIXML_USE_STL;TIXML_NEED_STREAM"
 				StringPooling="TRUE"
-				RuntimeLibrary="4"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				PrecompiledHeaderFile=".\Release_STL/tinyxmlSTL.pch"
 				AssemblerListingLocation=".\Release_STL/"

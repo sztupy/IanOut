@@ -1,43 +1,44 @@
 #include "engine.h"
 
-DWORD						dwFrameCount;
-DWORD						dwFrameTime;
-DWORD						dwFrames;
-DWORD						dwFramesLast;
+int							dwFrameCount = 0;
+int							dwFrameTime = 0;
+int							dwFrames = 0;
+int							dwFramesLast = 0;
 
-// Name of our bitmap resource.
-char						szBitmap[] = "ALL";
+int							MousX = 0;
+int							MousY = 0;
 
-LPDIRECTDRAW7				g_pDD = NULL;			// DirectDraw object
-LPDIRECTDRAWSURFACE7		g_pDDSPrimary = NULL;	// DirectDraw primary surface
-LPDIRECTDRAWSURFACE7		g_pDDSBack = NULL;		// DirectDraw back surface
-LPDIRECTDRAWSURFACE7		g_pDDSBack2 = NULL;
-LPDIRECTDRAWSURFACE7		g_pDDSOne = NULL;		// Offscreen surface 1
+SDL_PixelFormat*			g_pDDPixelFormat = NULL;
+SDL_Surface*				g_pDDSBack = NULL;
+SDL_Surface*				g_pDDSBack2 = NULL;
+SDL_Surface*				g_pDDSBack3 = NULL;
+SDL_Surface*				g_pDDSOne = NULL;
 
-LPDIRECTDRAWPALETTE			g_pDDPal = NULL;		// The primary surface palette
-LPVOID						lpSurface  = NULL;
-bool						g_bActive = FALSE;		// Is application active?
+SDL_Color					pe[256];
+SDL_Color					pe2[256];
+Uint32						palcal[256];
 
-DIMOUSESTATE				dims;					// DirectInput mouse state structure
-DIMOUSESTATE				olddims;				// DirectInput mouse state structure
-IDirectInput*				g_pDI = NULL;
-IDirectInputDevice*			g_pMouse = NULL;
+Uint16						rramp[256];
+Uint16						gramp[256];
+Uint16						bramp[256];
 
-int							MousX = 320;
-int							MousY = 240;
-
-PALETTEENTRY				pe[256];
-PALETTEENTRY				pe2[256];
-DWORD						palcal[256];
-
-LPDIRECTDRAWGAMMACONTROL	lpDDGammaControl = NULL;
-DDGAMMARAMP					DDGammaRamp;
-DDGAMMARAMP					DDGammaOld;
+Uint16						rramp2[256];
+Uint16						gramp2[256];
+Uint16						bramp2[256];
 
 double						gamma;
 int							gameSpeed;
-HWND						hWnd;
+
+MouseState					dims;
+MouseState					olddims;
 
 int							GetMaxX;
 int							GetMaxY;
-int 						BitDepth;
+int							BitDepth;
+bool						usefullscreen;
+
+void*						lpSurface  = NULL;
+bool						g_bActive;
+
+bool						usingsound;
+Mix_Music*					MusicData = NULL;

@@ -6,24 +6,26 @@
 #include "done.h"
 #include "../commonutils/mouse.h"
 
+SDL_Event event2;
+
 void play::MainMenu(void)
 {
-    HRESULT                     hRet;
+    int                     hRet;
 	
 	static int					Frame = -25;
-	static DWORD				ThisTick;
-	static DWORD				LastTick = 0;
+	static Uint32				ThisTick;
+	static Uint32				LastTick = 0;
 
 	int addx = (GetMaxX-640)/2;
 	int addy = (GetMaxY-480)/2;
 	
-	if ((lstrcmpi(FullScreen->fname,"\\art\\intrface\\mainmenu.frm")))
+	if ((strcmp(FullScreen->fname,"\\art\\intrface\\mainmenu.frm")))
 	{
-    	LoadFRMSingle(&FullScreen,hWnd,"\\art\\intrface\\mainmenu.frm",1);
-		
+		AddToLog(2,"Load> Loading Main Menu Artwork");
+    	LoadFRMSingle(&FullScreen,"\\art\\intrface\\mainmenu.frm",1);
 	}
 
-	ThisTick = GetTickCount();
+	ThisTick = SDL_GetTicks();
 
 	if ((ThisTick - LastTick) > 0)
         {
@@ -33,22 +35,16 @@ void play::MainMenu(void)
 			
         }
 
-	olddims = dims;
-	mouse::UpdateInputState();
-
-	MousX += dims.lX;
-	MousY += dims.lY;
-
 	if (MousX>=GetMaxX) { MousX=GetMaxX;}
 	if (MousX<=0)   { MousX=0;  }
 	if (MousY>=GetMaxY) { MousY=GetMaxY;}
 	if (MousY<=0)   { MousY=0;  }
 
-	ClearSurface(g_pDDSBack,0,0,0);
+	//ClearSurface(g_pDDSBack,0,0,0);
 	BlitTo(g_pDDSBack,0,0,640,480,addx+0,addy+0,0,FullScreen->FRM->FRM);
-
+	
 	ButtonList->DrawButtons(g_pDDSBack,MousX,MousY,mouse::Pressed(6));
-
+    
 	textfont::IanOutTextC(addx+123,addy+25,2,"Intro");
 	textfont::IanOutTextC(addx+123,addy+66,2,"New Game");
 	textfont::IanOutTextC(addx+123,addy+107,2,"Load (x)");
@@ -79,8 +75,8 @@ void play::MainMenu(void)
 			Frame=-25;
 			palette::FadeOut();
 			ClearSurface(g_pDDSBack,0,0,0);
-			ClearSurface(g_pDDSPrimary,0,0,0);
-			MapLoader->InitMainChar(hWnd,g_pDD);
+//			ClearSurface(g_pDDSPrimary,0,0,0);
+			MapLoader->InitMainChar();
 			play::CreateChar();
 			palette::FadeIn();
 			return;
@@ -96,27 +92,13 @@ void play::MainMenu(void)
 		{
 			palette::FadeOut();
 			ClearSurface(g_pDDSBack,0,0,0);
-			ClearSurface(g_pDDSPrimary,0,0,0);
-			PostMessage(hWnd, WM_CLOSE, 0, 0); 
+			event2.type = SDL_QUIT;
+			event2.quit.type = SDL_QUIT;
+			SDL_PushEvent(&event2);
 			return;
 		}
 		
-	BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,MousX,MousY,DDBLTFAST_SRCCOLORKEY,Mouse->FRM->FRM);
+	BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,MousX,MousY,0,Mouse->FRM->FRM);
 	
-    // Flip the surfaces
-    while (TRUE)
-    {
-        hRet = g_pDDSPrimary->Flip(NULL, 0);
-        if (hRet == DD_OK)
-            break;
-        if (hRet == DDERR_SURFACELOST)
-        {
-            hRet = RestoreAll();
-            if (hRet != DD_OK)
-                break;
-        }
-        if (hRet != DDERR_WASSTILLDRAWING)
-            break;
-    }
-	
+    SDL_UpdateRect(g_pDDSBack,0,0,0,0);
 }

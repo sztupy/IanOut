@@ -1,6 +1,5 @@
 #include <string>
 #include "textfont.h"
-//#include "graphic.h"
 #include "engine.h"
 
 namespace textfont {
@@ -108,22 +107,20 @@ void textfont::DrawChar(
 			  int  co,
 			  char c)
 {
-	RECT		rcRect;
+	SDL_Rect	rcRect;
 
-	rcRect.left   = FontMap[(c-32)]+1;
-	rcRect.top    = (co*24)+1;
-	rcRect.right  = FontMap[(c-31)]+1;
-	rcRect.bottom = (co*24)+12;
+	rcRect.x   = FontMap[(c-32)]+1;
+	rcRect.y    = (co*24)+1;
+	rcRect.w  = FontMap[(c-31)]+1 - rcRect.x;
+	rcRect.h = (co*24)+12  - rcRect.y;
 
-	if (rcRect.left>467) 
+	if (rcRect.x>467) 
 	{
-		rcRect.left-=468;
-		rcRect.right-=468;
-		rcRect.top+=12;
-		rcRect.bottom+=12;
+		rcRect.x-=468;
+		rcRect.y+=12;
 	}
 
-	BlitTo(g_pDDSBack,rcRect.left,rcRect.top,rcRect.right,rcRect.bottom,x,y,DDBLTFAST_SRCCOLORKEY ,g_pDDSOne);
+	BlitTo(g_pDDSBack,rcRect.x,rcRect.y,rcRect.x+rcRect.w,rcRect.y+rcRect.h,x,y,0,g_pDDSOne);
 }
 
 void textfont::Write(int x, int y, int jelenx, int co, std::string &str)
@@ -263,7 +260,7 @@ void textfont::IanOutText(int x, int y, int co, std::string str)
 	int	length = str.size();
 //	int		maxjelenx = 0;
 //	int		maxsor = 0;
-	HRESULT hRet;
+	/*int hRet;
 	HDC     hdc;
 
 	if (co==11)
@@ -279,7 +276,7 @@ void textfont::IanOutText(int x, int y, int co, std::string str)
 		g_pDDSBack->ReleaseDC(hdc);
 	  }
 	  return;
-	}
+	}*/
 	
 	Write(x,y,jelenx,co,str);
 }

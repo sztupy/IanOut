@@ -4,6 +4,10 @@
 	Version="7.10"
 	Name="CommonUtils"
 	ProjectGUID="{3FEC077A-BE7F-4ED3-859B-E38D0EDF7D34}"
+	SccProjectName="IanOutB3"
+	SccAuxPath=""
+	SccLocalPath=".."
+	SccProvider="MSSCCI:Jalindi Igloo"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -60,7 +64,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				RuntimeLibrary="4"
+				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
@@ -122,6 +126,18 @@
 				RelativePath=".\src\palette.cpp">
 			</File>
 			<File
+				RelativePath=".\sdl_zlib.cpp">
+			</File>
+			<File
+				RelativePath=".\src\sdlstretch\sdlstretch.c">
+			</File>
+			<File
+				RelativePath=".\src\sdlstretch\sdlstretch23.c">
+			</File>
+			<File
+				RelativePath=".\src\sdlstretch\sdlstretchcode.c">
+			</File>
+			<File
 				RelativePath=".\src\textfont.cpp">
 			</File>
 			<File
@@ -158,6 +174,15 @@
 			</File>
 			<File
 				RelativePath=".\palette.h">
+			</File>
+			<File
+				RelativePath=".\SDL_stretch.h">
+			</File>
+			<File
+				RelativePath=".\SDL_stretchcode.h">
+			</File>
+			<File
+				RelativePath=".\SDL_zlib.h">
 			</File>
 			<File
 				RelativePath=".\textfont.h">

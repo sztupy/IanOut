@@ -1,3 +1,5 @@
+#include "windows.h"
+
 #include "play.h"
 #include "../commonutils/mouse.h"
 #include "terep.h"
@@ -10,16 +12,14 @@ extern PFRMSingle ExitGrid[12];
 void play::EditTerep(void)
 {
     int                         x,y;
-	HRESULT                     hRet;
+	int                     hRet;
 	static int							Frame = 0;
-	static DWORD						ThisTick;
-	static DWORD						LastTick = 0;
+	static Uint32						ThisTick;
+	static Uint32						LastTick = 0;
 	static int							mousetyp = 0;
 	int									i,ix,iy;
 	bool								kintvan;
 	BlockType							BlDat;
-	DDBLTFX								ddbltfx;
-	RECT								rcRect;
 
 	for (x=0; x<512; x++)
 		for (y=0; y<512; y++)
@@ -28,23 +28,14 @@ void play::EditTerep(void)
 		}
 
 	if ((mousetyp>0) && (mousetyp<9)) mousetyp=0;
-	ThisTick = GetTickCount();
+	ThisTick = SDL_GetTicks();
 
-	if ((ThisTick - LastTick) > (DWORD)gameSpeed)
+	if ((ThisTick - LastTick) > (Uint32)gameSpeed)
         {
             LastTick = ThisTick;
         }
 
 // -------------------------------------------------------------------
-	olddims=dims;													//	
-	mouse::UpdateInputState();												//
-	if ((dims.lX == olddims.lX) && (dims.lY == olddims.lY)) Frame++; else Frame=0;
-	//if ((dims.rgbButtons[1] & 0x80) && !(olddims.rgbButtons[1] & 0x80)) 
-	//	 if (mousetyp==0) { mousetyp=9; } else { mousetyp=0; }
-																	//	
-	MousX += dims.lX;												//	
-	MousY += dims.lY;												//	
-																	//	
 	if ((MousX>=GetMaxX) && (MousY<=0)) {mousetyp = 2;} else    		//
 	if ((MousX>=GetMaxX) && (MousY>=GetMaxY)) {mousetyp = 4;} else  		//
 	if ((MousX<=0)   && (MousY<=0)) {mousetyp = 8;} else    		//
@@ -64,7 +55,7 @@ void play::EditTerep(void)
 	if (MousY>=GetMaxY) { MousY=GetMaxY; TerY-=12; }						//	
 	if (MousY<=0)   { MousY=0;   TerY+=12; }						//	
 
-	RECT TerepBound;
+	TRect TerepBound;
 	TerepBound.top = BoundRect.top;
 	TerepBound.left = BoundRect.left;
 	TerepBound.bottom = BoundRect.bottom+BoundRect.top;
@@ -130,24 +121,14 @@ void play::EditTerep(void)
 	
 	y = (MousX-TerX+4*(8+MousY-TerY))/64;
 	x = (MousX-TerX+8-16*y)/12;
+
+	int xx2 = x/4;
+	int yy2 = y/2-1;
 	
 	terep::DrawTerep(mousetyp,x,y);
 
-	ZeroMemory(&ddbltfx, sizeof(ddbltfx));
-    ddbltfx.dwSize = sizeof(ddbltfx);
-    ddbltfx.dwFillColor = 0;
-	
-	rcRect.top=GetMaxY-20;
-	rcRect.left=0;
-	rcRect.bottom=GetMaxY;
-	rcRect.right=GetMaxX;
-	g_pDDSBack->Blt(&rcRect, NULL, NULL, DDBLT_COLORFILL | DDBLT_WAIT, &ddbltfx);
-
-	rcRect.top=0;
-	rcRect.left=0;
-	rcRect.bottom=15;
-	rcRect.right=GetMaxX;
-	g_pDDSBack->Blt(&rcRect, NULL, NULL, DDBLT_COLORFILL | DDBLT_WAIT, &ddbltfx);
+	ClearRect(g_pDDSBack,0,GetMaxY-20,GetMaxX,GetMaxY,0);
+	ClearRect(g_pDDSBack,0,0,GetMaxX,15,0);
 
     FRMCollection::iterator iter;
     FRMCollection *point = NULL;
@@ -160,6 +141,7 @@ void play::EditTerep(void)
 	
 	switch (putmode)
 	{
+		case 0:textfont::IanOutText(0,GetMaxY-20,1,"ROOF");point=&MapInf->Tiles;break;
 		case 1:textfont::IanOutText(0,GetMaxY-20,1,"WALL");point=&StaticInf->TilesW;break;
 		case 2:textfont::IanOutText(0,GetMaxY-20,1,"SCEN");point=&StaticInf->TilesS;break;
 		case 3:textfont::IanOutText(0,GetMaxY-20,1,"BLCK");break;
@@ -189,7 +171,7 @@ void play::EditTerep(void)
 		 textfont::DisplayNum(GetMaxX-80,15+ix*12,Selected == iy ? 0 : 1,iy,5);
 		 iter++;ix++;
 	 }
-	 if (point->count(Selected) != 0) BlitTo(g_pDDSBack,0,0,(*point)[Selected]->FRM->x,(*point)[Selected]->FRM->y,GetMaxX-78,GetMaxY-20-(*point)[Selected]->FRM->y,DDBLTFAST_SRCCOLORKEY,(*point)[Selected]->FRM->FRM);
+	 if (point->count(Selected) != 0) BlitTo(g_pDDSBack,0,0,(*point)[Selected]->FRM->x,(*point)[Selected]->FRM->y,GetMaxX-78,GetMaxY-20-(*point)[Selected]->FRM->y,0,(*point)[Selected]->FRM->FRM);
 	}
 
 	if (pointP) {
@@ -216,7 +198,7 @@ void play::EditTerep(void)
 			else
 				frm = (*pointP)[Selected]->FRM->FRM;
 	
-			BlitTo(g_pDDSBack,0,0,frm->x,frm->y,GetMaxX-78,GetMaxY-20-frm->y,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+			BlitTo(g_pDDSBack,0,0,frm->x,frm->y,GetMaxX-78,GetMaxY-20-frm->y,0,frm->FRM);
 		}
 	}
 
@@ -242,7 +224,7 @@ void play::EditTerep(void)
 			PFRM frm;
 			frm = (*pointD)[Selected]->FRMA->GetCurFrame();
 	
-			BlitTo(g_pDDSBack,0,0,frm->x,frm->y,GetMaxX-78,GetMaxY-20-frm->y,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+			BlitTo(g_pDDSBack,0,0,frm->x,frm->y,GetMaxX-78,GetMaxY-20-frm->y,0,frm->FRM);
 		}
 	}
 
@@ -332,8 +314,13 @@ void play::EditTerep(void)
 	textfont::IanOutText(450,GetMaxY-20,mouse::MouseIn(450,GetMaxY-20,460,GetMaxY) ? 0 : 1,"-");
 	textfont::DisplayNum(390,GetMaxY-20,1,Selected,5);
 
-	textfont::DisplayNum(690,0,0,(((x/4)<128)&&((y/2)<256)&&((x/4)>=0)&&((y/2)>=0)) ? MapInf->Map[x/4][y/2+((x/4)%2)] : -99999,5);
-	textfont::IanOutText(640,0,0,"TILE");
+	if (putmode!=0) {
+		textfont::DisplayNum(690,0,0,(((x/4)<128)&&((y/2)<256)&&((x/4)>=0)&&((y/2)>=0)) ? MapInf->Map[x/4][y/2-1] : -99999,5);
+		textfont::IanOutText(640,0,show_roof ? 0 : 1,"TILE");
+	} else {
+		textfont::DisplayNum(690,0,0,(((x/4)<128)&&((y/2)<256)&&((x/4)>=0)&&((y/2)>=0)) ? MapInf->Map2[x/4][y/2-1] : -99999,5);
+		textfont::IanOutText(640,0,show_roof ? 0 : 1,"ROOF");
+	}
 
 //	textfont::DisplayNum(590,0,show_wall ? 0 : 1,((x<251)&&(y<201)&&(x>=0)&&(y>=0)) ? WallInf->Map[x][y] : -99999,5);
 	textfont::IanOutText(550,0,show_wall ? 0 : 1,"WALL");
@@ -350,6 +337,7 @@ void play::EditTerep(void)
 	
 	if (mouse::MInPr(550,0,640,15,0)) show_wall=!show_wall;
 	if (mouse::MInPr(450,0,549,15,0)) show_item=!show_item;
+	if (mouse::MInPr(641,0,800,15,0)) show_roof=!show_roof;
 	
 
 	if (mouse::MInPr(380,GetMaxY-20,390,GetMaxY,0)) Selected++;
@@ -357,7 +345,7 @@ void play::EditTerep(void)
 
 	if (mouse::MInPr(0,GetMaxY-20,40,GetMaxY,0))
 	{
-		(putmode<8) ? putmode++ : putmode=1;
+		(putmode<9) ? putmode++ : putmode=0;
 	}
 
 	if (mouse::MInPr(611,GetMaxY-20,640,GetMaxY,0)) dot_plane=!dot_plane;
@@ -368,10 +356,14 @@ void play::EditTerep(void)
 	
 	if (mouse::MouseIn(0,15,GetMaxX-80,GetMaxY-20))
 	{
-		if (mousetyp==0) BlitTo(g_pDDSBack,0,0,32,16,TerX+LocConvertX(x,y)*16,TerY+LocConvertY(x,y)*12,DDBLTFAST_SRCCOLORKEY,Select2->FRM->FRM);
+		if ((putmode!=4) && (putmode!=0)) {
+			if (mousetyp==0) BlitTo(g_pDDSBack,0,0,32,16,TerX+LocConvertX(x,y)*16,TerY+LocConvertY(x,y)*12,0,Select2->FRM->FRM);
+		} else {
+			if (mousetyp==0) BlitTo(g_pDDSBack,0,0,32,16,TerX+LocConvertX(x/4*4,y/2*2)*16,TerY+LocConvertY(x/4*4,y/2*2)*12,0,Select2->FRM->FRM);
+		}
 	} else
 	{
-	  if ((mousetyp<1) || (mousetyp>8)) BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,MousX,MousY,DDBLTFAST_SRCCOLORKEY,Mouse->FRM->FRM);
+	  if ((mousetyp<1) || (mousetyp>8)) BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,MousX,MousY,0,Mouse->FRM->FRM);
 	}
 
 	  if (mouse::MouseIn(0,16,GetMaxX-80,GetMaxY-20))
@@ -408,7 +400,27 @@ void play::EditTerep(void)
 					 StaticInf->Map.insert( Location_Pair (Loc->loc,Loc) );
 					 if (auto_block) BlockDat[x][y]=1;
 				 }
-			  if (putmode==4) if (MapInf->Tiles.count(Selected) != 0) MapInf->Map[x/4][y/2-1] = Selected;
+			  if (putmode==4) if (MapInf->Tiles.count(Selected) != 0)
+			  {
+			    for (int zzz=0; zzz<BrushSize;zzz++)
+				for (int zzz2=0; zzz2<BrushSize;zzz2++) {
+					int xx2 = x/4-BrushSize/2+zzz;
+					int yy2 = y/2-BrushSize/2+zzz2-1;
+					if ((xx2>=0) && (yy2>=0) && (xx2<128) && (yy2<256))
+						MapInf->Map[xx2][yy2] = Selected;
+				}
+			  }
+
+			  if (putmode==0) if (MapInf->Tiles.count(Selected) != 0)
+			  {
+			    for (int zzz=0; zzz<BrushSize;zzz++)
+				for (int zzz2=0; zzz2<BrushSize;zzz2++) {
+					int xx2 = x/4-BrushSize/2+zzz;
+					int yy2 = y/2-BrushSize/2+zzz2-1;
+					if ((xx2>=0) && (yy2>=0) && (xx2<128) && (yy2<256))
+						MapInf->Map2[xx2][yy2] = Selected;
+				}
+			  }
 
 			  if (putmode==5)
 			  if (StaticInf->TilesI.count(Selected) != 0)
@@ -436,10 +448,10 @@ void play::EditTerep(void)
 					 Loc->FRMA = new TFRMAnimCommunicator(StaticInf->TilesO[Selected]->FRMA);
 
 					 
-					wsprintf(buf,"OBJECTS_%i",Selected);
-					wsprintf(buf3,"%s",GetFile("\\proto\\objects.pro").c_str());
+					sprintf(buf,"OBJECTS_%i",Selected);
+					sprintf(buf3,"%s",GetFile("\\proto\\objects.pro").c_str());
 					GetPrivateProfileString("OBJECTS",buf,"",buf4,150,buf3);
-					wsprintf(buf,"\\data\\objects\\%s",buf4);
+					sprintf(buf,"\\data\\objects\\%s",buf4);
 
 					Loc->ItemDesc = new TItemDesc();
 					Loc->ItemDesc->Inven = new TInventory();
@@ -519,9 +531,10 @@ void play::EditTerep(void)
 				  }
 			  }
 			  if (putmode==4) Selected = MapInf->Map[x/4][y/2-1];
+			  if (putmode==0) Selected = MapInf->Map2[x/4][y/2-1];
 		  }
 		  
-		  if ((dims.rgbButtons[1] & 0x80))
+		  if ((dims.buttons[1]))
 		  {
 			  if ((putmode==1) || (putmode==2) || (putmode>4)) 
 			  {
@@ -551,6 +564,7 @@ void play::EditTerep(void)
 			  }
 			  if ((putmode==3) || (auto_block)) BlockDat[x][y] = 0;
 			  if (putmode==4) MapInf->Map[x/4][y/2-1] = 0;
+			  if (putmode==0) MapInf->Map2[x/4][y/2-1] = 0;
 			  
 		  }
 	  }
@@ -566,22 +580,22 @@ void play::EditTerep(void)
 		x = MouseScr[mousetyp-1][i]->FRM->x;
 		y = MouseScr[mousetyp-1][i]->FRM->y;
 		if ((mousetyp==1) || (mousetyp>6))
-		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==2)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==3)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==4)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY-y,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY-y,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==5)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY-y,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY-y,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==6)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY-y,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY-y,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 
 	}
@@ -590,19 +604,6 @@ void play::EditTerep(void)
 	textutil::DisplayFrameRate();
 
 	// Flip the surfaces
-    while (TRUE)
-    {
-        hRet = g_pDDSPrimary->Flip(NULL, 0);
-        if  (hRet == DD_OK)
-            break;
-        if (hRet == DDERR_SURFACELOST)
-        {
-            hRet = RestoreAll();
-            if (hRet != DD_OK)
-                break;
-        }
-        if (hRet != DDERR_WASSTILLDRAWING)
-            break;
-    }
+    SDL_Flip(g_pDDSBack);
 	
 }

@@ -1,13 +1,14 @@
 #include "normit.h"
 #include "math.h"
 #include "../commonutils/palette.h"
+#include "load.h"
 
 namespace play {
 	int							NumChState = 0;
 
 	int							Frame = 0;
-	DWORD						ThisTick;
-	DWORD						LastTick = 0;
+	Uint32						ThisTick;
+	Uint32						LastTick = 0;
 	int							mousetyp = 0;
 	int							menet = 0;
 	int							secondinc = 0;
@@ -72,7 +73,7 @@ void play::CountVisible(void)
 void play::NormalPlay(void)
 {
 	int									x,y;
-	HRESULT								hRet;
+	int								hRet;
 	int									i;
 	bool								kintvan;
 	PItem								TheItem;
@@ -83,7 +84,7 @@ void play::NormalPlay(void)
 	if (textutil::page<0) textutil::page=0;
 	if (textutil::page>44) textutil::page=44;
 
-	wsprintf(FullScreen->fname,"");
+	sprintf(FullScreen->fname,"");
 
 	for (x=0; x<512; x++)
 		for (y=0; y<512; y++)
@@ -100,13 +101,14 @@ void play::NormalPlay(void)
 		iter2++;
 	}
 	IanOs::BigBlock = &BlockDat;
+	IanOs::Block = &BlDat;
 
 	if ((mousetyp>0) && (mousetyp<9)) mousetyp=0;
-	ThisTick = GetTickCount();
+	ThisTick = SDL_GetTicks();
 
 	bool changestate = false;
 
-	if ((ThisTick - LastTick) > (DWORD)gameSpeed)
+	if ((ThisTick - LastTick) > (Uint32)gameSpeed)
 	{
 		changestate = true;
 		NumChState++;
@@ -114,21 +116,19 @@ void play::NormalPlay(void)
 		OnNextFr();
 	}
 
-	if (CritterInf->Critters.find(0)==CritterInf->Critters.end()) { InitFail(hWnd,DD_OK,"GAME OVER");return; }
+	if (CritterInf->Critters.find(0)==CritterInf->Critters.end()) { InitFail(0,"GAME OVER");return; }
 	Ian = CritterInf->Critters.find(0)->second;
 	if (mousetyp==22) DrawOutline = true; else DrawOutline=false;
 	if (DrawOutline) CountVisible();
 
 // -------------------------------------------------------------------
-	olddims=dims;													//
-	mouse::UpdateInputState();										//
-	if ((dims.lX == olddims.lX) && (dims.lY == olddims.lY)) Frame++; else Frame=0;
+	if ((dims.x == olddims.x) && (dims.y == olddims.y)) Frame++; else Frame=0;
 																	//
 	if ((mousetyp<10) || (mousetyp>=20)) {							//
-		MousX += dims.lX;											//
-		MousY += dims.lY;											//
+		MousX += dims.lX;dims.lX = 0;								//
+		MousY += dims.lY;dims.lY = 0;								//
 	} else {														//
-		menet -= dims.lY;											//
+		menet -= dims.lY;//dims.lY = 0;								//
 		mousetyp = 10+menet/10;										//
 		if (mousetyp>=20) mousetyp=19;								//
 		if (mousetyp<10) mousetyp=10;								//
@@ -168,49 +168,49 @@ void play::NormalPlay(void)
 			b = true;
 			iy = (-TerX+4*(8-TerY))/64;
 			ix = (-TerX+8-16*iy)/12;
-			if (iy<TerepBound.top) { TerY-=12; b = false; }
+			if (iy<TerepBound.y) { TerY-=12; b = false; }
 			if (b) break;
 		} 
 		while (true) {
 			b = true;
 			iy = (-TerX+4*(8+GetMaxY-100-TerY))/64;
 			ix = (-TerX+8-16*iy)/12;
-			if (ix<TerepBound.left) { TerX-=16; b = false; }
+			if (ix<TerepBound.x) { TerX-=16; b = false; }
 			if (b) break;
 		} 
 		while (true) {
 			b = true;
 			iy = (GetMaxX-TerX+4*(8-TerY))/64;
 			ix = (GetMaxX-TerX+8-16*iy)/12;
-			if (ix>TerepBound.left+TerepBound.right) { TerX+=16; b = false; }
+			if (ix>TerepBound.x+TerepBound.w) { TerX+=16; b = false; }
 			if (b) break;
 		} 
 		while (true) {
 			b = true;
 			iy = (GetMaxX-TerX+4*(8+GetMaxY-100-TerY))/64;
 			ix = (GetMaxX-TerX+8-16*iy)/12;
-			if (iy>TerepBound.top+TerepBound.bottom) { TerY+=12; b = false; }
+			if (iy>TerepBound.y+TerepBound.h) { TerY+=12; b = false; }
 			if (b) break;
 		} 
 	}
 	if (!TerepBoundType) {
-		int ix = TerepBound.left;
-		int iy = TerepBound.top;
+		int ix = TerepBound.x;
+		int iy = TerepBound.y;
 		if (TerX > -LocConvertX(ix-iy-iy/3,iy+ix/4)*16) {
 			TerX = -LocConvertX(ix-iy-iy/3,iy+ix/4)*16;
 		}
-		ix = TerepBound.left+TerepBound.right;
-		iy = TerepBound.top;
+		ix = TerepBound.x+TerepBound.w;
+		iy = TerepBound.y;
 		if (TerX < GetMaxX-LocConvertX(ix-iy-iy/3,iy+ix/4)*16) {
 			TerX = GetMaxX-LocConvertX(ix-iy-iy/3,iy+ix/4)*16;
 		}
-		ix = TerepBound.left;
-		iy = TerepBound.top;
+		ix = TerepBound.x;
+		iy = TerepBound.y;
 		if (TerY > -LocConvertY(ix-iy-iy/3,iy+ix/4)*12) {
 			TerY = -LocConvertY(ix-iy-iy/3,iy+ix/4)*12;
 		}
-		ix = TerepBound.left;
-		iy = TerepBound.top+TerepBound.bottom;
+		ix = TerepBound.x;
+		iy = TerepBound.y+TerepBound.h;
 		if (TerY < GetMaxY-100-LocConvertY(ix-iy-iy/3,iy+ix/4)*12) {
 			TerY = GetMaxY-100-LocConvertY(ix-iy-iy/3,iy+ix/4)*12;
 		}
@@ -219,7 +219,7 @@ void play::NormalPlay(void)
 																	//
 // -------------------------------------------------------------------
 
-	if ((InGamePos == 0 ) && ((dims.rgbButtons[1] & 0x80) && !(olddims.rgbButtons[1] & 0x80)) )
+	if ((InGamePos == 0 ) && ((dims.buttons[1]) && !(olddims.buttons[1])) )
 	if (TurnBasedMode) {
 		if (mousetyp==0) { mousetyp=9; } else
 		if (mousetyp==9) {
@@ -257,13 +257,11 @@ void play::NormalPlay(void)
 
 	unsigned int CurPosition = CompLoc(x,y);
 
-	if ((lstrcmpi(TempAnim[0]->fname,"\\art\\intrface\\endanim.frm")))
+	if ((strcmp(TempAnim[0]->fname,"\\art\\intrface\\endanim.frm")))
 	{
-    	LoadFRMAnim(&TempAnim[0],hWnd,"\\art\\intrface\\endanim.frm");
+    	LoadFRMAnim(&TempAnim[0],"\\art\\intrface\\endanim.frm");
 		TempAnim[0]->FirstFrame();
 	}
-
-	
 	//CritterInf->Critters.find(0)->second->LookAt(x,y);
 
 	terep::DrawTerep(mousetyp,x,y);
@@ -301,8 +299,8 @@ void play::NormalPlay(void)
 			}
 		}
 		if (bdown == 2) {
-			Ian->ChangeHand(hWnd,g_pDD);
-			Ian->LoadPlayer(hWnd,g_pDD,true);
+			Ian->ChangeHand();
+			Ian->LoadPlayer(true);
 		}
 		if (bdown == 50) {
 			CountVisible();
@@ -379,7 +377,7 @@ void play::NormalPlay(void)
 		if (mouse::MouseIn(0,0,GetMaxX,GetMaxY-99))
 		{
 			if (AllowUserInteract)
-			if (mousetyp==0) BlitTo(g_pDDSBack,0,0,32,16,TerX+LocConvertX(x,y)*16,TerY+LocConvertY(x,y)*12,DDBLTFAST_SRCCOLORKEY,Select2->FRM->FRM);
+			if (mousetyp==0) BlitTo(g_pDDSBack,0,0,32,16,TerX+LocConvertX(x,y)*16,TerY+LocConvertY(x,y)*12,0,Select2->FRM->FRM);
 			if ((x>=0) && (y>=0) && (x<512) && ( y<512))
 			if ((mousetyp==0) && (BlDat[x][y] != 0) && (Frame>40) && !((x==Ian->x) && (y==Ian->y))) textfont::IanOutTextC(TerX+(x+y)*16+16,TerY+y*12,0,"X");
 			BlitTo(g_pDDSBack, 0,0,640,99,addx,GetMaxY-99,0,KezeloP->FRM->FRM);
@@ -390,23 +388,23 @@ void play::NormalPlay(void)
 				if ((!TurnBasedMode) && (!TempAnim[0]->GetFirstFrame())) TempAnim[0]->PrevFrame();
 			}
 			PFRM frm = TempAnim[0]->GetCurFrame();
-			BlitTo(g_pDDSBack,0,0,frm->x,frm->y,addx+580,GetMaxY-99+38,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+			BlitTo(g_pDDSBack,0,0,frm->x,frm->y,addx+580,GetMaxY-99+38,0,frm->FRM);
 
 			ButtonList->DrawButtons(g_pDDSBack,MousX,MousY,mouse::Pressed(6) || mouse::Pressed(7));
 			DrawIanCucc(mouse::MouseIn(addx+266,GetMaxY-99+27,addx+266+188,GetMaxY-99+27+67) && (mouse::Pressed(6) || mouse::Pressed(7)));
 			if ((TurnBasedMode) && (CurrentPlayer == Ian))
 			for (int i=0; i<Ian->PlayerSkill.secondary[1]; i++) {
-				BlitTo(g_pDDSBack,0,0,5,5,addx+315+i*9,GetMaxY-99+14,DDBLTFAST_SRCCOLORKEY,Buttons[23][0]->FRM->FRM);
+				BlitTo(g_pDDSBack,0,0,5,5,addx+315+i*9,GetMaxY-99+14,0,Buttons[23][0]->FRM->FRM);
 			}
 			if (AllowUserInteract)
-			if ((mousetyp>=9) && (mousetyp<=20)) BlitTo(g_pDDSBack,0,0,Mouse2->FRM->x,Mouse2->FRM->y,MousX,MousY,DDBLTFAST_SRCCOLORKEY,Mouse2->FRM->FRM);
+			if ((mousetyp>=9) && (mousetyp<=20)) BlitTo(g_pDDSBack,0,0,Mouse2->FRM->x,Mouse2->FRM->y,MousX,MousY,0,Mouse2->FRM->FRM);
 			if (AllowUserInteract)
 			if (mousetyp==21) {
-				BlitTo(g_pDDSBack,0,0,21,21,MousX-10,MousY-10,DDBLTFAST_SRCCOLORKEY,Buttons[24][0]->FRM->FRM);
+				BlitTo(g_pDDSBack,0,0,21,21,MousX-10,MousY-10,0,Buttons[24][0]->FRM->FRM);
 			}
 			if (AllowUserInteract)
 			if (mousetyp==22) {
-				BlitTo(g_pDDSBack,0,0,21,21,MousX-10,MousY-10,DDBLTFAST_SRCCOLORKEY,Buttons[24][1]->FRM->FRM);
+				BlitTo(g_pDDSBack,0,0,21,21,MousX-10,MousY-10,0,Buttons[24][1]->FRM->FRM);
 			}
 		} else
 		{
@@ -418,7 +416,7 @@ void play::NormalPlay(void)
 				if ((!TurnBasedMode) && (!TempAnim[0]->GetFirstFrame())) TempAnim[0]->PrevFrame();
 			}
 			PFRM frm = TempAnim[0]->GetCurFrame();
-			BlitTo(g_pDDSBack,0,0,frm->x,frm->y,addx+580,GetMaxY-99+38,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+			BlitTo(g_pDDSBack,0,0,frm->x,frm->y,addx+580,GetMaxY-99+38,0,frm->FRM);
 
 			ButtonList->DrawButtons(g_pDDSBack,MousX,MousY,mouse::Pressed(6) || mouse::Pressed(7));
 
@@ -426,24 +424,24 @@ void play::NormalPlay(void)
 
 			if ((TurnBasedMode) && (CurrentPlayer == Ian))
 			for (int i=0; i<Ian->PlayerSkill.secondary[1]; i++) {
-				BlitTo(g_pDDSBack,0,0,5,5,addx+315+i*9,GetMaxY-99+14,DDBLTFAST_SRCCOLORKEY,Buttons[23][0]->FRM->FRM);
+				BlitTo(g_pDDSBack,0,0,5,5,addx+315+i*9,GetMaxY-99+14,0,Buttons[23][0]->FRM->FRM);
 			}
 			if (AllowUserInteract)
 			if (mouse::MouseIn(addx+20,GetMaxY-99+20,addx+190,GetMaxY-99+50)) {
-				BlitTo(g_pDDSBack,0,0,Arrows[0]->FRM->x, Arrows[0]->FRM->y,MousX,MousY,DDBLTFAST_SRCCOLORKEY,Arrows[0]->FRM->FRM);
+				BlitTo(g_pDDSBack,0,0,Arrows[0]->FRM->x, Arrows[0]->FRM->y,MousX,MousY,0,Arrows[0]->FRM->FRM);
 				if (mouse::Pressed(0)) {
 					textutil::page++;
 					if (textutil::page>44) textutil::page=44;
 				}
 			} else
 			if (mouse::MouseIn(addx+20,GetMaxY-99+50,addx+190,GetMaxY-99+80)) {
-				BlitTo(g_pDDSBack,0,0,Arrows[1]->FRM->x, Arrows[1]->FRM->y,MousX,MousY,DDBLTFAST_SRCCOLORKEY,Arrows[1]->FRM->FRM);
+				BlitTo(g_pDDSBack,0,0,Arrows[1]->FRM->x, Arrows[1]->FRM->y,MousX,MousY,0,Arrows[1]->FRM->FRM);
 				if (mouse::Pressed(0)) {
 					textutil::page--;
 					if (textutil::page<0) textutil::page=0;
 				}
 			} else 
-			if ((mousetyp<1) || (mousetyp>8)) BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,MousX,MousY,DDBLTFAST_SRCCOLORKEY,Mouse->FRM->FRM);
+			if ((mousetyp<1) || (mousetyp>8)) BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,MousX,MousY,0,Mouse->FRM->FRM);
 		}
 		
 	}
@@ -465,7 +463,7 @@ void play::NormalPlay(void)
 	if (!AllowUserInteract) {
 		if ((changestate) && (NumChState%2==0)) WaitMouse->NextFrame();
 		PFRM frm = WaitMouse->GetCurFrame();
-		BlitTo(g_pDDSBack,0,0,frm->x,frm->y,MousX+frm->bx,MousY+frm->by,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+		BlitTo(g_pDDSBack,0,0,frm->x,frm->y,MousX+frm->bx,MousY+frm->by,0,frm->FRM);
 	}
 
 	//if (AllowUserInteract)
@@ -475,22 +473,22 @@ void play::NormalPlay(void)
 		x = MouseScr[mousetyp-1][i]->FRM->x;
 		y = MouseScr[mousetyp-1][i]->FRM->y;
 		if ((mousetyp==1) || (mousetyp>6))
-		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==2)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==3)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==4)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY-y,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX-x,MousY-y,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==5)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY-y,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY-y,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 		if (mousetyp==6)
-		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY-y,DDBLTFAST_SRCCOLORKEY,
+		BlitTo(g_pDDSBack,0,0,x,y,MousX,MousY-y,0,
 							  MouseScr[mousetyp-1][i]->FRM->FRM);
 	}
 
@@ -520,6 +518,7 @@ void play::NormalPlay(void)
 
 	if (StepOnExit) {
 		if (StepType) {
+			LoadMusic("\\23world");
 			TerX = -TravelMapX+GetMaxX/2;
 			TerY = -TravelMapY+GetMaxY/2;
 			GamePos = 6;
@@ -535,12 +534,12 @@ void play::NormalPlay(void)
 
 	if (AllowUserInteract)
 	if ((InGamePos == 0) && ((!TurnBasedMode) || (CurrentPlayer == Ian))) {
-		if (mouse::MouseIn(0,0,GetMaxX,GetMaxY-101) && (mousetyp>9) && (mousetyp<21) && !(dims.rgbButtons[0] & 0x80)) 
+		if (mouse::MouseIn(0,0,GetMaxX,GetMaxY-101) && (mousetyp>9) && (mousetyp<21) && !(dims.buttons[0])) 
 		{
 			menet = mousetyp-10;
 			mousetyp = 9;
 		}
-		if (mouse::MouseIn(0,0,GetMaxX,GetMaxY-101) && (mousetyp==0) && (dims.rgbButtons[0] & 0x80) && !(olddims.rgbButtons[0] & 0x80))
+		if (mouse::MouseIn(0,0,GetMaxX,GetMaxY-101) && (mousetyp==0) && (dims.buttons[0]) && !(olddims.buttons[0]))
 		if ((Ian->cx == x) && (Ian->cy == y) &&
 		((Ian->curth == 1) || (Ian->curth == 2)))
 		{
@@ -559,19 +558,6 @@ void play::NormalPlay(void)
 		}
 	}
     // Flip the surfaces
-    while (true)
-    {
-        hRet = g_pDDSPrimary->Flip(NULL, 0);
-        if  (hRet == DD_OK)
-            break;
-        if (hRet == DDERR_SURFACELOST)
-        {
-            hRet = RestoreAll();
-            if (hRet != DD_OK)
-                break;
-        }
-        if (hRet != DDERR_WASSTILLDRAWING)
-            break;
-    }
+    SDL_Flip(g_pDDSBack);
 	
 }

@@ -38,8 +38,8 @@ public:
 	void NextMode() { Current = WepMode->RNext(Current); };
 
 	void Load(unsigned int itemnum,FRMPairCollection &TilesI/*const char* filename*/);
-	HRESULT DrawOut(LPDIRECTDRAWSURFACE7 Back,int x, int y);
-	HRESULT DrawOutSmall(LPDIRECTDRAWSURFACE7 Back,int x, int y,int maxx);
+	int DrawOut(SDL_Surface* Back,int x, int y);
+	int DrawOutSmall(SDL_Surface* Back,int x, int y,int maxx);
 
 	bool HasGraphic;
 	std::string deflocation;

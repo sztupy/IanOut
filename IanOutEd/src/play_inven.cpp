@@ -14,12 +14,12 @@ namespace play {
 
 void play::EditInventory(void)
 {
-    HRESULT                     hRet;
+    int                     hRet;
 	//DDBLTFX                     ddbltfx;
 	
 	static int					Frame = -25;
-	static DWORD				ThisTick;
-	static DWORD				LastTick = 0;
+	static Uint32				ThisTick;
+	static Uint32				LastTick = 0;
 	static int					addnumber;
 
 	
@@ -27,12 +27,12 @@ void play::EditInventory(void)
 	
 	static int					InvenNumber = 0;
 	
-	if ((lstrcmpi(FullScreen->fname,"\\art\\intrface\\loot.frm")))
+	if ((strcmp(FullScreen->fname,"\\art\\intrface\\loot.frm")))
 	{
-    	LoadFRMSingle(&FullScreen,hWnd,"\\art\\intrface\\loot.frm",1);
+    	LoadFRMSingle(&FullScreen,"\\art\\intrface\\loot.frm",1);
 	}
 
-	ThisTick = GetTickCount();
+	ThisTick = SDL_GetTicks();
 
 	if ((ThisTick - LastTick) > 0)
         {
@@ -41,12 +41,6 @@ void play::EditInventory(void)
             Frame+=3;
 			
         }
-
-	olddims = dims;
-	mouse::UpdateInputState();
-
-	MousX += dims.lX;
-	MousY += dims.lY;
 
 	if (MousX>=GetMaxX) { MousX=GetMaxX;}
 	if (MousX<=0)   { MousX=0;  }
@@ -58,7 +52,7 @@ void play::EditInventory(void)
 	BlitTo(g_pDDSBack,0,0,FullScreen->FRM->x,FullScreen->FRM->y,
 						addx+51,
 						addy+4,
-						DDBLTFAST_SRCCOLORKEY,FullScreen->FRM->FRM);
+						0,FullScreen->FRM->FRM);
 	
 	static int page1;
 	static int page2;
@@ -74,14 +68,14 @@ void play::EditInventory(void)
 			PFRM frm = ((PInventoryItem)Item)->FRMA->GetCurFrame();
 			if ((frm->x>50) || (frm->y>50)) {
 				double d = ((double)frm->y/(double)frm->x*50);
-				BlitToStretch(g_pDDSBack,0,0,frm->x,frm->y,addx+230,addy+8+70+i*55-d/2,addx+230+50,addy+8+70+i*55+d/2,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+				BlitToStretch(g_pDDSBack,0,0,frm->x,frm->y,addx+230,addy+8+70+i*55-d/2,addx+230+50,addy+8+70+i*55+d/2,0,frm->FRM);
 			} else {
-				BlitTo(g_pDDSBack,0,0,frm->x,frm->y,addx+230,addy+8+45+i*55,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+				BlitTo(g_pDDSBack,0,0,frm->x,frm->y,addx+230,addy+8+45+i*55,0,frm->FRM);
 			}
 			int count = ((PInventoryItem)Item)->count;
 			if (count!=1) {
 				char buf[20];
-				wsprintf(buf,"x%i",count);
+				sprintf(buf,"x%i",count);
 				textfont::IanOutTextR(addx+280,addy+95+i*55,0,buf);
 			}
 			if (mouse::MInPr(addx+230,addy+8+45+i*55,addx+230+50,addy+8+95+i*55,0)) {
@@ -103,9 +97,9 @@ void play::EditInventory(void)
 			PFRM frm = Item2->second->FRMA->GetCurFrame();
 			if ((frm->x>50) || (frm->y>50)) {
 				double d = ((double)frm->y/(double)frm->x*50);
-				BlitToStretch(g_pDDSBack,0,0,frm->x,frm->y,addx+350,addy+8+70+i*55-d/2,addx+400,addy+8+70+i*55+d/2,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+				BlitToStretch(g_pDDSBack,0,0,frm->x,frm->y,addx+350,addy+8+70+i*55-d/2,addx+400,addy+8+70+i*55+d/2,0,frm->FRM);
 			} else {
-				BlitTo(g_pDDSBack,0,0,frm->x,frm->y,addx+350,addy+8+45+i*55,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+				BlitTo(g_pDDSBack,0,0,frm->x,frm->y,addx+350,addy+8+45+i*55,0,frm->FRM);
 			}
 
 			if (mouse::MInPr(addx+350,addy+8+45+i*55,addx+400,addy+8+95+i*55,0)) {
@@ -154,23 +148,10 @@ void play::EditInventory(void)
 	if (page2<0) page2=0;
 	
 
-	BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,MousX,MousY,DDBLTFAST_SRCCOLORKEY,Mouse->FRM->FRM);
+	BlitTo(g_pDDSBack,0,0,Mouse->FRM->x, Mouse->FRM->y,MousX,MousY,0,Mouse->FRM->FRM);
 	
     // Flip the surfaces
-    while (TRUE)
-    {
-        hRet = g_pDDSPrimary->Flip(NULL, 0);
-        if (hRet == DD_OK)
-            break;
-        if (hRet == DDERR_SURFACELOST)
-        {
-            hRet = RestoreAll();
-            if (hRet != DD_OK)
-                break;
-        }
-        if (hRet != DDERR_WASSTILLDRAWING)
-            break;
-    }
+    SDL_Flip(g_pDDSBack);
 	
 	
 }

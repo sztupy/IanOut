@@ -4,9 +4,12 @@
 #include "../commonutils/mouse.h"
 #include "../commonutils/date.h"
 
+bool oldneedredraw = false;
+bool needredraw = false;
+
 void terep::DrawTerep(int mousetyp,int x,int y)
 {
-	//HRESULT hRet;
+	//int hRet;
 
 	int iy,ix;
 
@@ -16,7 +19,6 @@ void terep::DrawTerep(int mousetyp,int x,int y)
 	ClearSurface(FullScreen2->FRM->FRM,0,0,0);
 	ClearSurface(g_pDDSBack,0,0,0);
 	
-		
 	int bx,by;
 
 	int IanX = CritterInf->Critters.find(0)->second->x;
@@ -50,7 +52,7 @@ void terep::DrawTerep(int mousetyp,int x,int y)
 			if ((i!=0) && (MapInf->Tiles.count(i) !=0)) {
 				PFRM frm;
 				frm = MapInf->Tiles[i]->FRM;
-				BlitTo(g_pDDSBack2,0,0,frm->x,frm->y,frm->bx+TerX+ix*48+iy*32+7,frm->by+TerY-ix*12+iy*24+3,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+				BlitTo(g_pDDSBack2,0,0,frm->x,frm->y,frm->bx+TerX+ix*48+iy*32+7,frm->by+TerY-ix*12+iy*24+3,0,frm->FRM);
 			}
 		}
 		OTerX = TerX;
@@ -63,13 +65,13 @@ void terep::DrawTerep(int mousetyp,int x,int y)
 		bx = TerX+LocConvertX(IanX,IanY)*16-100;
 		by = TerY+LocConvertY(IanX,IanY)*12-45;
 
-		BlitToMask(FullScreen2->FRM->FRM,bx,by,bx+197,by+95,0,0,0,g_pDDSBack2,MaskBMP2);
-		BlitToAlt(g_pDDSBack,0,0,197,95,TerX+LocConvertX(IanX,IanY)*16-100,TerY+LocConvertY(IanX,IanY)*12-45,DDBLTFAST_SRCCOLORKEY,FullScreen2->FRM->FRM,(coloring+3<9 ? coloring+3 : 9));
+//		BlitToMask(FullScreen2->FRM->FRM,bx,by,bx+197,by+95,0,0,0,g_pDDSBack2,MaskBMP2);
+		//BlitToAlt(g_pDDSBack,0,0,197,95,TerX+LocConvertX(IanX,IanY)*16-100,TerY+LocConvertY(IanX,IanY)*12-45,0,FullScreen2->FRM->FRM,(coloring+3<9 ? coloring+3 : 9));
 	}
 	else BlitTo(g_pDDSBack,0,0,GetMaxX,GetMaxY,0,0,0,g_pDDSBack2);
 
 	if ((mousetyp==0) && (mouse::MouseIn(0,0,GetMaxX,GetMaxY-100)))	{
-		BlitTo(g_pDDSBack,0,0,32,16,TerX+LocConvertX(x,y)*16,TerY+LocConvertY(x,y)*12,DDBLTFAST_SRCCOLORKEY,Select->FRM->FRM);
+		BlitTo(g_pDDSBack,0,0,32,16,TerX+LocConvertX(x,y)*16,TerY+LocConvertY(x,y)*12,0,Select->FRM->FRM);
 	}
 
 	int VisXB = -1;//(-TerX)/16+TerY/12-50; 
@@ -87,7 +89,6 @@ void terep::DrawTerep(int mousetyp,int x,int y)
 	if (VisYB>=512) VisYB=512;
 	if (VisYE>=512) VisYE=512;
 
-	 
 	int numberitems = 0;
 	FRMLocationMap::reverse_iterator iter;
 	if (!StaticInf->Map.empty()) 
@@ -123,12 +124,17 @@ void terep::DrawTerep(int mousetyp,int x,int y)
 				iter2++;
 			}
 		 }
-		 
 
+		if (graphoptions[2] && !graphoptions[3]) {
+			int alph = 255;
+			xXx = IanCritter->Distance(ix,iy);
+			if (xXx<6) alph = 250/8*(xXx+2);
+			BlitToAlpha(g_pDDSBack,0,0,frm->x,frm->y,TerX+LocConvertX(ix,iy)*16+frm->bx,TerY+LocConvertY(ix,iy)*12+frm->by,0,frm->FRM,alph);
+		} else
 		if (color>8) {
-			BlitTo(g_pDDSBack,0,0,frm->x,frm->y,TerX+LocConvertX(ix,iy)*16+frm->bx,TerY+LocConvertY(ix,iy)*12+frm->by,DDBLTFAST_SRCCOLORKEY,frm->FRM);
+			BlitToAlpha(g_pDDSBack,0,0,frm->x,frm->y,TerX+LocConvertX(ix,iy)*16+frm->bx,TerY+LocConvertY(ix,iy)*12+frm->by,0,frm->FRM,graphoptions[3] ? 128 : 255);
 		} else {
-			BlitToAlt(g_pDDSBack,0,0,frm->x,frm->y,TerX+LocConvertX(ix,iy)*16+frm->bx,TerY+LocConvertY(ix,iy)*12+frm->by,DDBLTFAST_SRCCOLORKEY,frm->FRM,color);
+			BlitToAlt(g_pDDSBack,0,0,frm->x,frm->y,TerX+LocConvertX(ix,iy)*16+frm->bx,TerY+LocConvertY(ix,iy)*12+frm->by,0,frm->FRM,color);
 		}
 	}
 
@@ -179,7 +185,22 @@ void terep::DrawTerep(int mousetyp,int x,int y)
 	iter2++;
 	}
 
-	//BlitToRo(g_pDDSBack,0,0,Select->FRM->x,Select->FRM->y,635,475,0,Select->FRM->FRM,52);
+	if ((MapInf->Map2[IanCritter->x/4][IanCritter->y/2] == 0) || graphoptions[1]) {
+	
+		for (ix=0;ix<128;ix++)
+		for (iy=1;iy<129;iy++)
+		{
+			int i = MapInf->Map2[ix][iy-1];
+			if ((i!=0) && (MapInf->Tiles.count(i) != 0)) {
+				PFRM frm;
+				frm = MapInf->Tiles[i]->FRM;
+				BlitToAlpha(g_pDDSBack,0,0,frm->x,frm->y,frm->bx+TerX+ix*48+iy*32+7,frm->by+TerY-ix*12+iy*24+3-98,0,frm->FRM,graphoptions[0] ? 128 : 255);
+			}
+		}
+	
+	}
+
+	BlitToRo(g_pDDSBack,0,0,Select->FRM->x,Select->FRM->y,635,475,0,Select->FRM->FRM,52);
 	textfont::DisplayNum(0,20,0,numberitems,4);
 
 }

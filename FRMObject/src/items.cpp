@@ -7,17 +7,19 @@
 #include "../commonutils/utils.h"
 #include "math.h"
 
+#include "windows.h"
+
 // --- TIanMap ---
 //
 // ---------------
 
-PFRMAnim6 LoadAnim(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filename);
+PFRMAnim6 LoadAnim(const char* filename);
 
 PFRMSingle ExitGrid[12];
 
-HRESULT LoadExitGrid(HWND hWnd, LPDIRECTDRAW7 g_pDD)
+int LoadExitGrid()
 {
-	HRESULT hRet = DD_OK;
+	int hRet = 0;
 	char buf[50];
 	for (int i=0; i<12; i++) {
 		if (i<4) {
@@ -28,25 +30,27 @@ HRESULT LoadExitGrid(HWND hWnd, LPDIRECTDRAW7 g_pDD)
 			sprintf(buf,"\\art\\misc\\ext3grd%i.frm",(i-7)*2);
 		}
 		ExitGrid[i] = new TFRMSingle();
-		hRet = ExitGrid[i]->Load(hWnd,g_pDD,buf,1);
-		if (hRet != DD_OK) return hRet;
+		hRet = ExitGrid[i]->Load(buf,1);
+		if (hRet != 0) return hRet;
 	}
-	return DD_OK;
+	return 0;
 }
 
-HRESULT DeleteExitGrid()
+int DeleteExitGrid()
 {
+	AddToLog(4,"Done> Freeing exit grid artwork");
 	for (int i=0; i<12; i++) if (ExitGrid[i]) { delete ExitGrid[i]; ExitGrid[i] = NULL; }
-	return DD_OK;
+	return 0;
 }
 
-HRESULT TIanMap::LoadMap(HWND hWnd,const char* filename)
+int TIanMap::LoadMap(const char* filename)
 {
+	AddToLog(3,"Load> Loading tiles layout data");
 	int x,y;
 	gzFile stream;
 
 	if ((stream = __IOopen(filename,"rb")) == NULL)
-		return InitFail(hWnd,DDERR_NOTLOADED,"LoadMap FAILED - TilesMAP");
+		return InitFail(0,"LoadMap FAILED - TilesMAP");
 
 	for (x=0; x<128; x++)
 		for (y=0; y<256; y++)
@@ -59,14 +63,14 @@ HRESULT TIanMap::LoadMap(HWND hWnd,const char* filename)
 			gzread(stream,&Map2[x][y],2);
 		}
 	gzclose(stream);
-	return DD_OK;
+	return 0;
 }
 
-HRESULT TIanMap::LoadTiles(HWND hWnd, LPDIRECTDRAW7 g_pDD)
+int TIanMap::LoadTiles()
 {
-
+	AddToLog(3,"Load> Loading Tiles Artwork (begin)");
 	int x,y,z;
-	HRESULT hRet;
+	int hRet;
 	int numb;
 	char buf[150],buf2[150],buf3[150],buf4[150];
 
@@ -78,7 +82,7 @@ HRESULT TIanMap::LoadTiles(HWND hWnd, LPDIRECTDRAW7 g_pDD)
 	}
 	Tiles.clear();
 	
-	hRet= DD_OK;
+	hRet= 0;
 	
 	for (x=0; x<128; x++)
 		for (y=0; y<256; y++)
@@ -90,20 +94,22 @@ HRESULT TIanMap::LoadTiles(HWND hWnd, LPDIRECTDRAW7 g_pDD)
 			if (numb!=0)
 			if (Tiles.count(numb) ==0)
 			{
-				wsprintf(buf,"TILES_%i",numb);
-				wsprintf(buf3,"%s",GetFile("\\proto\\tiles.pro").c_str());
+				sprintf(buf,"TILES_%i",numb);
+				sprintf(buf3,"%s",GetFile("\\proto\\tiles.pro").c_str());
 				GetPrivateProfileString("TILES",buf,"",buf4,150,buf3);
 
-				wsprintf(buf2,"\\art\\tiles\\%s",buf4);
-								
+				sprintf(buf2,"\\art\\tiles\\%s",buf4);
+												
 				if (Tiles.count(numb) == 0) {
+				AddToLog(5,"Load> Name of picture: %s",buf2);
 				Tiles[numb] = new TFRMSingle();
-				hRet = Tiles[numb]->Load(hWnd,g_pDD,buf2,1);			
-				if (hRet!=DD_OK) InitFail(hWnd,hRet,buf2);   
+				hRet = Tiles[numb]->Load(buf2,1);			
+				if (hRet!=0) InitFail(0,buf2);   
 				}
 			}
 		}
-	return DD_OK;
+	AddToLog(4,"Load> Loading Tiles Artwork (end)");
+	return 0;
 }
 
 TIanMap::~TIanMap()
@@ -117,34 +123,38 @@ TIanMap::~TIanMap()
 	Tiles.clear();
 }
 
-void LoadNewItem(HWND hWnd, LPDIRECTDRAW7 g_pDD,FRMPairCollection &TilesI, int num)
+void LoadNewItem(FRMPairCollection &TilesI, int num)
 {
-	HRESULT hRet;
+	AddToLog(4,"Load> Loading a new item: %i",num);
+	int hRet;
 	if (TilesI.count(num) == 0) {
 		char buf[150],buf3[150],buf4[150];
-		wsprintf(buf,"ITEMS_%i",num);
-		wsprintf(buf3,"%s",GetFile("\\proto\\items.pro").c_str());
+		sprintf(buf,"ITEMS_%i",num);
+		sprintf(buf3,"%s",GetFile("\\proto\\items.pro").c_str());
 		GetPrivateProfileString("ITEMS",buf,"",buf4,150,buf3);
 		std::string str;
 		PFRMPair Pair;
 		Pair = TilesI[num] = new TFRMPair();
 		Pair->FRM = new TFRMSingle();
 		Pair->FRMA = new TFRMAnim();
-		wsprintf(buf,"\\data\\items\\%s",buf4);
+		sprintf(buf,"\\data\\items\\%s",buf4);
 		str = "\\art\\items\\"+textutil::GetFromXML(GetFile(buf),"/graphic.picture")+".frm";
-		hRet = Pair->FRM->Load(hWnd,g_pDD,str.c_str(),1);
-		if (hRet != DD_OK) InitFail(hWnd,hRet,str.c_str());
+		AddToLog(5,"Load> Name of picture: %s",str.c_str());
+		hRet = Pair->FRM->Load(str.c_str(),1);
+		if (hRet != 0) InitFail(0,str.c_str());
 		str = "\\art\\inven\\"+textutil::GetFromXML(GetFile(buf),"/graphic.inventory")+".frm";
-		hRet = Pair->FRMA->Load(hWnd,g_pDD,str.c_str(),-1);
-		if (hRet != DD_OK) InitFail(hWnd,hRet,str.c_str());
+		AddToLog(5,"Load> Name of picture: %s",str.c_str());
+		hRet = Pair->FRMA->Load(str.c_str(),-1);
+		if (hRet != 0) InitFail(0,str.c_str());
 		Pair->FRMA->FirstFrame();
 	}
 }
 
 
 
-HRESULT TIanStatic::LoadStatic(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filename)
+int TIanStatic::LoadStatic(const char* filename)
 {
+	AddToLog(3,"Load> Loading static data (begin)");
 	unsigned int x,y,proto;
 	unsigned short num,opc,type;
 	unsigned int num2;
@@ -153,10 +163,10 @@ HRESULT TIanStatic::LoadStatic(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filen
 	PLocationDat Loc;
 	gzFile stream;
 	char buf[150],buf2[150],buf3[150],buf4[150];
-	HRESULT hRet;
+	int hRet;
 
 	if ((stream = __IOopen(filename,"rb")) == NULL)
-		return InitFail(hWnd,DDERR_NOTLOADED,"LoadMap FAILED - Static");
+		return InitFail(0,"LoadMap FAILED - Static");
 
 	gzseek(stream,(256*256*2)+(512*512), SEEK_SET );
 	while (gzread(stream,&x,4) == 4) {
@@ -182,10 +192,10 @@ HRESULT TIanStatic::LoadStatic(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filen
 	 Loc->state = 0;
 
 	 if (type == 3) {
-		wsprintf(buf,"OBJECTS_%i",num);
-		wsprintf(buf3,"%s",GetFile("\\proto\\objects.pro").c_str());
+		sprintf(buf,"OBJECTS_%i",num);
+		sprintf(buf3,"%s",GetFile("\\proto\\objects.pro").c_str());
 		GetPrivateProfileString("OBJECTS",buf,"",buf4,150,buf3);
-		wsprintf(buf,"\\data\\objects\\%s",buf4);
+		sprintf(buf,"\\data\\objects\\%s",buf4);
 
 		Loc->ItemDesc = new TItemDesc();
 		Loc->ItemDesc->Inven = new TInventory();
@@ -216,7 +226,7 @@ HRESULT TIanStatic::LoadStatic(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filen
 		GetPrivateProfileString("CRITTERS",buf2,"",buf4,150,buf3);
 		sprintf(buf,"\\data\\critters\\%s",buf4);
 
-		wsprintf(buf3,"%s",GetFile(buf).c_str());
+		sprintf(buf3,"%s",GetFile(buf).c_str());
 		sprintf(buf4,"%s",textutil::GetFromXML(buf3,".graphics").c_str());
 
 		sprintf(buf3,"\\proto\\critters\\%08i.pro",proto);
@@ -263,26 +273,28 @@ HRESULT TIanStatic::LoadStatic(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filen
 					unsigned short type;
 					gzread(stream,&type,2);
 					gzread(stream,&num,4);
-					if (num!=0) LoadNewItem(hWnd,g_pDD,TilesI,type);
+					if (num!=0) LoadNewItem(TilesI,type);
 					if (num!=0) Loc->ItemDesc->Inven->AddItem(type,num,0,TilesI);
 				}
 			}
 		  gzread(stream,&opc,2);
 	  }
+	
 	 if (type == 0)
 	  if (TilesW.count(num) != 0)
 	  {
  		Loc->FRM = TilesW[num];
 	  } else
 	  {
-		wsprintf(buf,"WALLS_%i",num);
-		wsprintf(buf3,"%s",GetFile("\\proto\\walls.pro").c_str());
+		sprintf(buf,"WALLS_%i",num);
+		sprintf(buf3,"%s",GetFile("\\proto\\walls.pro").c_str());
 		GetPrivateProfileString("WALLS",buf,"",buf4,150,buf3);
-		wsprintf(buf2,"\\art\\walls\\%s",buf4);
+		sprintf(buf2,"\\art\\walls\\%s",buf4);
 		if (TilesW.count(num) == 0) {
 		TilesW[num] = new TFRMSingle();
-		hRet = TilesW[num]->Load(hWnd,g_pDD,buf2,1);			
-		if (hRet!=DD_OK) InitFail(hWnd,hRet,buf2);
+		AddToLog(5,"Load> Loading data: %s",buf2);
+		hRet = TilesW[num]->Load(buf2,1);			
+		if (hRet!=0) InitFail(0,buf2);
 		}
 		Loc->FRM = TilesW[num];
 	  }
@@ -292,14 +304,15 @@ HRESULT TIanStatic::LoadStatic(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filen
  		Loc->FRM = TilesS[num];
 	  } else
 	  {
-		wsprintf(buf,"SCENERY_%i",num);
-		wsprintf(buf3,"%s",GetFile("\\proto\\scenery.pro").c_str());
+		sprintf(buf,"SCENERY_%i",num);
+		sprintf(buf3,"%s",GetFile("\\proto\\scenery.pro").c_str());
 		GetPrivateProfileString("SCENERY",buf,"",buf4,150,buf3);
-		wsprintf(buf2,"\\art\\scenery\\%s",buf4);
+		sprintf(buf2,"\\art\\scenery\\%s",buf4);
 		if (TilesS.count(num) == 0) {
 		TilesS[num] = new TFRMSingle();
-		hRet = TilesS[num]->Load(hWnd,g_pDD,buf2,1);
-		if (hRet!=DD_OK) InitFail(hWnd,hRet,buf2);
+		AddToLog(5,"Load> Loading data: %s",buf2);
+		hRet = TilesS[num]->Load(buf2,1);
+		if (hRet!=0) InitFail(0,buf2);
 		}
 		Loc->FRM = TilesS[num];
 	}
@@ -313,7 +326,7 @@ HRESULT TIanStatic::LoadStatic(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filen
 		} else
 		{
 			y = 2000000000;
-			LoadNewItem(hWnd,g_pDD,TilesI,num);
+			LoadNewItem(TilesI,num);
 			Loc->FRM = TilesI[num]->FRM;
 			Loc->FRMA = new TFRMAnimCommunicator(TilesI[num]->FRMA);
 		}
@@ -324,18 +337,19 @@ HRESULT TIanStatic::LoadStatic(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filen
 			Loc->FRM = NULL;
 		} else
 		{
-			wsprintf(buf,"OBJECTS_%i",num);
-			wsprintf(buf3,"%s",GetFile("\\proto\\objects.pro").c_str());
+			sprintf(buf,"OBJECTS_%i",num);
+			sprintf(buf3,"%s",GetFile("\\proto\\objects.pro").c_str());
 			GetPrivateProfileString("OBJECTS",buf,"",buf4,150,buf3);
 			std::string str;
 			PFRMPair Pair;
 			Pair = TilesO[num] = new TFRMPair();
 			Pair->FRM = NULL;
 			Pair->FRMA = new TFRMAnim();
-			wsprintf(buf,"\\data\\objects\\%s",buf4);
+			sprintf(buf,"\\data\\objects\\%s",buf4);
 			str = "\\art\\"+textutil::GetFromXML(GetFile(buf),"/graphic.picture")+".frm";
-			hRet = Pair->FRMA->Load(hWnd,g_pDD,str.c_str(),-1);
-			if (hRet != DD_OK) InitFail(hWnd,hRet,str.c_str());
+			AddToLog(5,"Load> Loading data: %s",str.c_str());
+			hRet = Pair->FRMA->Load(str.c_str(),-1);
+			if (hRet != 0) InitFail(0,str.c_str());
 			Loc->FRM = NULL;
 			Pair->FRMA->FirstFrame();
 			Loc->FRMA = new TFRMAnimCommunicator(Pair->FRMA);	
@@ -365,7 +379,8 @@ HRESULT TIanStatic::LoadStatic(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filen
 				Loc->ItemDesc->name.c_str(),
 				textutil::GetFromProf(GetFile("\\proto\\dead.pro"),"DEAD",buf2).c_str());
 
-			Pair->FRMA->Load(hWnd,g_pDD,buf,direction);
+			AddToLog(5,"Load> Loading data: %s",buf);
+			Pair->FRMA->Load(buf,direction);
 
 			Pair->FRMA->FirstFrame();
 			Loc->FRMA = new TFRMAnimCommunicator(Pair->FRMA);
@@ -374,11 +389,13 @@ HRESULT TIanStatic::LoadStatic(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filen
     Map.insert( Location_Pair(y,Loc) );
 	}
 	gzclose(stream);
-	return DD_OK;
+	return 0;
+	AddToLog(4,"Load> Loading static data (end)");
 }
 
 TIanStatic::~TIanStatic()
 {
+	AddToLog(3,"Done> Freeing static data (begin)");
 	FRMLocationMap::iterator it;
 	it = Map.begin();
 	while (it!=Map.end()) {
@@ -424,10 +441,12 @@ TIanStatic::~TIanStatic()
 		iter3++;
 	}
 	TilesD.clear();
+	AddToLog(4,"Done> Freeing static data (end)");
 }
 
-HRESULT TIanStatic::DeleteButTiles()
+int TIanStatic::DeleteButTiles()
 {
+	AddToLog(3,"Done> Freeing static data (all but tiles) (begin)");
 	FRMLocationMap::iterator it;
 	it = Map.begin();
 	while (it!=Map.end()) {
@@ -466,6 +485,6 @@ HRESULT TIanStatic::DeleteButTiles()
 		iter3++;
 	}
 	TilesD.clear();
-
-	return DD_OK;
+	AddToLog(4,"Done> Freeing static data (all but tiles) (end)");
+	return 0;
 }

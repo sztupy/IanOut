@@ -5,7 +5,7 @@
  * Compile this file with -DNO_DEFLATE to avoid the compression code.
  */
 
-/* @(#) $Id$ */
+/* @(#) $Id: gzio.c,v 1.1 2003/09/17 20:52:12 sztupy Exp $ */
 
 #include <stdio.h>
 
@@ -34,8 +34,8 @@ struct internal_state {int dummy;}; /* for buggy compilers */
 ///////////////// CHANGED TO SUIT IANOUT'S NEEDS //////////////////
 ///////////////// CHANGED TO SUIT IANOUT'S NEEDS //////////////////
 
-//static int gz_magic[2] = {0x1f, 0x8b}; /* gzip magic header */
-static int gz_magic[2] = {0x78, 0xda}; /* gzip magic header (changed)*/
+static int gz_magic[2] = {0x1f, 0x8b}; /* gzip magic header */
+static int gz_magic2[2] = {0x78, 0xda}; /* gzip magic header (changed)*/
 
 ///////////////// END OF CHANGE //////////////////
 ///////////////// END OF CHANGE //////////////////
@@ -282,11 +282,17 @@ local void check_header(s)
     int flags;  /* flags byte */
     uInt len;
     int c;
-
+	int oc = 0;
+	int okey;
+	
     /* Check the gzip magic header */
     for (len = 0; len < 2; len++) {
 	c = get_byte(s);
+	okey = 0;
 	if (c != gz_magic[len]) {
+		if (c == gz_magic2[len]) { oc++; okey = 1;}
+	} else okey = 1;
+	if (!okey) {
 	    if (len != 0) s->stream.avail_in++, s->stream.next_in--;
 	    if (c != EOF) {
 		s->stream.avail_in++, s->stream.next_in--;
@@ -297,45 +303,35 @@ local void check_header(s)
 	}
     }
 
-///////////////// CHANGED TO SUIT IANOUT'S NEEDS //////////////////
-///////////////// CHANGED TO SUIT IANOUT'S NEEDS //////////////////
-///////////////// CHANGED TO SUIT IANOUT'S NEEDS //////////////////
-///////////////// CHANGED TO SUIT IANOUT'S NEEDS //////////////////
-///////////////// CHANGED TO SUIT IANOUT'S NEEDS //////////////////
-///////////////// CHANGED TO SUIT IANOUT'S NEEDS //////////////////
+	if (oc==0) {
 
-    /*method = get_byte(s);
-    flags = get_byte(s);
-    if (method != Z_DEFLATED || (flags & RESERVED) != 0) {
-	s->z_err = Z_DATA_ERROR;
-	return;
-    }*/
+		method = get_byte(s);
+		flags = get_byte(s);
+		if (method != Z_DEFLATED || (flags & RESERVED) != 0) {
+		s->z_err = Z_DATA_ERROR;
+		return;
+		}
 
     /* Discard time, xflags and OS code: */
-//    for (len = 0; len < 6; len++) (void)get_byte(s);
+		for (len = 0; len < 6; len++) (void)get_byte(s);
 
- //   if ((flags & EXTRA_FIELD) != 0) { /* skip the extra field */
-	//len  =  (uInt)get_byte(s);
-	//len += ((uInt)get_byte(s))<<8;
-	///* len is garbage if EOF but the loop below will quit anyway */
-	//while (len-- != 0 && get_byte(s) != EOF) ;
- //   }
- //   if ((flags & ORIG_NAME) != 0) { /* skip the original file name */
-	//while ((c = get_byte(s)) != 0 && c != EOF) ;
- //   }
- //   if ((flags & COMMENT) != 0) {   /* skip the .gz file comment */
-	//while ((c = get_byte(s)) != 0 && c != EOF) ;
- //   }
- //   if ((flags & HEAD_CRC) != 0) {  /* skip the header crc */
-	//for (len = 0; len < 2; len++) (void)get_byte(s);
- //   }
+		if ((flags & EXTRA_FIELD) != 0) { /* skip the extra field */
+		len  =  (uInt)get_byte(s);
+		len += ((uInt)get_byte(s))<<8;
+		/* len is garbage if EOF but the loop below will quit anyway */
+		while (len-- != 0 && get_byte(s) != EOF) ;
+		}
+		if ((flags & ORIG_NAME) != 0) { /* skip the original file name */
+		while ((c = get_byte(s)) != 0 && c != EOF) ;
+		}
+		if ((flags & COMMENT) != 0) {   /* skip the .gz file comment */
+		while ((c = get_byte(s)) != 0 && c != EOF) ;
+		}
+		if ((flags & HEAD_CRC) != 0) {  /* skip the header crc */
+		for (len = 0; len < 2; len++) (void)get_byte(s);
+		}
 
-///////////////// END OF CHANGE //////////////////
-///////////////// END OF CHANGE //////////////////
-///////////////// END OF CHANGE //////////////////
-///////////////// END OF CHANGE //////////////////
-///////////////// END OF CHANGE //////////////////
-///////////////// END OF CHANGE //////////////////
+	}
 
     s->z_err = s->z_eof ? Z_DATA_ERROR : Z_OK;
 }

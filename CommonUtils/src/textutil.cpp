@@ -111,6 +111,7 @@ std::string textutil::GetFromProf(std::string fnam,std::string master,std::strin
 
 void textutil::AddString(std::string duma,int i2)
 {
+	if (i2) AddToLog(0,"Status> %s",duma.c_str());
 	int i,i3;
 	for (i=0; i<49; i++)
 	{
@@ -226,7 +227,7 @@ std::string XMLSearch(const TiXmlElement* iXML, std::string location)
 							if ((location[i]=='.') || (location[i]==':') || (location[i]=='/')) {
 								std::string attribvalue = location.substr(0,i).c_str();
 								//AddToLog(attribvalue.c_str());
-								TiXmlNode *nXML;
+								TiXmlNode *nXML = NULL;
 								//nXML = iXML->FirstChild(locname.c_str());
 								location.erase(0,i);
 								while (nXML = iXML->IterateChildren(locname.c_str(),nXML)) {
@@ -261,7 +262,7 @@ std::string textutil::GetFromXML(std::string fname,std::string location)
 {
 	std::string realname;
 	realname = GetFile(fname);
-
+	
 	int i,i2;
 	i2=-1;
 	for (i=0; i<75; i++)

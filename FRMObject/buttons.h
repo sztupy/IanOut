@@ -37,7 +37,7 @@ namespace buttons {
 			return false;
 		}
 		
-		void Draw(LPDIRECTDRAWSURFACE7 Back,bool Press);
+		void Draw(SDL_Surface* Back,bool Press);
 
 		PFRMSingle on, off;
 		int x,y;
@@ -54,7 +54,7 @@ namespace buttons {
 		{
 			Buttons->Insert(new TButton(Ix,Iy,Ioff,Ion,Iretval));
 		}
-		void DrawButtons(LPDIRECTDRAWSURFACE7 Back,int Mx, int My, bool Press);
+		void DrawButtons(SDL_Surface* Back,int Mx, int My, bool Press);
 		int GetButton(int Mx, int My, bool Press);
 
 		int actualmode;

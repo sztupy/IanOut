@@ -1,3 +1,5 @@
+#include "windows.h"
+
 #include "load.h"
 #include "done.h"
 #include "../commonutils/textutil.h"
@@ -5,38 +7,36 @@
 #include "../commonutils/palette.h"
 #include "../commonutils/mouse.h"
 
-#include "../frmobject/freeimage.h"
-
-extern long FAR PASCAL WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-
-HRESULT LoadFRMSingle(PFRMSingle *LoadIn, HWND hWnd, char* filename, int i)
+int LoadFRMSingle(PFRMSingle *LoadIn, char* filename, int i)
 {
-	HRESULT hRet;
+	AddToLog(5,"Load> Loading a new picture: %s",filename);
+	int hRet;
 
 	*LoadIn = new TFRMSingle();
-	if ((hRet = (*LoadIn)->Load(hWnd, g_pDD, filename, i)) != DD_OK)
-	   return InitFail(hWnd,hRet,"%s FAILED",filename); else return DD_OK;
+	if ((hRet = (*LoadIn)->Load(  filename, i)) != 0)
+	   return InitFail(hRet,"%s FAILED",filename); else return 0;
 }
 
-HRESULT LoadLevel(HWND hWnd, const char* filename)
+int LoadLevel(const char* filename)
 {
-	HRESULT hRet;
-	hRet = DD_OK;
+	AddToLog(2,"Load> Loading map file: %s", filename);
+	int hRet;
+	hRet = 0;
 
 	if (MapInf) delete MapInf;
 	if (StaticInf) delete StaticInf;
 
 	MapInf = new TIanMap();
-	if (MapInf == NULL) return InitFail(hWnd,hRet,"LoadTilesMap Item Baj");
+	if (MapInf == NULL) return InitFail(hRet,"LoadTilesMap Item Baj");
 
-	MapInf->LoadMap(hWnd,filename);
-	MapInf->LoadTiles(hWnd,g_pDD);
+	MapInf->LoadMap(filename);
+	MapInf->LoadTiles();
 	
 	int x,y;
 	gzFile stream;
 	
 	if ((stream = __IOopen(filename,"rb")) == NULL)
-		return InitFail(hWnd,DDERR_NOTLOADED,"LoadBlock FAILED");
+		return InitFail(0,"LoadBlock FAILED");
 	gzseek( stream, 256*256*2, SEEK_SET );
 	for (x=0; x<512; x++)
 		for (y=0; y<512; y++)
@@ -50,207 +50,155 @@ HRESULT LoadLevel(HWND hWnd, const char* filename)
 			if ((x%4)/2 != 0) BlockDat[x][y] = BlockDat[x][y-1];*/
 
 	StaticInf = new TIanStatic();
-	if (StaticInf == NULL) return InitFail(hWnd,hRet,"LoadStaticMap Item Baj");
+	if (StaticInf == NULL) return InitFail(hRet,"LoadStaticMap Item Baj");
 
-	StaticInf->LoadStatic(hWnd,g_pDD,filename);
+	StaticInf->LoadStatic(filename);
 	if (CritterInf) delete CritterInf;
 	CritterInf = new TIanCritter();
-	if (CritterInf == NULL) return InitFail(hWnd,hRet,"LoadCritter Baj");
-	hRet = CritterInf->LoadCritters(hWnd,g_pDD,"\\maps\\blank.act",StaticInf->TilesI);
-	if (hRet != DD_OK) return InitFail(hWnd,hRet,"LoadCritter Baj");
+	if (CritterInf == NULL) return InitFail(hRet,"LoadCritter Baj");
+	hRet = CritterInf->LoadCritters("\\maps\\blank.act",StaticInf->TilesI);
+	if (hRet != 0) return InitFail(hRet,"LoadCritter Baj");
 
-	return DD_OK;
+	return 0;
 }
 
 void CreateIanPalette()
 {
-    int                     i;
-	gzFile					stream;
+int                     i;
+	gzFile				   stream;
     
 	
 	if( (stream = __IOopen( "\\color.pal", "rb" )) != NULL )
     {
 		for (i=0; i < 256; i++)
 		{
-			gzread(stream, &pe[i].peRed, 1);	  pe[i].peRed*=4;
-			gzread(stream, &pe[i].peGreen, 1);  pe[i].peGreen*=4;	  
-			gzread(stream, &pe[i].peBlue, 1);	  pe[i].peBlue*=4;
-			if (i==0) { pe[i].peRed=0;pe[i].peGreen=0;pe[i].peBlue=0;}
+			gzread(stream,&pe[i].r, 1);	  pe[i].r*=4;
+			gzread(stream,&pe[i].g, 1);  pe[i].g*=4;	  
+			gzread(stream,&pe[i].b, 1);	  pe[i].b*=4;
+			if (i==0) { pe[i].r=0;pe[i].g=0;pe[i].b=0;}
 
 		}
+		
 		gzclose( stream );
     }
 	palette::Calculate16bit();
 }
 
-IDirectDrawPalette *  LoadSplashScreen(LPDIRECTDRAWSURFACE7 g_pDDSB)
+void LoadSplashScreen()
 {
- IDirectDrawPalette     *ddpal;
- PALETTEENTRY            ape[256];
- DDSURFACEDESC2			 ddsd;
- HRESULT hRet;
+	SDL_Color				ape[256];
+	int						hRet;
+	
+	int x,y;
+	int r,g,b;
+	gzFile stream;
+	char buf[80];
+
+	sprintf(buf,GetFile("\\color.pal").c_str());
+	stream = __IOopen(buf,"rb");
+
+	for (x=0; x<10; x++) gzread(stream,&y,1);
+	for (x=0; x<256; x++)
+	{
+		gzread(stream,&r,1);
+		gzread(stream,&g,1);
+		gzread(stream,&b,1);
+		ape[x].r = 0;
+		ape[x].g = 0;
+		ape[x].b = 0;
+		pe[x].r = r*4;
+		pe[x].g = g*4;
+		pe[x].b = b*4;
+	}
+	ape[0].r=0;ape[0].g=0;ape[0].b=0;
+	ape[1].r=255;ape[1].g=255;ape[1].b=255;
+	
+	pe[0].r=0;pe[0].g=0;pe[0].b=0;
+	pe[1].r=255;pe[1].g=255;pe[1].b=255;
+
+	palette::Calculate16bit();
  
- int x;
- int r,g,b;
- int stream;
- char buf[80];
-
-
- wsprintf(buf,GetFile("\\color.pal").c_str());
- stream = _open(buf,_O_BINARY);
-
-// for (x=0; x<10; x++) _read(stream,&y,1);
- for (x=0; x<256; x++)
- {
-	_read(stream,&r,1);
-	_read(stream,&g,1);
-	_read(stream,&b,1);
-	ape[x].peRed = 0;
-	ape[x].peGreen = 0;
-	ape[x].peBlue = 0;
-	pe[x].peRed = r*4;
-	pe[x].peGreen = g*4;
-	pe[x].peBlue = b*4;
- }
- ape[0].peRed=0;ape[0].peGreen=0;ape[0].peBlue=0;
- ape[1].peRed=255;ape[1].peGreen=255;ape[1].peBlue=255;
-
- pe[0].peRed=0;pe[0].peGreen=0;pe[0].peBlue=0;
- pe[1].peRed=255;pe[1].peGreen=255;pe[1].peBlue=255;
-
- ZeroMemory(&ddsd, sizeof(ddsd));
- ddsd.dwSize = sizeof(ddsd);
- 
- hRet = g_pDD->CreatePalette(DDPCAPS_8BIT | DDPCAPS_ALLOW256 , ape, &ddpal, NULL);
- if (hRet != DD_OK) InitFail(hWnd,hRet,"Baj2");
- palette::Calculate16bit();
- //hRet = g_pDDSPrimary->SetPalette(ddpal);
- //if (hRet != DD_OK) InitFail(hWnd,hRet,"Baj3");
- 
- ddpal->SetEntries(0,0,256,ape);
- 
- return ddpal;
+	return;
 }
 
 
-HRESULT InitApp(HINSTANCE hInstance, int nCmdShow)
+int InitApplication()
 {
-    WNDCLASS                    wc;
-    DDSURFACEDESC2              ddsd;
-    DDSCAPS2                    ddscaps;
-    HRESULT                     hRet;
+    int						 hRet;
 	char						buf[100];
 	int							i;
 	
 	srand( (unsigned)time( NULL ) );
-	
-	// Set up and register window class
-    wc.style = CS_HREDRAW | CS_VREDRAW;
-    wc.lpfnWndProc = WindowProc;
-    wc.cbClsExtra = 0;
-    wc.cbWndExtra = 0;
-    wc.hInstance = hInstance;
-    wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MAIN_ICON));
-    wc.hCursor = LoadCursor(NULL, IDC_WAIT);
-    wc.hbrBackground = (HBRUSH )GetStockObject(BLACK_BRUSH);
-    wc.lpszMenuName = NAME;
-    wc.lpszClassName = NAME;
-    RegisterClass(&wc);
 
-    // Create a window
-    hWnd = CreateWindowEx(WS_EX_TOPMOST,
-                          NAME,
-                          TITLE,
-                          WS_POPUP,
-                          0,
-                          0,
-                          GetSystemMetrics(SM_CXSCREEN),
-                          GetSystemMetrics(SM_CYSCREEN),
-                          NULL,
-                          NULL,
-                          hInstance,
-                          NULL);
-    if (!hWnd)
-        return FALSE;
-    ShowWindow(hWnd, nCmdShow);
-    UpdateWindow(hWnd);
-    SetFocus(hWnd);
-
-	FreeImage_Initialise(true);
-
-	ClearLogFile();
-	std::string MasterDat;
+   	std::string MasterDat;
 
 	for (i=0; i<75; i++) LINIStr[i] = new TIniStr();
+	
+	AddToLog(3,"Init> Loading Locations from IanOut.ini");
+
+	SetFile(0,textutil::GetFromProf(".\\IanOut.ini","locations","ian_ed_loc"));
 	for (i=0; i<10; i++) {
-	   wsprintf(buf,"location_%i",i);
-	   MasterDat = textutil::GetFromProf(".\\IanOutEd.ini","locations",buf);
-	   SetFile(i,MasterDat);
-	   
+	   sprintf(buf,"location_%i",i);
+	   MasterDat = textutil::GetFromProf(".\\IanOut.ini","locations",buf);
+	   AddToLog(4,"Init> Initialising %i. location: %s ",i,MasterDat.c_str());
+	   SetFile(i+1,MasterDat);
 	}
-	
-	GetMaxX = GetPrivateProfileInt("display","width",640,".\\IanOutEd.ini");
-	GetMaxY = GetPrivateProfileInt("display","height",480,".\\IanOutEd.ini");
-	BitDepth = GetPrivateProfileInt("display","bitdepth",16,".\\IanOutEd.ini");
-	gamma = (double)GetPrivateProfileInt("display","gamma",100,".\\IanOutEd.ini")/100;
-	gameSpeed = GetPrivateProfileInt("display","gamespeed",40,".\\IanOutEd.ini");
+	SetFile(11,textutil::GetFromProf(".\\IanOut.ini","locations","ianout_dat"));
+	SetFile(12,textutil::GetFromProf(".\\IanOut.ini","locations","critter_dat"));
+	SetFile(13,textutil::GetFromProf(".\\IanOut.ini","locations","master_dat"));
+	SetFile(14,"");
+	SetFile(15,"");
 
-	
-	mouse::InitDirectInput(hWnd, hInstance);
-	mouse::SetAcquire();
- 
-    ///////////////////////////////////////////////////////////////////////////
-    // Create the main DirectDraw object
-    ///////////////////////////////////////////////////////////////////////////
-    hRet = DirectDrawCreateEx(NULL, (VOID**)&g_pDD, IID_IDirectDraw7, NULL);
-    if (hRet != DD_OK)
-        return InitFail(hWnd, hRet, "DirectDrawCreateEx FAILED");
+	AddToLog(2,"Init> Loading IanOut.ini informations");
+	GetMaxX = GetPrivateProfileInt("IanOutEd_options","width",800,".\\IanOut.ini");
+	GetMaxY = GetPrivateProfileInt("IanOutEd_options","height",600,".\\IanOut.ini");
+	BitDepth = GetPrivateProfileInt("IanOutEd_options","bitdepth",16,".\\IanOut.ini");
+	gamma = (double)GetPrivateProfileInt("IanOutEd_options","gamma",100,".\\IanOut.ini")/100;
+	usefullscreen = GetPrivateProfileInt("IanOutEd_options","fullscreen",0,".\\IanOut.ini")!=0;
 
+	AddToLog(3,"Init> Informations loaded: X:%i Y:%i Bitdepth:%i",GetMaxX,GetMaxY,BitDepth);
+	AddToLog(3,"Init> Fullscreen mode: %i",usefullscreen ? 1 : 0);
 
-    // Get exclusive mode
-    hRet = g_pDD->SetCooperativeLevel(hWnd, DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN);
-    if (hRet != DD_OK)
-        return InitFail(hWnd, hRet, "SetCooperativeLevel FAILED");
+	AddToLog(1,"Init> Initalising SDL libraries VIDEO and TIMER");
+	SDL_Init ( SDL_INIT_VIDEO | SDL_INIT_TIMER) ;
 
-    // Set the video mode to 640x480x8
-	if (BitDepth == 32) {
-		hRet = g_pDD->SetDisplayMode(GetMaxX, GetMaxY, 32, 0, 0);
-	} else {
-		hRet = g_pDD->SetDisplayMode(GetMaxX, GetMaxY, 16, 0, 0);
-	}
-    if (hRet != DD_OK)
-        return InitFail(hWnd, hRet, "SetDisplayMode FAILED");
+	AddToLog(3,"Init> Changing Window title and icon");
+	SDL_WM_SetCaption(TITLE, NAME);
+	SDL_WM_SetIcon(SDL_LoadBMP("IanOut.bmp"),NULL);
 
-	ScreenRect.left=0;
-	ScreenRect.right=GetMaxX;
-	ScreenRect.top=0;
-	ScreenRect.bottom=GetMaxY;
+	AddToLog(1,"Init> Creating Primary Surface");
+	g_pDDSBack = SDL_SetVideoMode ( GetMaxX, GetMaxY, BitDepth, usefullscreen ? SDL_FULLSCREEN | SDL_SWSURFACE : SDL_SWSURFACE | SDL_ANYFORMAT) ;
 	SetClipRect(0,0,GetMaxX,GetMaxY);
+	g_pDDPixelFormat = g_pDDSBack->format;
+	SDL_SetClipRect(g_pDDSBack, NULL);
 
-	   // Create the primary surface with 1 back buffer
-    ZeroMemory(&ddsd, sizeof(ddsd));
-    ddsd.dwSize = sizeof(ddsd);
-    ddsd.dwFlags = DDSD_CAPS | DDSD_BACKBUFFERCOUNT;
-    ddsd.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE |
-                          DDSCAPS_FLIP |
-                          DDSCAPS_COMPLEX | DDSCAPS_SYSTEMMEMORY;
-    ddsd.dwBackBufferCount = 1;
-    hRet = g_pDD->CreateSurface(&ddsd, &g_pDDSPrimary, NULL);
-    if (hRet != DD_OK)
-        return InitFail(hWnd, hRet, "CreateSurface FAILED");
+	if (!usefullscreen) { 
+		BitDepth = g_pDDSBack->format->BitsPerPixel;
+		AddToLog(2,"Init> Using current windows bitdepth : %i",BitDepth);
+	}
 
-    // Get a pointer to the back buffer
-    ZeroMemory(&ddscaps, sizeof(ddscaps));
-    ddscaps.dwCaps = DDSCAPS_BACKBUFFER | DDSCAPS_SYSTEMMEMORY;
-    hRet = g_pDDSPrimary->GetAttachedSurface(&ddscaps, &g_pDDSBack);
-    if (hRet != DD_OK)
-        return InitFail(hWnd, hRet, "GetAttachedSurface FAILED");
+	AddToLog(0,"Notice> The game is only tested under 16 and 32 bit displays,");
+	AddToLog(0,"   so it may crash with other settings!");
+	
+	AddToLog(3,"Init> Disabling mouse cursor");
+	SDL_ShowCursor(SDL_DISABLE);
+	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY,SDL_DEFAULT_REPEAT_INTERVAL);
 
-	g_pDDSPrimary->QueryInterface(IID_IDirectDrawGammaControl,(void **)&lpDDGammaControl);
-	lpDDGammaControl->GetGammaRamp(0, &DDGammaOld);
-	lpDDGammaControl->GetGammaRamp(0, &DDGammaRamp); 
+    if (usefullscreen) {
+		AddToLog(2,"Init> Using exclusive mouse/keyboard input (use F11 to change it during game)");
+		SDL_WM_GrabInput(SDL_GRAB_ON);
+	} else {
+		AddToLog(2,"Init> NOT using exclusive mouse/keyboard input (use F11 to change it during game)");
+		SDL_WM_GrabInput(SDL_GRAB_OFF);
+	}
 
-	g_pDDPal=LoadSplashScreen(g_pDDSBack);
+	AddToLog(3,"Init> Calculating Gamma Ramp");
+	SDL_GetGammaRamp(rramp,gramp,bramp);
+	SDL_GetGammaRamp(rramp2,gramp2,bramp2);
+
+	AddToLog(3,"Palette> Loading 8bit palette");
+	LoadSplashScreen();
+	palette::FadeIn();
 	CreateIanPalette();
 
 	AnimList = new TList();
@@ -259,72 +207,78 @@ HRESULT InitApp(HINSTANCE hInstance, int nCmdShow)
 	BoundRect.bottom = 511;
 	BoundRect.right = 511;
 
-	LoadExitGrid(hWnd,g_pDD);
+	AddToLog(3,"Init> Loading Exit Grid pictures");
+	AddToLog(0,"Notice> If the game crashes at this point you should check");
+	AddToLog(0,"    the directory settings under IanOut.ini");
+	LoadExitGrid();
 
-	wsprintf(buf,"\\maps\\blank.map");
-	hRet = LoadLevel(hWnd,buf);
-	if (hRet!=DD_OK) return hRet;
+	AddToLog(2,"Init> Initialising maploader");
+	sprintf(buf,"\\maps\\blank.map");
+	hRet = LoadLevel(buf);
+	if (hRet!=0) return hRet;
 
-	wsprintf(buf,"\\art\\intrface\\stdarrow.frm");
-	hRet = LoadFRMSingle(&Mouse, hWnd, buf,1);
-	if (hRet!=DD_OK) return hRet;
+	AddToLog(3,"Init> Loading Mouse Arrow");
+	sprintf(buf,"\\art\\intrface\\stdarrow.frm");
+	hRet = LoadFRMSingle(&Mouse,  buf,1);
+	if (hRet!=0) return hRet;
 
-	wsprintf(buf,"\\art\\intrface\\mainmenu.frm");
-	hRet = LoadFRMSingle(&FullScreen, hWnd, buf,1);
-	if (hRet!=DD_OK) return hRet;
+	AddToLog(3,"Init> Loading Main Menu");
+	sprintf(buf,"\\art\\intrface\\mainmenu.frm");
+	hRet = LoadFRMSingle(&FullScreen,  buf,1);
+	if (hRet!=0) return hRet;
 
-	wsprintf(buf,"\\art\\intrface\\menuup.frm");
-	hRet = LoadFRMSingle(&MenuUp, hWnd, buf,1);
-	if (hRet!=DD_OK) return hRet;
+	AddToLog(3,"Init> Loading Some Buttons");
+	sprintf(buf,"\\art\\intrface\\menuup.frm");
+	hRet = LoadFRMSingle(&MenuUp,  buf,1);
+	if (hRet!=0) return hRet;
 
-	wsprintf(buf,"\\art\\intrface\\menudown.frm");
-	hRet = LoadFRMSingle(&MenuDown, hWnd, buf,1);
-	if (hRet!=DD_OK) return hRet;
+	sprintf(buf,"\\art\\intrface\\menudown.frm");
+	hRet = LoadFRMSingle(&MenuDown,  buf,1);
+	if (hRet!=0) return hRet;
 
-	wsprintf(buf,"\\art\\intrface\\msef000.frm");
-	hRet = LoadFRMSingle(&Select, hWnd, buf,1);
-	if (hRet!=DD_OK) return hRet;
+	AddToLog(3,"Init> Loading Grids");
+	sprintf(buf,"\\art\\intrface\\msef000.frm");
+	hRet = LoadFRMSingle(&Select,  buf,1);
+	if (hRet!=0) return hRet;
 
-	wsprintf(buf,"\\art\\intrface\\msef001.frm");
-	hRet = LoadFRMSingle(&Select2, hWnd, buf,1);
-	if (hRet!=DD_OK) return hRet;
+	sprintf(buf,"\\art\\intrface\\msef001.frm");
+	hRet = LoadFRMSingle(&Select2,  buf,1);
+	if (hRet!=0) return hRet;
 
-	wsprintf(buf,"\\art\\intrface\\tgskloff.frm");
-	hRet = LoadFRMSingle(&Buttons[0], hWnd, buf,1);
-	if (hRet!=DD_OK) return hRet;
+	AddToLog(3,"Init> Loading Some More Buttons");
+	sprintf(buf,"\\art\\intrface\\tgskloff.frm");
+	hRet = LoadFRMSingle(&Buttons[0],  buf,1);
+	if (hRet!=0) return hRet;
 
-	wsprintf(buf,"\\art\\intrface\\tgsklon.frm");
-	hRet = LoadFRMSingle(&Buttons[1], hWnd, buf,1);
-	if (hRet!=DD_OK) return hRet;
+	sprintf(buf,"\\art\\intrface\\tgsklon.frm");
+	hRet = LoadFRMSingle(&Buttons[1],  buf,1);
+	if (hRet!=0) return hRet;
 
+	AddToLog(3,"Init> Loading Some Arrows");
 	for (i=0; i<8; i++)
 	{
-		wsprintf(buf,"\\art\\intrface\\scr%i.frm",i+1);
-		hRet = LoadFRMSingle(&MouseScr[i][0], hWnd, buf,1);
-		if (hRet!=DD_OK) return hRet;
-		wsprintf(buf,"\\art\\intrface\\scr%ix.frm",i+1);
-		hRet = LoadFRMSingle(&MouseScr[i][1], hWnd, buf,1);
-		if (hRet!=DD_OK) return hRet;
+		sprintf(buf,"\\art\\intrface\\scr%i.frm",i+1);
+		hRet = LoadFRMSingle(&MouseScr[i][0],  buf,1);
+		if (hRet!=0) return hRet;
+		sprintf(buf,"\\art\\intrface\\scr%ix.frm",i+1);
+		hRet = LoadFRMSingle(&MouseScr[i][1],  buf,1);
+		if (hRet!=0) return hRet;
 	}
 
 	for (i=0 ; i<256; i++)
 	{
-		pe2[i].peBlue = 0;
-		pe2[i].peRed = 0;
-		pe2[i].peGreen = 0;
+		pe2[i].b = 0;
+		pe2[i].r = 0;
+		pe2[i].g = 0;
 	}
-
-	ClearSurface(g_pDDSBack,0,0,0); ClearSurface(g_pDDSPrimary,0,0,0);
 
 	palette::SetPaletteBl(65535);
 
- 	g_pDDSOne = DDLoadBitmap(g_pDD, szBitmap, 0, 0, &hRet, DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY);
+	AddToLog(2,"Init> Loading Font.bmp");
+	SDL_Surface* g_pDDSOne2 = SDL_LoadBMP(GetFile("\\Font.bmp").c_str());
+	g_pDDSOne = SDL_ConvertSurface(g_pDDSOne2, g_pDDPixelFormat, SDL_SWSURFACE);
+	SDL_FreeSurface(g_pDDSOne2);
+	SDL_SetColorKey(g_pDDSOne,SDL_SRCCOLORKEY,SDL_MapRGB(g_pDDPixelFormat,147,135,70));
 	
-	if (g_pDDSOne == NULL)
-        return InitFail(hWnd, hRet, "DDLoadBitmap FAILED");
-	DDSetColorKey(g_pDDSOne, CLR_INVALID);
-
-	AddToLog("13");
-
-	return DD_OK;
+	return 0;
 }

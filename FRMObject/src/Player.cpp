@@ -11,6 +11,8 @@
 #include "../tinyxml/tinyxml.h"
 #include "math.h"
 
+#include "windows.h"
+
 // --- TFRMPlayer ---
 //
 // ------------------
@@ -32,6 +34,7 @@ PList AnimList;
 
 TFRMPlayer::~TFRMPlayer()
 {
+	AddToLog(5,"Done> Deleting Critter data (begin)");
 	if (Idle) delete Idle; Idle = NULL;
 	if (Moving) delete Moving; Moving = NULL;
 	if (Runing) delete Runing; Runing = NULL;
@@ -50,10 +53,12 @@ TFRMPlayer::~TFRMPlayer()
 
 	if (Hand1) delete Hand1; Hand1 = NULL;
 	if (Hand2) delete Hand2; Hand2 = NULL;
+	AddToLog(5,"Done> Deleting Critter data (end)");
 }
 
 void GarbageCollect()
 {
+	AddToLog(4,"Done> Initialising Garbage Collection Routine");
 	PItem Item;
 	Item = AnimList->First();
 	PItem Item2 = NULL;
@@ -66,23 +71,24 @@ void GarbageCollect()
 	}
 }
 
-PFRMAnim6 LoadAnim(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filename)
+PFRMAnim6 LoadAnim( const char* filename)
 {
 	PItem Item;
 	PFRMAnim6 Animation;
 	Item = AnimList->First();
-	HRESULT hRet;
+	int hRet;
 	while (Item) {
-		if (lstrcmpi(((PFRMAnim6)Item)->fname,filename) == 0) {
+		if (strcmp(((PFRMAnim6)Item)->fname,filename) == 0) {
 			//textutil::AddString("reusing",rand()%2);
 			return (PFRMAnim6)Item;
 		}
 		Item = AnimList->Next(Item);
 	}
 	//textutil::AddString("newanim",rand()%2);
+	AddToLog(5,"Load> Loading a new animation sequence: %s", filename);
 	Animation = new TFRMAnim6();
-	hRet = Animation->Load(hWnd,g_pDD,filename);
-	if (hRet != DD_OK) return NULL;
+	hRet = Animation->Load(filename);
+	if (hRet != 0) return NULL;
 	AnimList->Insert(Animation);
 	return Animation;
 }
@@ -100,8 +106,9 @@ void TFRMPlayer::SetStaticState()
 	Idle->FirstFrame();
 }
 
-void TFRMPlayer::KillPerson(HWND hWnd, LPDIRECTDRAW7 g_pDD, int diemode)
+void TFRMPlayer::KillPerson( int diemode)
 {
+	AddToLog(6,"Critter> Killperson sequence activated");
 	howtodie = diemode;
 	char buf[50];
 	char buf2[50];
@@ -124,7 +131,7 @@ void TFRMPlayer::KillPerson(HWND hWnd, LPDIRECTDRAW7 g_pDD, int diemode)
 	}
 	
 	DeadAnimation = new TFRMAnim();
-	DeadAnimation->Load(hWnd,g_pDD,buf,dir);
+	DeadAnimation->Load(buf,dir);
 	DeadAnimation->FirstFrame();
 	curth = 200;
 	framenum=0;
@@ -132,8 +139,9 @@ void TFRMPlayer::KillPerson(HWND hWnd, LPDIRECTDRAW7 g_pDD, int diemode)
 	fr3 = 0;
 }
 
-void TFRMPlayer::Die(HWND hWnd, LPDIRECTDRAW7 g_pDD, PIanStatic StaticInf)
+void TFRMPlayer::Die( PIanStatic StaticInf)
 {
+	AddToLog(6,"Critter> Die sequernce activated");
 	PLocationDat Loc;
 	int y,x;
 	char buf[150],buf2[150];
@@ -198,8 +206,7 @@ void TFRMPlayer::Die(HWND hWnd, LPDIRECTDRAW7 g_pDD, PIanStatic StaticInf)
 				Loc->ItemDesc->name.c_str(),
 				textutil::GetFromProf(GetFile("\\proto\\dead.pro"),"DEAD",buf2).c_str());
 
-			AddToLog("opcio4 %s",buf);
-			Pair->FRMA->Load(hWnd,g_pDD,buf,direction);
+			Pair->FRMA->Load(buf,direction);
 
 			Pair->FRMA->FirstFrame();
 			Loc->FRMA = new TFRMAnimCommunicator(Pair->FRMA);
@@ -293,8 +300,9 @@ std::string TFRMPlayer::GetGraphicName(char* descriptor)
 	return GetGraphicNameWeapon(descriptor,Weapon);
 }
 
-void TFRMPlayer::LoadPlayer(HWND hWnd, LPDIRECTDRAW7 g_pDD, bool isLoaded)
+void TFRMPlayer::LoadPlayer( bool isLoaded)
 {
+	AddToLog(6,"Critter> Critter initialisation sequence (begin)");
 	PFRMAnim6 Animation;
 
 	if (!isLoaded) {
@@ -308,21 +316,22 @@ void TFRMPlayer::LoadPlayer(HWND hWnd, LPDIRECTDRAW7 g_pDD, bool isLoaded)
 	if (Player.bIdle)
 	{
 	 if (Idle) delete Idle; Idle = NULL;
-	 Animation = LoadAnim(hWnd,g_pDD,(GetGraphicName("idle")).c_str());
+	 Animation = LoadAnim((GetGraphicName("idle")).c_str());
 	 Idle = new TFRMCommunicator(Animation);
 	}
 	if (Player.bMove)
 	{
 	 if (Moving) delete Moving; Moving = NULL;
-	 Animation = LoadAnim(hWnd,g_pDD,(GetGraphicName("move")).c_str());
+	 Animation = LoadAnim((GetGraphicName("move")).c_str());
 	 Moving = new TFRMCommunicator(Animation);
 	}
 	if (Player.bRun)
 	{
 	 if (Runing) delete Runing; Runing = NULL;
-	 Animation = LoadAnim(hWnd,g_pDD,(GetGraphicName("run")).c_str());
+	 Animation = LoadAnim((GetGraphicName("run")).c_str());
 	 Runing = new TFRMCommunicator(Animation);
 	}
+	AddToLog(6,"Critter> Critter initialisation sequence (end)");
 }
 
 inline int TFRMPlayer::Distance(int atx,int aty)
@@ -334,6 +343,7 @@ inline int TFRMPlayer::Distance(int atx,int aty)
 
 void TFRMPlayer::GoAround(int atx, int aty, BlockType &Block)
 {
+	AddToLog(6,"Critter> Goaround sequence activated");
 	int dist[6];bool dprb[6];
 	int i,i2;
 	for (i=0;i<6;i++) dprb[i] = false;
@@ -371,12 +381,13 @@ void TFRMPlayer::GoAround(int atx, int aty, BlockType &Block)
 	}
 }
 
-void TFRMPlayer::Pickup(HWND hWnd, LPDIRECTDRAW7 g_pDD,PLocationDat LocDat,BlockType &Block)
+void TFRMPlayer::Pickup(PLocationDat LocDat,BlockType &Block)
 {
+	AddToLog(6,"Critter> Pickup sequence activated");
 	afterth = 0;
 	PFRMAnim6 Animation;
 	if (Other[0]) delete Other[0]; Other[0] = NULL;
-	Animation = LoadAnim(hWnd,g_pDD,(GetGraphicName("pickup")).c_str());
+	Animation = LoadAnim((GetGraphicName("pickup")).c_str());
 	Other[0] = new TFRMCommunicator(Animation);
 
 	int iy = DeCompLocY(LocDat->loc);
@@ -391,15 +402,16 @@ void TFRMPlayer::Pickup(HWND hWnd, LPDIRECTDRAW7 g_pDD,PLocationDat LocDat,Block
 	PlayerSave = NULL;
 }
 
-void TFRMPlayer::UseOn(HWND hWnd, LPDIRECTDRAW7 g_pDD,PLocationDat LocDat,BlockType &Block,bool type, signed char dirx, signed char diry)
+void TFRMPlayer::UseOn(PLocationDat LocDat,BlockType &Block,bool type, signed char dirx, signed char diry)
 {
+	AddToLog(6,"Critter> Useon sequence activated");
 	afterth = 0;
 	PFRMAnim6 Animation;
 	if (Other[1]) delete Other[1]; Other[1] = NULL;
 	if (type) {
-		Animation = LoadAnim(hWnd,g_pDD,(GetGraphicName("use")).c_str());
+		Animation = LoadAnim((GetGraphicName("use")).c_str());
 	} else {
-		Animation = LoadAnim(hWnd,g_pDD,(GetGraphicName("pickup")).c_str());
+		Animation = LoadAnim((GetGraphicName("pickup")).c_str());
 	}
 	Other[1] = new TFRMCommunicator(Animation);
 
@@ -415,15 +427,16 @@ void TFRMPlayer::UseOn(HWND hWnd, LPDIRECTDRAW7 g_pDD,PLocationDat LocDat,BlockT
 	PlayerSave = NULL;
 }
 
-void TFRMPlayer::UseCommand(HWND hWnd, LPDIRECTDRAW7 g_pDD,PItem Item,bool ChrType,BlockType &Block,bool type,std::string command)
+void TFRMPlayer::UseCommand(PItem Item,bool ChrType,BlockType &Block,bool type,std::string command)
 { 
+	AddToLog(6,"Critter> Use sequence activated");
 	afterth = 0;
 	PFRMAnim6 Animation;
 	if (Other[1]) delete Other[1]; Other[1] = NULL;
 	if (type) {
-		Animation = LoadAnim(hWnd,g_pDD,(GetGraphicName("use")).c_str());
+		Animation = LoadAnim((GetGraphicName("use")).c_str());
 	} else {
-		Animation = LoadAnim(hWnd,g_pDD,(GetGraphicName("pickup")).c_str());
+		Animation = LoadAnim((GetGraphicName("pickup")).c_str());
 	}
 	Other[1] = new TFRMCommunicator(Animation);
 
@@ -452,16 +465,17 @@ void TFRMPlayer::UseCommand(HWND hWnd, LPDIRECTDRAW7 g_pDD,PItem Item,bool ChrTy
 	execcomm = command;
 }
 
-void TFRMPlayer::HitAndMiss(HWND hWnd, LPDIRECTDRAW7 g_pDD,int type)
+void TFRMPlayer::HitAndMiss(int type)
 {
+	AddToLog(6,"Critter> Hit/miss sequence activated");
 	PFRMAnim6 Animation;
 	if (Other[2]) delete Other[2]; Other[2] = NULL;
 	if (type == 0) {
-		Animation = LoadAnim(hWnd,g_pDD,(GetGraphicName("hit")).c_str());
+		Animation = LoadAnim((GetGraphicName("hit")).c_str());
 	} else if (type == 1) {
-		Animation = LoadAnim(hWnd,g_pDD,(GetGraphicName("hitback")).c_str());
+		Animation = LoadAnim((GetGraphicName("hitback")).c_str());
 	} else {
-		Animation = LoadAnim(hWnd,g_pDD,(GetGraphicName("miss")).c_str());
+		Animation = LoadAnim((GetGraphicName("miss")).c_str());
 	}
 	Other[2] = new TFRMCommunicator(Animation);
 	framenum = 0;
@@ -470,8 +484,9 @@ void TFRMPlayer::HitAndMiss(HWND hWnd, LPDIRECTDRAW7 g_pDD,int type)
 	curth = 50;
 }
 
-void TFRMPlayer::Attack(HWND hWnd, LPDIRECTDRAW7 g_pDD,PFRMPlayer Item,PWeapon AttackWh)
+void TFRMPlayer::Attack(PFRMPlayer Item,PWeapon AttackWh)
 { 
+	AddToLog(6,"Critter> Attack sequence activated");
 	afterth = 0;
 	PFRMAnim6 Animation;
 	if (Other[0]) delete Other[0];Other[0]=NULL;
@@ -479,21 +494,21 @@ void TFRMPlayer::Attack(HWND hWnd, LPDIRECTDRAW7 g_pDD,PFRMPlayer Item,PWeapon A
 	xXx = GetGraphicName("before");
 	//AddToLog(xXx.c_str());
 	if (CanOpen2(xXx)) {
-		Animation = LoadAnim(hWnd,g_pDD,(xXx).c_str());
+		Animation = LoadAnim((xXx).c_str());
 		Other[0] = new TFRMCommunicator(Animation);
 	}
 	if (Other[1]) delete Other[1];Other[1]=NULL;
 	xXx = GetGraphicName("shoot");
 	//AddToLog(xXx.c_str());
 	if (CanOpen2(xXx)) {
-		Animation = LoadAnim(hWnd,g_pDD,(xXx).c_str());
+		Animation = LoadAnim((xXx).c_str());
 		Other[1] = new TFRMCommunicator(Animation);
 	}
 	if (Other[2]) delete Other[2];Other[2] = NULL;
 	xXx = GetGraphicName("after");
 	//AddToLog(xXx.c_str());
 	if (CanOpen2(xXx)) {
-		Animation = LoadAnim(hWnd,g_pDD,(xXx).c_str());
+		Animation = LoadAnim((xXx).c_str());
 		Other[2] = new TFRMCommunicator(Animation);
 	}
 
@@ -515,6 +530,7 @@ void TFRMPlayer::Attack(HWND hWnd, LPDIRECTDRAW7 g_pDD,PFRMPlayer Item,PWeapon A
 
 void TFRMPlayer::GenerateTree(int tx, int ty, BlockType &Block)
 {
+	AddToLog(7,"Critter> Generating movement tree");
 	if (curth>=3) return;
 	if (play::TurnBasedMode && (PlayerSkill.secondary[1]<=0)) {SetStaticState(); return; }
 	if (Block[tx][ty]!=0) {SetStaticState();return;}
@@ -812,7 +828,7 @@ template<class T> typename T::iterator FindItem(T &FRMMap, typename T::mapped_ty
 	return useon;
 }
 
-void TFRMPlayer::Next(HWND hWnd, LPDIRECTDRAW7 g_pDD,BlockType &Block,FRMLocationMap &FRMMap,CritterList &Critters)
+void TFRMPlayer::Next(BlockType &Block,FRMLocationMap &FRMMap,CritterList &Critters)
 {
 	if (curth == 20)
 	{
@@ -870,12 +886,12 @@ void TFRMPlayer::Next(HWND hWnd, LPDIRECTDRAW7 g_pDD,BlockType &Block,FRMLocatio
 							int diemode;
 							diemode = (SHtype == 1) ? 1 : 0;
 							if (rand()%100<=WMode->normalcriticalchance) diemode = WMode->criticaldeath;
-							PlayerSave->KillPerson(hWnd,g_pDD,diemode);
+							PlayerSave->KillPerson(diemode);
 							sprintf(buf,"%s was hit for %i hit points, and was killed",PlayerSave->Player.CharName.c_str(),hitamount);
 							textutil::AddString(buf,1);
 						} else {
 							if (((!isHit) && (rand()%10<=7)) || (isHit))
-								PlayerSave->HitAndMiss(hWnd,g_pDD,SHtype);
+								PlayerSave->HitAndMiss(SHtype);
 
 							if ((SHtype==0) && (isHit))
 								sprintf(buf,"%s was hit for %i hit points",PlayerSave->Player.CharName.c_str(),hitamount);
@@ -1081,7 +1097,7 @@ void TFRMPlayer::Next(HWND hWnd, LPDIRECTDRAW7 g_pDD,BlockType &Block,FRMLocatio
 	}
 }
 
-void TFRMPlayer::Draw(LPDIRECTDRAWSURFACE7 g_pDDSBack, int TerX, int TerY, int colorinf)
+void TFRMPlayer::Draw(SDL_Surface* g_pDDSBack, int TerX, int TerY, int colorinf)
 {
 	int bbx;
 	int bby;
@@ -1092,7 +1108,7 @@ void TFRMPlayer::Draw(LPDIRECTDRAWSURFACE7 g_pDDSBack, int TerX, int TerY, int c
 		Lista = (PFRM)Idle->Animation->FRMList6[colorinf-1000]->First();
 		bbx = Lista->bx;
 		bby = Lista->by;
-		BlitTo(g_pDDSBack,0,0,Lista->x,Lista->y,TerX+bbx,TerY+bby,DDBLTFAST_SRCCOLORKEY,Lista->FRM);
+		BlitTo(g_pDDSBack,0,0,Lista->x,Lista->y,TerX+bbx,TerY+bby,0,Lista->FRM);
 		return;
 	}
 	if (colorinf<59) colorinf += 5;
@@ -1192,24 +1208,25 @@ void TFRMPlayer::Draw(LPDIRECTDRAWSURFACE7 g_pDDSBack, int TerX, int TerY, int c
 
 	if (colorinf>8) {
 		if (colorinf>50) {
-			BlitToRo(g_pDDSBack,0,0,Lista->x,Lista->y,TerX+LocConvertX(usex,usey)*16+bbx,TerY+LocConvertY(usex,usey)*12+bby,DDBLTFAST_SRCCOLORKEY,Lista->FRM,palcal[(colorinf==1000) ? visibletype : colorinf]);
+			BlitToRo(g_pDDSBack,0,0,Lista->x,Lista->y,TerX+LocConvertX(usex,usey)*16+bbx,TerY+LocConvertY(usex,usey)*12+bby,0,Lista->FRM,palcal[(colorinf==1000) ? visibletype : colorinf]);
 			//textutil::AddString("BlitRo",1);
 		} else {
-			BlitTo(g_pDDSBack,0,0,Lista->x,Lista->y,TerX+LocConvertX(usex,usey)*16+bbx,TerY+LocConvertY(usex,usey)*12+bby,DDBLTFAST_SRCCOLORKEY,Lista->FRM);
+			BlitTo(g_pDDSBack,0,0,Lista->x,Lista->y,TerX+LocConvertX(usex,usey)*16+bbx,TerY+LocConvertY(usex,usey)*12+bby,0,Lista->FRM);
 		}
 	}
-	else
-		BlitToAlt(g_pDDSBack,0,0,Lista->x,Lista->y,TerX+LocConvertX(usex,usey)*16+bbx,TerY+LocConvertY(usex,usey)*12+bby,DDBLTFAST_SRCCOLORKEY,Lista->FRM,colorinf);
+	else ;
+		BlitToAlt(g_pDDSBack,0,0,Lista->x,Lista->y,TerX+LocConvertX(usex,usey)*16+bbx,TerY+LocConvertY(usex,usey)*12+bby,0,Lista->FRM,colorinf);
 	
 }
 
-void TFRMPlayer::ChangeHand(HWND hWnd, LPDIRECTDRAW7 g_pDD)
+void TFRMPlayer::ChangeHand()
 {
 	curhand = !curhand;
 }
 
-void TFRMPlayer::ChangeWeapon(HWND hWnd, LPDIRECTDRAW7 g_pDD, bool whichhand, unsigned int num, unsigned int ammonum, FRMPairCollection &TilesI)
+void TFRMPlayer::ChangeWeapon( bool whichhand, unsigned int num, unsigned int ammonum, FRMPairCollection &TilesI)
 {
+	AddToLog(6,"Critter> Changing critter weapon");
 	if (num==20000000) {
 		if (whichhand) {
 			if (Hand1)
@@ -1232,7 +1249,7 @@ void TFRMPlayer::ChangeWeapon(HWND hWnd, LPDIRECTDRAW7 g_pDD, bool whichhand, un
 		Weapon->Load(num,TilesI);
 		Weapon->numammo = ammonum;
 	}
-	LoadPlayer(hWnd,g_pDD,true);
+	LoadPlayer(true);
 }
 
 void TFRMPlayer::GetDraw(int& XX, int& YY)
@@ -1264,17 +1281,18 @@ void TFRMPlayer::GetDraw(int& XX, int& YY)
 // ---- TIanCritter ----
 //
 // -------------------
-HRESULT TIanCritter::LoadMainCharacter(HWND hWnd, LPDIRECTDRAW7 g_pDD, FRMPairCollection &TilesI)
+int TIanCritter::LoadMainCharacter( FRMPairCollection &TilesI)
 {
+	AddToLog(2,"Load> Loading Main Character (begin)");
 	PlayerDef PLoad;
 	PFRMPlayer Ian;
 	char buf[100], buf3[100], buf4[100];
 	
-	wsprintf(buf3,"%s",GetFile("\\proto\\critters.pro").c_str());
+	sprintf(buf3,"%s",GetFile("\\proto\\critters.pro").c_str());
 	GetPrivateProfileString("CRITTERS","CRITTERS_0","",buf4,150,buf3);
-	wsprintf(buf,"\\data\\critters\\%s",buf4);
+	sprintf(buf,"\\data\\critters\\%s",buf4);
 
-	wsprintf(buf3,"%s",GetFile(buf).c_str());
+	sprintf(buf3,"%s",GetFile(buf).c_str());
 	sprintf(buf4,"%s",textutil::GetFromXML(buf3,".graphics").c_str());
 	
 	PLoad.bIdle = true;
@@ -1294,26 +1312,31 @@ HRESULT TIanCritter::LoadMainCharacter(HWND hWnd, LPDIRECTDRAW7 g_pDD, FRMPairCo
 
 	PInventory Inven = new TInventory();
 
+	AddToLog(4,"Load> Loading critter weapons");
+
 	int unarmedloc;
 	PLoad.Unarmed1 = new TWeapon();
 	unarmedloc = atoi2(textutil::GetFromXML(PLoad.protolocation.c_str(),"/unarmed.hand1").c_str());
-	if (unarmedloc<65536) LoadNewItem(hWnd,g_pDD,TilesI,unarmedloc);
+	if (unarmedloc<65536) LoadNewItem(TilesI,unarmedloc);
 	PLoad.Unarmed1->Load(unarmedloc,TilesI);
 	
 	PLoad.Unarmed2 = new TWeapon();
 	unarmedloc = atoi2(textutil::GetFromXML(PLoad.protolocation.c_str(),"/unarmed.hand2").c_str());
-	if (unarmedloc<65536) LoadNewItem(hWnd,g_pDD,TilesI,unarmedloc);
+	if (unarmedloc<65536) LoadNewItem(TilesI,unarmedloc);
 	PLoad.Unarmed2->Load(unarmedloc,TilesI);
 
+	AddToLog(4,"Load> Loading critter artwork %s",PLoad.name.c_str());
 	Ian = new TFRMPlayer(PLoad,Inven);
-	Ian->LoadPlayer(hWnd,g_pDD,false);
+	Ian->LoadPlayer(false);
 	Ian->MoveTo(10,10);
 	Critters.insert( Critter_Pair(0,Ian));
-	return DD_OK;
+	AddToLog(2,"Load> Loading Main Character (end)");
+	return 0;
 }
 
-HRESULT TIanCritter::LoadCritters(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filename, FRMPairCollection &TilesI)
+int TIanCritter::LoadCritters( const char* filename, FRMPairCollection &TilesI)
 {
+	AddToLog(2,"Load> Loading Critters (begin)");
 	unsigned int x,proto;
 	unsigned short num,opc;
 	gzFile stream;
@@ -1324,7 +1347,7 @@ HRESULT TIanCritter::LoadCritters(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* fi
 	PInventory Inven;
 
 	if ((stream = __IOopen(filename,"rb")) == NULL)
-		return InitFail(hWnd,DDERR_NOTLOADED,"LoadMap FAILED - Critters");
+		return InitFail(0,"LoadMap FAILED - Critters");
 
 	while (gzread(stream,&x,4) == 4) {
 		Inven = new TInventory();
@@ -1362,19 +1385,19 @@ HRESULT TIanCritter::LoadCritters(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* fi
 					unsigned short type;
 					gzread(stream,&type,2);
 					gzread(stream,&num,4);
-					if (num!=0) LoadNewItem(hWnd,g_pDD,TilesI,type);
+					if (num!=0) LoadNewItem(TilesI,type);
 					if (num!=0) Inven->AddItem(type,num,0,TilesI);
 				}
 			}
 			gzread(stream,&opc,2);
 		}
 	
-		wsprintf(buf2,"CRITTERS_%i",num);
-		wsprintf(buf3,"%s",GetFile("\\proto\\critters.pro").c_str());
+		sprintf(buf2,"CRITTERS_%i",num);
+		sprintf(buf3,"%s",GetFile("\\proto\\critters.pro").c_str());
 		GetPrivateProfileString("CRITTERS",buf2,"",buf4,150,buf3);
-		wsprintf(buf,"\\data\\critters\\%s",buf4);
+		sprintf(buf,"\\data\\critters\\%s",buf4);
 
-		wsprintf(buf3,"%s",GetFile(buf).c_str());
+		sprintf(buf3,"%s",GetFile(buf).c_str());
 		sprintf(buf4,"%s",textutil::GetFromXML(buf3,".graphics").c_str());
 
 		PLoad.deflocation = GetFile(buf);
@@ -1391,29 +1414,32 @@ HRESULT TIanCritter::LoadCritters(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* fi
 		PLoad.bMove = true;
 		PLoad.bRun = true;
 
+		AddToLog(4,"Load> Loading critter weapons");
 		int unarmedloc;
 		PLoad.Unarmed1 = new TWeapon();
 		unarmedloc = atoi2(textutil::GetFromXML(PLoad.protolocation.c_str(),"/unarmed.hand1").c_str());
-		if (unarmedloc<65536) LoadNewItem(hWnd,g_pDD,TilesI,unarmedloc);
+		if (unarmedloc<65536) LoadNewItem(TilesI,unarmedloc);
 		PLoad.Unarmed1->Load(unarmedloc,TilesI);
 		PLoad.Unarmed2 = new TWeapon();
 		unarmedloc = atoi2(textutil::GetFromXML(PLoad.protolocation.c_str(),"/unarmed.hand2").c_str());
-		if (unarmedloc<65536) LoadNewItem(hWnd,g_pDD,TilesI,unarmedloc);
+		if (unarmedloc<65536) LoadNewItem(TilesI,unarmedloc);
 		PLoad.Unarmed2->Load(unarmedloc,TilesI);
-		
+
+		AddToLog(4,"Load> Loading critter artwork %s",PLoad.name.c_str());
 		Ian = new TFRMPlayer(PLoad,Inven);
-		Ian->LoadPlayer(hWnd,g_pDD,false);
+		Ian->LoadPlayer(false);
 		Ian->MoveTo(DeCompLocX(x),DeCompLocY(x));
 		Critters.insert( Critter_Pair(num,Ian));
 		Ian = NULL;
 	}
 	gzclose(stream);
-	
-	return DD_OK;
+	AddToLog(2,"Load> Loading Critters (end)");	
+	return 0;
 }
 
 TIanCritter::~TIanCritter()
 {
+	AddToLog(3,"Done> Freeing critter data (all) (begin)");
 	CritterList::iterator iter;
 	iter = Critters.begin();
 	while (iter!=Critters.end()) {
@@ -1422,10 +1448,12 @@ TIanCritter::~TIanCritter()
 		iter++;
 	}
 	Critters.clear();
+	AddToLog(4,"Done> Freeing critter data (all) (end)");
 }
 
-HRESULT TIanCritter::ClearButMain()
+int TIanCritter::ClearButMain()
 {
+	AddToLog(3,"Done> Freeing critter data (all but main) (begin)");
 	PFRMPlayer IanSave = NULL;
 	CritterList::iterator iter;
 	iter = Critters.begin();
@@ -1442,5 +1470,6 @@ HRESULT TIanCritter::ClearButMain()
 	}
 	Critters.clear();
 	Critters.insert( Critter_Pair(0,IanSave));
-	return DD_OK;
+	AddToLog(4,"Done> Freeing critter data (all but main) (end)");
+	return 0;
 }

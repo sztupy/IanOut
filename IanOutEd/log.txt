@@ -1,30 +1,17 @@
-13
-9
-10
-9
-10
-9
-10
-9
-10
-9
-10
-9
-10
-9
-10
-9
-10
-9
-10
-9
-10
-9
-10
-9
-10
-9
-10
-mod\IanEd\maps\necrop.act
-mod\IanEd\maps\necrop.act
-mod\IanEd\maps\necrop.map
+------------------------------------------------------------------------------
+     IanOutEd - A Post-Nuclear Ian-Playing Game - Editor     
+     Version: 0.8 - Public Beta 3
+------------------------------------------------------------------------------
+
+Global> Output is saved to: log.txt
+Global> Entering loglevel 0
+Notice> The game is only tested under 16 and 32 bit displays,
+   so it may crash with other settings!
+Notice> If the game crashes at this point you should check
+    the directory settings under IanOut.ini
+Error> File open error: \art\misc\exitgrd2.frm (Couldn't open IanOut.bmp)
+Error> LoadMap FAILED - TilesMAP (Couldn't open IanOut.bmp)
+Error> LoadBlock FAILED (Couldn't open IanOut.bmp)
+Global> Game Quit
+------------------------------------------------------------------------------
+

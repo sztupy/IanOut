@@ -35,8 +35,8 @@ PIanMap						MapInf;
 PIanStatic					StaticInf;
 PIanCritter					CritterInf;
 
-HBITMAP						MaskBMP;
-HBITMAP						MaskBMP2;
+//HBITMAP						MaskBMP;
+//HBITMAP						MaskBMP2;
 
 int							InGamePos = 0;
 
@@ -61,15 +61,17 @@ unsigned char				TravelMap[28][30];
 
 int							TravelMapX,TravelMapY;
 
-RECT						TerepBound;
+SDL_Rect					TerepBound;
 bool						TerepBoundType;
 
 PLocationList				MapLocations;
 
 PMapLoader					MapLoader;
 
+bool						graphoptions[8];
 
-HRESULT BlitFRMTo(LPDIRECTDRAWSURFACE7 Target,PFRM Source,int x, int y,DWORD flags,signed char xAl,signed char yAl)
+
+int BlitFRMTo(SDL_Surface* Target,PFRM Source,int x, int y,Uint32 flags,signed char xAl,signed char yAl)
 {
 	if (xAl<0) {
 		if (yAl<0) return BlitTo(Target,0,0,Source->x,Source->y,x,y,flags,Source->FRM);
@@ -86,5 +88,5 @@ HRESULT BlitFRMTo(LPDIRECTDRAWSURFACE7 Target,PFRM Source,int x, int y,DWORD fla
 		if (yAl==0) return BlitTo(Target,0,0,Source->x,Source->y,x-Source->x,y-Source->y/2,flags,Source->FRM);
 		if (yAl>0) return BlitTo(Target,0,0,Source->x,Source->y,x-Source->x,y-Source->y,flags,Source->FRM);
 	}
-	return DDERR_INVALIDPARAMS;
+	return -1;
 }

@@ -16,8 +16,8 @@
 
 namespace play {
 	extern int							Frame;
-	extern DWORD						ThisTick;
-	extern DWORD						LastTick;
+	extern Uint32						ThisTick;
+	extern Uint32						LastTick;
 	extern int							mousetyp;
 	extern int							menet;
 	extern int							secondinc;
@@ -79,7 +79,7 @@ inline void play::DrawIanCucc(bool i)
 		if (Ian->Hand2->capacity != 0) length = 65.0/(double)Ian->Hand2->capacity*(double)Ian->Hand2->numammo;
 	}
 	
-	BlitTo(g_pDDSBack,0,0,AmmoBox->FRM->x,length,184+x,y+65-length,DDBLTFAST_SRCCOLORKEY,AmmoBox->FRM->FRM);
+	BlitTo(g_pDDSBack,0,0,AmmoBox->FRM->x,length,184+x,y+65-length,0,AmmoBox->FRM->FRM);
 }
 
 #endif //__NORMIT_H

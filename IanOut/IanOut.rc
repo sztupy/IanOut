@@ -1,17 +1,5 @@
 #include "resource.h"
 
-ALL                     BITMAP  MOVEABLE PURE   "res\\ALL.BMP"
-MASK                    BITMAP                  "res\\MASK.BMP"
-MASK2                   BITMAP                  "res\\MASK2.BMP"
-
-IDR_MENU MENU DISCARDABLE 
-BEGIN
-    POPUP "&File"
-    BEGIN
-        MENUITEM "E&xit",                       IDM_EXIT
-    END
-END
-
 IDI_MAIN_ICON           ICON    DISCARDABLE     "res\\IanOut.ico"
 
 VS_VERSION_INFO VERSIONINFO

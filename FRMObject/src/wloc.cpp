@@ -6,7 +6,7 @@
 
 extern std::string TempDir;
 
-void TMapLoader::SaveLocations(HWND hWnd, LPDIRECTDRAW7 g_pDD)
+void TMapLoader::SaveLocations()
 {
 	int x,y;
 	int stream;
@@ -14,7 +14,7 @@ void TMapLoader::SaveLocations(HWND hWnd, LPDIRECTDRAW7 g_pDD)
 	FN = TempDir+fname;
 		
 	stream = _open(FN.c_str(),_O_BINARY | _O_RDWR | _O_TRUNC | _O_CREAT, _S_IREAD | _S_IWRITE  );
-	AddToLog(FN.c_str());
+	AddToLog(4,"Save> Saving Location %s",FN.c_str());
 	if (stream != -1) {
 
 	for (x=0; x<128; x++)
@@ -91,7 +91,7 @@ void TMapLoader::SaveLocations(HWND hWnd, LPDIRECTDRAW7 g_pDD)
 
 	FN = TempDir+actorname;
 	stream = _open(FN.c_str(),_O_BINARY | _O_RDWR | _O_TRUNC | _O_CREAT, _S_IREAD | _S_IWRITE  );
-	AddToLog(FN.c_str());
+	AddToLog(4,"Save> Saving Location %s",FN.c_str());
 	if (stream != -1) {
 
 	CritterList::iterator iter;
@@ -103,11 +103,11 @@ void TMapLoader::SaveLocations(HWND hWnd, LPDIRECTDRAW7 g_pDD)
 
 			if (Ian->Hand1->number<=65536) {
 				Ian->Inven->AddItem(Ian->Hand1->number,1,Ian->Hand1->numammo,(*StaticInf)->TilesI);
-				Ian->ChangeWeapon(hWnd,g_pDD,true,20000000,0,(*StaticInf)->TilesI);
+				Ian->ChangeWeapon(true,20000000,0,(*StaticInf)->TilesI);
 			}
 			if (Ian->Hand2->number<=65536) {
 				Ian->Inven->AddItem(Ian->Hand2->number,1,Ian->Hand2->numammo,(*StaticInf)->TilesI);
-				Ian->ChangeWeapon(hWnd,g_pDD,false,20000000,0,(*StaticInf)->TilesI);
+				Ian->ChangeWeapon(false,20000000,0,(*StaticInf)->TilesI);
 			}
 
 			unsigned int convert = CompLoc(Ian->x,Ian->y);//(Ian->x)+(((Ian->y) ^ 511) << 10);
@@ -164,49 +164,55 @@ void TMapLoader::SaveLocations(HWND hWnd, LPDIRECTDRAW7 g_pDD)
 
 TMapLoader::~TMapLoader()
 {
+	AddToLog(3,"Done> Freeing MapLoader data");
 	if (*StaticInf) delete *StaticInf; *StaticInf = NULL;
 	if (*CritterInf) delete *CritterInf; *CritterInf = NULL;
 	if (*MapInf) delete *MapInf; *MapInf = NULL;
 }
 
-HRESULT TMapLoader::InitMainChar(HWND hWnd, LPDIRECTDRAW7 g_pDD)
+int TMapLoader::InitMainChar()
 {
-	HRESULT hRet = DD_OK;
+	AddToLog(2,"Load> Initialising Main Character (begin)");
+	
+	int hRet = 0;
 	if (*CritterInf) delete *CritterInf;
 	(*CritterInf) = new TIanCritter();
 
 	if (*StaticInf) delete *StaticInf;
 	(*StaticInf) = new TIanStatic();
 
-	if ((*CritterInf) == NULL) return InitFail(hWnd,hRet,"LoadCritter Baj");
-	if ((*StaticInf) == NULL) return InitFail(hWnd,hRet,"LoadStatic Baj");
+	if ((*CritterInf) == NULL) return InitFail(0,"Error while initialising-1");
+	if ((*StaticInf) == NULL) return InitFail(0,"Error while initialising-2");
 
-	hRet = (*CritterInf)->LoadMainCharacter(hWnd,g_pDD,(*StaticInf)->TilesI);
-	if (hRet != DD_OK) return InitFail(hWnd,hRet,"LoadCritter Baj");
+	hRet = (*CritterInf)->LoadMainCharacter((*StaticInf)->TilesI);
+	if (hRet != 0) return InitFail(0,"Error while initialising-3");
+	AddToLog(2,"Load> Initialising Main Character (end)");
 	return hRet;
 }
 
-HRESULT TMapLoader::LoadMap(HWND hWnd, LPDIRECTDRAW7 g_pDD, char* filename, char* actorfile)
+int TMapLoader::LoadMap(char* filename, char* actorfile)
 {
-	SaveLocations(hWnd,g_pDD);
-	HRESULT hRet = DD_OK;
+	SaveLocations();
+	int hRet = 0;
+	AddToLog(2,"Load> Loading a Map (begin) file: %s",filename);
 	if (fname != filename) {
 		fname = filename;
 
 		if (*MapInf) delete MapInf;
-
-		if (*StaticInf == NULL) return InitFail(hWnd,hRet,"LoadStatic Baj");
+		if (*StaticInf == NULL) return InitFail(0,"Error while accessing static data");
 		(*StaticInf)->DeleteButTiles();
 
+		AddToLog(3,"Load> Initialising map");
 		(*MapInf) = new TIanMap();
-		if ((*MapInf) == NULL) return InitFail(hWnd,hRet,"LoadTilesMap Item Baj");
-		(*MapInf)->LoadMap(hWnd,filename);
-		(*MapInf)->LoadTiles(hWnd,g_pDD);
+		if ((*MapInf) == NULL) return InitFail(0,"Error while accessing map data");
+		(*MapInf)->LoadMap(filename);
+		(*MapInf)->LoadTiles();
 
+		AddToLog(3,"Load> Loading Block data");
 		int x,y;
 		gzFile stream;
 		if ((stream = __IOopen(filename,"rb")) == NULL)
-			return InitFail(hWnd,DDERR_NOTLOADED,"LoadBlock FAILED");
+			return InitFail(0,"LoadBlock FAILED");
 		gzseek( stream, 256*256*2, SEEK_SET );
 		for (x=0; x<512; x++)
 			for (y=0; y<512; y++)
@@ -215,26 +221,26 @@ HRESULT TMapLoader::LoadMap(HWND hWnd, LPDIRECTDRAW7 g_pDD, char* filename, char
 			}
 		gzclose(stream);
 		(*StaticInf) = new TIanStatic();
-		if ((*StaticInf) == NULL) return InitFail(hWnd,hRet,"LoadStaticMap Item Baj");
-		(*StaticInf)->LoadStatic(hWnd,g_pDD,filename);
+		if ((*StaticInf) == NULL) return InitFail(0,"LoadStaticMap Item Baj");
+		(*StaticInf)->LoadStatic(filename);
 
 	}
 	if (actorfile != actorname) {
 		actorname = actorfile;
-
-		if (*CritterInf == NULL) return InitFail(hWnd,hRet,"LoadCritter Baj");
+		if (*CritterInf == NULL) return InitFail(0,"Error while accessing critter data");
 		(*CritterInf)->ClearButMain();
 
-		hRet = (*CritterInf)->LoadCritters(hWnd,g_pDD,actorfile,(*StaticInf)->TilesI);
-		if (hRet != DD_OK) return InitFail(hWnd,hRet,"LoadCritter Baj");
+		hRet = (*CritterInf)->LoadCritters(actorfile,(*StaticInf)->TilesI);
+		if (hRet != 0) return InitFail(0,"Error while loding critters");
 
 		PItem Item;
 		PInventory Inven = (*CritterInf)->Critters.find(0)->second->Inven;
 		Item = Inven->Inven->First();
 		while (Item != NULL) {
-			LoadNewItem(hWnd,g_pDD,(*StaticInf)->TilesI,PInventoryItem(Item)->num);
+			LoadNewItem((*StaticInf)->TilesI,PInventoryItem(Item)->num);
 			Item = Inven->Inven->Next(Item);
 		}
 	}
-	return DD_OK;
+	AddToLog(2,"Load> Loading a Map (end)");
+	return 0;
 }

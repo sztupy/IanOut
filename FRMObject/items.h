@@ -5,7 +5,6 @@
 #include "../commonutils/textutil.h"
 #include <map>
 #include <stdio.h>
-#include <ddraw.h>
 #include "FRM.h"
 #include <string>
 
@@ -39,9 +38,9 @@ typedef std::pair<unsigned int, PLocationDat> Location_Pair;
 
 typedef std::pair<unsigned int, PFRMDead> Dead_Pair;
 
-void LoadNewItem(HWND hWnd, LPDIRECTDRAW7 g_pDD,FRMPairCollection &TilesI, int num);
-HRESULT LoadExitGrid(HWND hWnd, LPDIRECTDRAW7 g_pDD);
-HRESULT DeleteExitGrid();
+void LoadNewItem(FRMPairCollection &TilesI, int num);
+int LoadExitGrid();
+int DeleteExitGrid();
 
 inline int DeCompLocY(int loc) {return (loc>>10) ^ 511;};
 inline int DeCompLocX(int loc) {return loc & 1023;};
@@ -137,8 +136,8 @@ public:
 	TIanMap() {};
 	~TIanMap();
 
-	HRESULT LoadMap(HWND hWnd,const char* filename);
-	HRESULT LoadTiles(HWND hWnd, LPDIRECTDRAW7 g_pDD);
+	int LoadMap(const char* filename);
+	int LoadTiles();
 
     ItemInfo Map;
 	ItemInfo Map2;
@@ -151,8 +150,8 @@ public:
 	TIanStatic() {};
 	~TIanStatic();
 
-	HRESULT LoadStatic(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filename);
-	HRESULT DeleteButTiles();
+	int LoadStatic(const char* filename);
+	int DeleteButTiles();
 
     FRMLocationMap Map;
 	FRMCollection TilesW;

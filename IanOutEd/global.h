@@ -8,12 +8,9 @@
 // Include files
 //-----------------------------------------------------------------------------
 #include <string>
-#include <ddraw.h>
-#include <dinput.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <io.h> 
-#include <fcntl.h>      
 #include "../commonutils/itemobj.h"
 #include "resource.h"
 #include "../commonutils/ddutil.h"
@@ -31,7 +28,7 @@
 #define NAME                "IanEd"
 #define TITLE               "IanOut Editor"
 
-#define VERSIONNUM	        "0.8 - Public Beta 3"
+#define VERSIONNUM	        "0.8.5 - Public Beta 4"
 
 //-----------------------------------------------------------------------------
 // Local data
@@ -60,8 +57,6 @@ extern PIanMap						MapInf;
 extern PIanStatic					StaticInf;
 extern PIanCritter					CritterInf;
 
-extern BYTE							paldat[128][256];
-
 extern int							GamePos;
 
 extern int							wallpos[6][2];
@@ -76,11 +71,10 @@ extern bool						auto_block;
 
 extern bool						show_wall;
 extern bool						show_item;
+extern bool						show_roof;
 
 extern int						putmode;
 extern int						Selected;
-
-extern RECT						ScreenRect;
 
 struct TRect {
 	int top,bottom,left,right;
@@ -90,6 +84,8 @@ extern TRect					BoundRect;
 extern bool						BoundType;
 extern bool						Bound_plane;
 extern bool						BoundTest;
+
+extern int						BrushSize;
 
 extern int						*ref_to;
 extern std::string				*ref_str;
