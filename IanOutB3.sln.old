@@ -1,0 +1,27 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IanOut", "IanOut\IanOut.vcproj", "{C73C38FC-4DB6-4F11-8438-5370754EA146}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IanOutEd", "IanOutEd\IanOutEd.vcproj", "{CB018737-BA7B-4AD0-836E-A75DF45B76B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{C73C38FC-4DB6-4F11-8438-5370754EA146}.Debug.ActiveCfg = Release|Win32
+		{C73C38FC-4DB6-4F11-8438-5370754EA146}.Debug.Build.0 = Release|Win32
+		{C73C38FC-4DB6-4F11-8438-5370754EA146}.Release.ActiveCfg = Release|Win32
+		{C73C38FC-4DB6-4F11-8438-5370754EA146}.Release.Build.0 = Release|Win32
+		{CB018737-BA7B-4AD0-836E-A75DF45B76B7}.Debug.ActiveCfg = Release|Win32
+		{CB018737-BA7B-4AD0-836E-A75DF45B76B7}.Debug.Build.0 = Release|Win32
+		{CB018737-BA7B-4AD0-836E-A75DF45B76B7}.Release.ActiveCfg = Release|Win32
+		{CB018737-BA7B-4AD0-836E-A75DF45B76B7}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
