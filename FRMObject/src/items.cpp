@@ -149,6 +149,7 @@ HRESULT TIanStatic::LoadStatic(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filen
 	unsigned short num,opc,type;
 	unsigned int num2;
 	unsigned char direction,deadtype;
+	int xpos,ypos;
 	PLocationDat Loc;
 	gzFile stream;
 	char buf[150],buf2[150],buf3[150],buf4[150];
@@ -159,6 +160,10 @@ HRESULT TIanStatic::LoadStatic(HWND hWnd, LPDIRECTDRAW7 g_pDD, const char* filen
 
 	gzseek(stream,(256*256*2)+(512*512), SEEK_SET );
 	while (gzread(stream,&x,4) == 4) {
+	/* xpos = DeCompLocX(x);
+	 ypos = DeCompLocY(x);
+	 if ((xpos%4)/2 != 0) ypos+=1;
+	 x = CompLoc(xpos,ypos);*/
      gzread(stream,&type,2);
 	 gzread(stream,&num,2);
 	 if (type==5) gzread(stream,&direction,1);

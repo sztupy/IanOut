@@ -128,11 +128,11 @@ void play::NormalPlay(void)
 		MousX += dims.lX;											//
 		MousY += dims.lY;											//
 	} else {														//
-		menet += dims.lY;											//
+		menet -= dims.lY;											//
 		mousetyp = 10+menet/10;										//
 		if (mousetyp>=20) mousetyp=19;								//
 		if (mousetyp<10) mousetyp=10;								//
-		if (dims.lY<0) {											//
+		if (dims.lY>0) {											//
 			while ((mousetyp>9) && !ability[mousetyp-10]) {mousetyp--;menet-=10;}
 		} else {													//
 			while ((mousetyp<20) && !ability[mousetyp-10]) {mousetyp++;menet+=10;}

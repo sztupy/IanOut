@@ -84,7 +84,7 @@ void play::NormalMode(void)
 		//mousetyp=9;
 	}
 
-	if (mouse::MouseIn(0,0,GetMaxX,GetMaxY-101) && (mousetyp==9) && (dims.rgbButtons[0] & 0x80) && (Frame>15)) 
+	if (mouse::MouseIn(0,0,GetMaxX,GetMaxY-101) && (mousetyp==9) && (dims.rgbButtons[0] & 0x80) && (Frame>1)) 
 	{
 		menet=0;
 		mousetyp = 10;

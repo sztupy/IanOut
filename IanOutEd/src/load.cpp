@@ -45,6 +45,10 @@ HRESULT LoadLevel(HWND hWnd, const char* filename)
 		}
 	gzclose(stream);
 
+	/*for (x=0; x<512; x++)
+		for (y=511; y>1; y--)
+			if ((x%4)/2 != 0) BlockDat[x][y] = BlockDat[x][y-1];*/
+
 	StaticInf = new TIanStatic();
 	if (StaticInf == NULL) return InitFail(hWnd,hRet,"LoadStaticMap Item Baj");
 

@@ -47,8 +47,8 @@ inline int DeCompLocY(int loc) {return (loc>>10) ^ 511;};
 inline int DeCompLocX(int loc) {return loc & 1023;};
 inline int CompLoc(int lx, int ly) {return ((ly^511) << 10)+lx;};
 
-inline int LocConvertX(int lx, int ly) { return lx+ly-lx/4; };
-inline int LocConvertY(int lx, int ly) { return ly-lx/4; };
+inline int LocConvertX(int lx, int ly) { return lx+ly-(lx+2)/4; };
+inline int LocConvertY(int lx, int ly) { return ly-(lx+2)/4; };
 
 /*inline int DeCompLocY(int loc) {return (loc & 1023) ^ 511;};
 inline int DeCompLocX(int loc) {return loc >> 10;};

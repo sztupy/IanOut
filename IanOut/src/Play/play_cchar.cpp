@@ -242,10 +242,15 @@ void play::CreateChar(void)
 	}
 	BlitTo(g_pDDSBack,0,0,140,117,addx+480,addy+310,0,SkillDex->FRM->FRM);
 
-	for (i=0; i<10; i++)
+	for (i=0; i<2; i++)
 	{
 		wsprintf(buf,"de%i_%i",Selected,i);
 		textutil::WriteFromProf(addx+350,addy+280+i*14,11,1,chardfname,"Dialog",buf);
+	}
+	for (i=2; i<10; i++)
+	{
+		wsprintf(buf,"de%i_2",Selected,i);
+		textfont::IanOutText(addx+350,addy+280+i*14,11,textutil::CutString(textutil::GetFromProf(chardfname,"Dialog",buf),165,i-1));
 	}
 
 	if ((dims.rgbButtons[0] & 0x80) && mouse::MouseIn(addx+457,addy+450,addx+457+26,addy+450+26))

@@ -358,7 +358,7 @@ void TFRMPlayer::GoAround(int atx, int aty, BlockType &Block)
 		dprb[mind] = true;
 		if (curth==0) {
 			//AddToLog("Runing");
-			int p=((atx+2)%4)/2;
+			int p=((atx)%4)/2;
 			switch (mind) {
 				case 0: GenerateTree(atx+2,aty+1-p,Block); break;
 				case 1: GenerateTree(atx+2,aty-p,Block); break;
@@ -542,7 +542,7 @@ void TFRMPlayer::GenerateTree(int tx, int ty, BlockType &Block)
 		{
 			if (MoveTable[ix][iy] == i)
 			{
-				int p = ((ix+2)%4)/2;
+				int p = ((ix)%4)/2;
 				if ((MoveTable[ix  ][iy-1  ] > i+1) && (Block[ix  ][iy-1  ]==0)) MoveTable[ix  ][iy-1  ] = i+1; 
 				if ((MoveTable[ix  ][iy+1  ] > i+1) && (Block[ix  ][iy+1  ]==0)) MoveTable[ix  ][iy+1  ] = i+1;
 
@@ -585,7 +585,7 @@ void TFRMPlayer::GenerateTree(int tx, int ty, BlockType &Block)
 				if (MoveTable[ix][iy] == i)
 				{
 					Ok = false;
-					int p = ((ix+2)%4)/2;
+					int p = ((ix)%4)/2;
 					if ((ix+2 == PosIt[i+1][0]) &&
 						(iy-p == PosIt[i+1][1])) { Ok = true; }
 
@@ -644,7 +644,7 @@ void TFRMPlayer::GenerateTree(int tx, int ty, BlockType &Block)
 		ty2 = PosIt[1][1];
 		ix2 = PosIt[2][0];
 		iy2 = PosIt[2][1];
-		int p =((tx2+2)%4)/2;
+		int p =((tx2)%4)/2;
 		if ((tx2+2==ix2) && (ty2-p  ==iy2)) { dir =0; }
 		if ((tx2+2==ix2) && (ty2+1-p==iy2)) { dir =1; }
 		if ((tx2  ==ix2) && (ty2+1  ==iy2)) { dir =2; }
@@ -699,7 +699,7 @@ int TFRMPlayer::RealDistance(int tx, int ty, BlockType &Block)
 		{
 			if (MoveTable[ix][iy] == i)
 			{
-				int p = ((ix+2)%4)/2;
+				int p = ((ix)%4)/2;
 				if ((MoveTable[ix  ][iy-1  ] > i+1) && (Block[ix  ][iy-1  ]==0)) MoveTable[ix  ][iy-1  ] = i+1; 
 				if ((MoveTable[ix  ][iy+1  ] > i+1) && (Block[ix  ][iy+1  ]==0)) MoveTable[ix  ][iy+1  ] = i+1;
 
@@ -742,7 +742,7 @@ void TFRMPlayer::Move(BlockType &Block)
 		oy = y;
 		x = PosIt[PosIt[0][0]+1-PosIt[0][1]][0];
 		y = PosIt[PosIt[0][0]+1-PosIt[0][1]][1];
-		int p=((ox+2)%4)/2;
+		int p=((ox)%4)/2;
 		if ((ox==x  ) && (oy==y+1  )) { dir =5; }
 		if ((ox==x+2) && (oy==y-1+p)) { dir =3; }
 		if ((ox==x+2) && (oy==y+p  )) { dir =4; }
@@ -787,7 +787,7 @@ int TFRMPlayer::GetDir()
 	oy = y;
 	nx = PosIt[PosIt[0][0]+1-PosIt[0][1]-1][0];
 	ny = PosIt[PosIt[0][0]+1-PosIt[0][1]-1][1];
-	int p=((ox+2)%4)/2;
+	int p=((ox)%4)/2;
 	if ((ox==nx  ) && (oy==ny+1  )) { dir =5; }
 	if ((ox==nx+2) && (oy==ny-1+p)) { dir =3; }
 	if ((ox==nx+2) && (oy==ny+p  )) { dir =4; }
