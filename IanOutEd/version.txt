@@ -1,0 +1,15 @@
+IanEd - IanOut Level Editor
+    (gy.k: JánosSzerk - JánosKi Pályaszerkesztõ)
+
+--------------------------------------------------------------------------------------------------------------------
+
+IanEd v0.1 (2001. 11. 11-25)
+- Elkészült az új fömenüképernyõ
+- Már lehet objektumokat elhelyezni a pályán, de betölteni ill. menteni még nem
+
+IanEd v0.0 (2001. 11. 11)
+- A IanOut v0.4a megjelenésével szükségessé vált egy egyszerûbben kezelhetõ pályaszerkesztõ,
+  a további fejlesztéshez. Úgyhogy elkezdõdött a pályaszerkesztõ megírása...
+- Elkészült a IanEd elsõ változata a IanOut v4.0a-ból (ez lényegében ugyanaz, csak le van butítva)
+
+--------------------------------------------------------------------------------------------------------------------
