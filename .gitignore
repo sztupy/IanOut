@@ -2,6 +2,10 @@ _Output/*.exe
 _Output/log.txt
 _Output/shot*.bmp
 !_Output/Config.exe
+_Output/Music/*.acm
+_Output/Music/*.wav
+_Output/Music/*.ogg
+ianout_setup.exe
 Debug
 Release
 Debug_STL

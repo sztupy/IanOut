@@ -1,3 +1,15 @@
+Ianout - A Post-Nuclear Ian Playing Game
+========================================
+
+For Downloads go to: https://github.com/sztupy/IanOut/releases
+
+Installation instructions can be found at: https://github.com/sztupy/IanOut/blob/master/_Output/README.TXT
+
+IanOut is licensed under the AGPL version 3
+
+FAQ
+===
+
 What is IanOut?
 ---------------
 IanOut is an emulator for Fallout1 and 2. It's a standalone engine which basically looks, feels and acts like Fallout.
