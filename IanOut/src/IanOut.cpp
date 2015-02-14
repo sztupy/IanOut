@@ -49,7 +49,7 @@ int main( int argc, char* argv[] )
 	AddToLog(0,"------------------------------------------------------------------------------");
 	AddToLog(0,"     IanOut - A Post-Nuclear Ian-Playing Game     ");
 	AddToLog(0,"     Version: "VERSIONNUM);
-	AddToLog(0,"     Copyright (C) Kek eper neoszurrealista tarsulat - Sztupy Corp.");
+	AddToLog(0,"     Copyright (C) Kek eper neoszurrealista tarsulat - SztupY");
 	AddToLog(0,"------------------------------------------------------------------------------");
 	AddToLog(0,"");
 	AddToLog(0,"Global> Output is saved to: log.txt");

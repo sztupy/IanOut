@@ -93,7 +93,7 @@ void play::MainMenu(void)
 	textutil::DisplayFrameRate();
 
 	textfont::IanOutText(0,465,1,"IanEd - IanOut Level Editor v"VERSIONNUM);
-	textfont::IanOutText(455,465,4,"Copyright (c) Sztupy corp.");
+	textfont::IanOutText(455,465,4,"Copyright (c) Sztupy");
 	
 	if (Frame<(65535/1000)) palette::SetPaletteBl(Frame*1000);
 

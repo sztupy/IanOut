@@ -55,7 +55,7 @@ void play::MainMenu(void)
 	textutil::DisplayFrameRate();
 
 	textfont::IanOutText(addx+0,addy+465,1,"IanOut - A Post-Nuclear Ian-Playing Game v"VERSIONNUM);
-	textfont::IanOutTextR(addx+640,addy+465,4,"Copyright (c) Sztupy corp.");
+	textfont::IanOutTextR(addx+640,addy+465,4,"SztupY");
 	
 	if (Frame<65535) palette::SetPaletteBl(Frame);
 

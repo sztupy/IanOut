@@ -5,6 +5,10 @@ IanOut - A Post-Nuclear Ian Playing Game
 Installation
 ============
 
+Before isntalling please make sure that the VS2013 redistributables are
+installed. You can download them from this location:
+  http://www.microsoft.com/en-gb/download/details.aspx?id=40784
+
 To install IanOut, please extract the files into a directory of your choice,
 then use the Config application to set the Fallout 2 master.dat and Fallout 2
 critter.dat locations. These files are usually found on the root installation
@@ -18,6 +22,23 @@ If you'd like to hear music inside the game, then please copy over the .acm
 files from the Fallout 2 "sound/music" directory over to the music directory
 of IanOut, then run the convert.bat command found inside that directory, which
 will convert the music files into .ogg, that can be used by IanOut
+
+Usage
+=====
+
+The game is played exclusively with the mouse. However you can use the
+following keyboard shortcuts:
+
+* ESC: exits the game
+* F10: reset gamma
+* F11: grab mouse when playing in windowed mode
+* F12: create a screen shot
+* n,m: rotate Ian
+* numpad +, numpad -: change gamma
+* numpad /, numpad *: change game speed
+
+If Ian dies, then the game will also instantly quit. You can check the
+contents of log.txt, for reasons about the recent death.
 
 FAQ
 ===

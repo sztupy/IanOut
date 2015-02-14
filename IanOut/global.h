@@ -10,7 +10,7 @@
 #define NAME                "IanOut"
 #define TITLE               "IanOut: A Post-Nuclear Ian-Playing Game"
 
-#define VERSIONNUM	        "0.8.5 - Public Beta 4"
+#define VERSIONNUM	        "0.8.6"
 
 #include "../FRMObject/player.h"
 #include "../commonutils/ddutil.h"

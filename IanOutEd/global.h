@@ -28,7 +28,7 @@
 #define NAME                "IanEd"
 #define TITLE               "IanOut Editor"
 
-#define VERSIONNUM	        "0.8.5 - Public Beta 4"
+#define VERSIONNUM	        "0.8.6"
 
 //-----------------------------------------------------------------------------
 // Local data
