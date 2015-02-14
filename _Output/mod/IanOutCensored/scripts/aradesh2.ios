@@ -1,0 +1,52 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+
+if Text.GetPosition() == 0 then 
+ Text.SetMain([[Na, mi a helyzet? Sikerült? ]])
+
+ Text.AddLine([[Igen! sima ügy volt, sérülés nélkül megúsztam! ]],2,1)
+ Text.AddLine([[Nem, viszont téged halottá nyilvánítalak! ]],3,1)
+
+elseif Text.GetPosition() == 2 then 
+ Text.SetMain([[Remek. Bár az, hogy tetõtõl talpig vér vagy, húzod a lábad, a fél kezedet nem tudod használni, hát nem egészen erre utal, de végülis mindegy. ]])
+
+ Text.AddLine([[Jól van na! ]],4,1)
+
+elseif Text.GetPosition() == 3 then 
+ Text.SetMain([[Hé! ]])
+
+ Text.AddLine([[(Megtámad) ]],100,1)
+
+elseif Text.GetPosition() == 4 then 
+ Text.SetMain([[No. Hol van a Mantis hullája? ]])
+
+ GVar.Set("NeedMantis",1)
+
+ Text.AddLine([[Micsoda? ]],5,1)
+ Text.AddLine([[Itt. (Elõkapod a fegyvered) ]],3,1)
+
+elseif Text.GetPosition() == 5 then 
+ Text.SetMain([[Há' mit hiszel, ember? Hogy a két szép szemedért el fogom hinni neked, hogy megölted, holnap meg megtámad minket? Hozd el a hullát, most azonnal! ]])
+
+ Text.AddLine([[(Sírni kezdesz) ]],101,1)
+ Text.AddLine([[Hogyaza... ]],101,1)
+ Text.AddLine([[Kész. Én itt befejeztem a munkát, téged viszont megöllek! ]],3,1)
+
+elseif Text.GetPosition() == 100 then
+ Mode.TurnBasedMode()
+ Char.var1 = 2
+ GVar.Set("artalk",1)
+
+elseif Text.GetPosition() == 101 then
+ Mode.NormalMode()
+ Char.var1 = 2
+ GVar.Set("artalk",1)
+
+ System.AddTimer(0,0,0,0,0,2,[[
+Classes.SetActualCharacter(0)
+GVar.Set("artalk",1)
+GVar.Set("CanTalkToLajos",0)
+System.RunFile("Lajos.ios")
+]])
+
+end

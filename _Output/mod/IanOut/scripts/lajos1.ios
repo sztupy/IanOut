@@ -1,0 +1,29 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+
+if Text.GetPosition() == 1 then 
+ Text.SetMain([[Halló? ]])
+
+ Text.AddLine([[Lajos, én vagyok az, ian. Loptam egy telefont itt, shady shands-ben, és gondoltam, beszélhetünk. Képzeld, kaptam egy fontos küldetést. Egy mantis súlyos veszélyt jelent a városunkra, és nekem kell megállítanom. Hallottál már a rat base-rõl? ott tanyázik a vérengzõ fenevad. ]],2,1)
+
+elseif Text.GetPosition() == 2 then 
+ Text.SetMain([[Nem. ]])
+
+ Text.AddLine([[Nem tartasz velem? ]],3,1)
+
+elseif Text.GetPosition() == 3 then 
+ Text.SetMain([[Áááh... ]])
+
+ Text.AddLine([[Na jó. De telefonon azért még beszélhetünk, nem? minden helyszínrõl hívni foglak, és értesítelek a legújabb hírekrõl. Te meg segítesz engem a tanácsaiddal. Rendben van? ]],4,1)
+
+elseif Text.GetPosition() == 4 then 
+ Text.SetMain([[Jó. Csõ! ]])
+
+ Text.AddLine([[Csõ! ]],101,1)
+
+elseif Text.GetPosition() == 101 then
+ Mode.NormalMode()
+ GVar.Set("CanTalkToLajos",1)
+ GVar.Set("LajosTalk",1)
+
+end

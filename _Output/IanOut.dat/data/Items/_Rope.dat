@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<item name="rope" type="other">
+ <graphic picture="rope" inventory="rope"/>
+ <text yousee="Kötél" lookat="Egy egyszerû kötél"/>
+ <desc>
+  <mode name="use">
+  </mode>
+ </desc>
+</item>

@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<critter name="mamant" graphics="mamant">
+ <moving idle="aa" move="ab" run="ab" pickup="aa" use="aa" miss="an" hit="ao" hitback="ao"/>
+</critter>

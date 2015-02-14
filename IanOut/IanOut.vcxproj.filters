@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{e2d32c2c-ced8-472f-a575-ae57586a3c58}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Play">
+      <UniqueIdentifier>{80c8086f-7d37-4c59-a48f-bd0a060db29d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{bcf2577a-7b23-4471-898a-b50b7baf7dec}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{1ca7d378-b06e-4388-9346-234c11e5567f}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\done.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\global.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ianos.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IanOut.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\load.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\terep.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Play\norm_ai.cpp">
+      <Filter>Source Files\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Play\norm_inven.cpp">
+      <Filter>Source Files\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Play\norm_loot.cpp">
+      <Filter>Source Files\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Play\norm_next.cpp">
+      <Filter>Source Files\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Play\norm_norm.cpp">
+      <Filter>Source Files\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Play\play_cchar.cpp">
+      <Filter>Source Files\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Play\play_credits.cpp">
+      <Filter>Source Files\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Play\play_intro.cpp">
+      <Filter>Source Files\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Play\play_menu.cpp">
+      <Filter>Source Files\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Play\play_normal.cpp">
+      <Filter>Source Files\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Play\play_talk.cpp">
+      <Filter>Source Files\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Play\play_travel.cpp">
+      <Filter>Source Files\Play</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="done.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="graphic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IanOs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="load.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="normit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="play.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="terep.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\IanOut.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="IanOut.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

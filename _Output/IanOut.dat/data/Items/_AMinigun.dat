@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<item name="AMinigun" type="weapon">
+ <graphic picture="minigun" inventory="aminigun"/>
+ <text yousee="minigun" lookat="Ez egy minigun"/>
+ <critter idle="la" move="lb" miss="le"/>
+ <desc mode="ammo">
+  <ammo type="11" capacity="24" />
+  <mode name="burst" type="2" apuse="5">
+   <range min="1" max="25"/>
+   <dammage min="10" max="20"/>
+   <critter before="lh" shoot="lk" after="li"/>
+   <critical deathtype="5" chance="75"/>
+  </mode>
+  <mode name="reload" type="10" apuse="2">
+   <critter shoot="la"/>
+  </mode>
+ </desc>
+</item>

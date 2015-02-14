@@ -1,0 +1,36 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+
+if Text.GetPosition() == 1 then 
+ Text.SetMain([[Üdvözöllek Necropolisban! ]])
+
+ Text.AddLine([[Köszöntelek. Mennem kell. ]],2,1)
+ Text.AddLine([[Köszönöm a fogadtatást! de sajnos sietek! ]],2,1)
+ Text.AddLine([[Nem csatlakozol hozzám? szimpatiqs vagy te nekem. ]],3,1)
+
+elseif Text.GetPosition() == 2 then 
+ Text.SetMain([[Na állj, faszfej! Innen te nem kerülsz ki élve! ]])
+
+ Text.AddLine([[Mi? hogy... Micsoda?? ]],100,1)
+
+elseif Text.GetPosition() == 3 then 
+ Text.SetMain([[Nem. Viszont megöllek, te buziállat! Nem fogod itt tovább szennyezni a levegõt! MEGHALSZ!!! ]])
+
+ Text.AddLine([[Mi van? ]],100,1)
+
+elseif Text.GetPosition() == 100 then
+ System.Fade(0)
+ Ian = Classes.GetIan()
+ Ian.x = 186
+ Ian.y = 70
+ Mode.NormalMode()
+ Char:Erase()
+ System.AddTimer(0,0,0,0,0,1,[[
+  Classes.SetActualCharacter(2000)
+  Text.SetFile("zsuzsa.ios")
+  Text.SetPosition(1)
+  Mode.TalkMode()
+  System.Fade(1)
+ ]])
+
+end

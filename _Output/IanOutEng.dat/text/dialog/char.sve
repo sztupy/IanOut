@@ -1,0 +1,86 @@
+[global]
+def1=Ian
+def2=30 years
+def3=Male
+def4=Skills:
+def5=Points:
+def6=Remaining Pts:
+def7=Traits:
+
+[primaryskill]
+typ-2=V. Bad
+typ-1=V. Bad
+typ0=V. Bad
+typ1=V. Bad
+typ2=Bad
+typ3=Poor
+typ4=Fair
+typ5=Average
+typ6=Good
+typ7=Very Good
+typ8=Great
+typ9=Excellent
+typ10=Heroic
+typ11=Heroic
+typ12=Heroic
+typ13=Heroic
+
+[secondary]
+sec1=Armor Class
+sec2=Action Point
+sec3=Carry Weight
+sec4=Unarmed Dam.
+sec5=Damage res.
+sec6=Poison res.
+sec7=Skill points
+sec8=Sequence
+sec9=Healing Rate
+sec10=Chritical ch.
+
+[traits]
+tra1=Fast Metabolism
+tra2=Bruiser
+tra3=Small frame
+tra4=One hander
+tra5=Finesse
+tra6=Kamikaze
+tra7=Heavy handed
+tra8=Fast shot
+tra9=Bloody mess
+tra10=Jinxed
+tra11=Good Natured
+tra12=Chem Reliant
+tra13=Chem Resistant
+tra14=Sex Appeal
+tra15=Skilled
+tra16=Gifted
+
+[skills]
+ski1=Small Weapons
+ski2=Big Weapons
+ski3=Energy Weapons
+ski4=Unarmed
+ski5=Melee Weapons
+ski6=Throwing Weapons
+ski7=First Aid
+ski8=Doctor
+ski9=Sneak
+ski10=Lockpick
+ski11=Steal
+ski12=Traps
+ski13=Science
+ski14=Repair
+ski15=Speak
+ski16=Barter
+ski17=Gambling
+ski18=Outdoorsman
+
+[health]
+hea1=Hit points:
+hea2=Disease that
+hea3=will
+hea4=make
+hea5=your
+hea6=penis
+hea7=rot
+hea8=and fall off

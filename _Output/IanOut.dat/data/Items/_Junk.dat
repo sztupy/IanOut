@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<item name="junk" type="other">
+ <graphic picture="smalbox2" inventory="drymeat"/>
+ <text yousee="Szemét" lookat="Egy kis szemétdarabka"/>
+ <desc>
+  <mode name="use">
+  </mode>
+ </desc>
+</item>

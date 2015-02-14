@@ -1,0 +1,29 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+
+if Text.GetPosition() == 1 then 
+ Text.SetMain([[Hi, Ian!  ]])
+
+ Text.AddLine([[Hi, Lajos! I''m here at Rat Base. Why did you call me?]],2,1)
+
+elseif Text.GetPosition() == 2 then 
+ Text.SetMain([[Well... ]])
+
+ Text.AddLine([[Just for this?  ]],3,1)
+
+elseif Text.GetPosition() == 3 then 
+ Text.SetMain([[Well... ]])
+
+ Text.AddLine([[Thanks for the call, you sonofabitch! ]],4,1)
+
+elseif Text.GetPosition() == 4 then 
+ Text.SetMain([[Bye! ]])
+
+ Text.AddLine([[(end) ]],101,1)
+
+elseif Text.GetPosition() == 101 then
+ Mode.NormalMode()
+ GVar.Set("CanTalkToLajos",1)
+ GVar.Set("LajosTalk",4)
+
+end

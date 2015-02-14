@@ -1,0 +1,14 @@
+System.WriteLn("Egy kis rétre érkeztél");
+ 
+if GVar.Get("LajosTalk") == 0 then
+ System.WriteLn("A Mantis látványától öngyilkos lettél...")
+ Ian = Classes.GetIan()
+ Ian:Kill(0)
+elseif Classes.SetActualCharacter(100) then
+    GVar.Set("CanTalkToLajos",0)
+    GVar.Set("LajosTalk",1)
+    System.RunFile("Lajos.ios")
+elseif GVar.Get("LajosTalk") == 3 then
+    GVar.Set("CanTalkToLajos",0)
+    System.RunFile("Lajos.ios")
+end

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<item name="vicradio" type="drug">
+ <graphic picture="suprtool" inventory="vicradio"/>
+ <text yousee="Mobiltelefon" lookat="Lajos felhívására alkalmas készülék"/>
+ <desc addic="100000" addict_dead="100000">
+  <mode name="use on" type="1" apuse="2">
+  </mode>
+  <onuse>
+   <script>
+    System.RunFile("lajos.ios")
+   </script>
+  </onuse>
+ </desc>
+</item>

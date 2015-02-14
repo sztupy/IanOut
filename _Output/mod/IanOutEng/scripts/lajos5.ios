@@ -1,0 +1,19 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+
+if Text.GetPosition() == 1 then 
+ Text.SetMain([[Hi, Ian!]])
+
+ Text.AddLine([[Hi, Lajos. I''m here with Aradesh. I''ve got a new job: I have to kill Iván Kamarás in two months. I can choose from the following artifacts to aid me: Cotton, junk, rock or rope. Which one do you suggest? ]],2,1)
+
+elseif Text.GetPosition() == 2 then 
+ Text.SetMain([[Take the rope!]])
+
+ Text.AddLine([[Okey. Next time, you call me!]],101,1)
+
+elseif Text.GetPosition() == 101 then
+ Mode.NormalMode()
+ GVar.Set("CanTalkToLajos",1)
+ GVar.Set("LajosTalk",5)
+ GVar.Set("artalk",0)
+end

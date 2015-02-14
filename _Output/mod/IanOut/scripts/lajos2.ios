@@ -1,0 +1,25 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+
+if Text.GetPosition() == 1 then 
+ Text.SetMain([[HallÛ? ]])
+
+ Text.AddLine([[Lajos, segÌts! itt ·llok a mantissal szemben, Ès nagyon fÈlek! sokkal nagyobb, mint Èn! mit tegyek? ]],2,1)
+ Text.AddLine([[Mantis! ···········! ]],3,1)
+
+elseif Text.GetPosition() == 2 then 
+ Text.SetMain([[’rizd meg a hidegvÈred! VÈgig ell·tlak tan·csokka... ]])
+
+ Text.AddLine([[(Megszakad a vonal, mert odaÈrt a mantis Ès megt·madott) ]],100,1)
+
+elseif Text.GetPosition() == 3 then 
+ Text.SetMain([[Ne fÈlj, bar·tom! …n vÈgig itt leszek vele... ]])
+
+ Text.AddLine([[(Megszakad a vonal, mert odaÈrt a mantis Ès megt·madott) ]],100,1)
+
+elseif Text.GetPosition() == 100 then
+ Mode.TurnBasedMode()
+ GVar.Set("CanTalkToLajos",1)
+ GVar.Set("LajosTalk",2)
+
+end

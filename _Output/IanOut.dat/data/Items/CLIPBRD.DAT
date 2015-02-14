@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<item name="CLIPBRD" type="other">
+ <graphic picture="smalbox2" inventory="CLIPBRD"/>
+ <text yousee="Valami" lookat="Valami"/>
+ <desc>
+  <mode name="use">
+  </mode>
+ </desc>
+</item>

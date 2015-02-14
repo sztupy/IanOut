@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<item name="HumPunch" type="weapon">
+ <desc mode="noammo">
+  <mode name="punch" type="2" apuse="3">
+   <dammage min="3" max="6"/>
+   <critter shoot="aq"/>
+  </mode>
+ </desc>
+</item>

@@ -1,0 +1,442 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+
+if Text.GetPosition() == 1 then 
+ Text.SetMain([[Szia, jóember, még nem láttalak errefele. Hát te meg ki vagy, és honnan jöttél? ]])
+
+ Text.AddLine([[Kezitcsókolom, én ian vagyok shady shandsbõl. ]],2,1)
+ Text.AddLine([[Péter vagyok tápiószecsõrõl. ]],3,1)
+ Text.AddLine([[Azt én is szeretném tudni. ]],4,1)
+
+elseif Text.GetPosition() == 2 then 
+ Text.SetMain([[Tudom, Ian, és azt halottam Zsuzsától, hogy Kamarás Iván atomszelleme kísért a világ legnagyobb városában, Shady Shandsben... ]])
+
+ Text.AddLine([[Nem, nem, nem. Iván szelleme nem kísért a városban, hanem két hónap múlva támadást indít a falum ellen. ÉS shady shands nem hiszem hogy világváros lenne... ]],5,1)
+ Text.AddLine([[Pontosan. ]],6,1)
+
+elseif Text.GetPosition() == 3 then 
+ Text.SetMain([[Aha! Jó vicc! Zsuzsától hallottam, hogy Kamarás Iván atomszelleme kísért a világ legnagyobb városában, Shady Shandsben... ]])
+
+ Text.AddLine([[Nem, nem, nem. Iván szelleme nem kísért a városban, hanem két hónap múlva támadást indít a falum ellen. ÉS shady shands nem hiszem hogy világváros lenne... ]],5,1)
+ Text.AddLine([[Pontosan. ]],6,1)
+
+elseif Text.GetPosition() == 4 then 
+ Text.SetMain([[Aha! Jó vicc! Zsuzsától hallottam, hogy Kamarás Iván atomszelleme kísért a világ legnagyobb városában, Shady Shandsben... ]])
+
+ Text.AddLine([[Nem, nem, nem. Iván szelleme nem kísért a városban, hanem két hónap múlva támadást indít a falum ellen. ÉS shady shands nem hiszem hogy világváros lenne... ]],5,1)
+ Text.AddLine([[Pontosan. ]],6,1)
+
+elseif Text.GetPosition() == 5 then 
+ Text.SetMain([[Jól van már... Szóval Kamarás Iván megtámad téged. Szerencsére én... ]])
+
+ Text.AddLine([[Nem. Nem engem akar megtámadni, hanem a falumat. ]],7,1)
+ Text.AddLine([[Pontosan. ]],8,1)
+
+elseif Text.GetPosition() == 6 then 
+ Text.SetMain([[Kamarás Iván ellen van ellenszer. Én mindent tudok, ami ezen a rohadt Földön születésem óta történt. Így segíteni is tudok neked. ]])
+
+ Text.AddLine([[Köszönöm. Szarok rá. ]],9,1)
+ Text.AddLine([[Megköszönném. ]],10,1)
+ Text.AddLine([[Mennem kell. ]],9,1)
+
+elseif Text.GetPosition() == 7 then 
+ Text.SetMain([[Muszáj kötözködnie, fiatalember? Bezzeg az én idõmben a fiatalok tisztelettudóbbak voltak: három gyereket neveltem fel: az Ildikót, a Gézát, és a Mónikát, sõt, még az unokámat, a Tildát is... ]])
+
+ Text.AddLine([[Ez mind nagyon szép, de én nem szappanoperát hallgatni jöttem ide. ]],9,1)
+ Text.AddLine([[Nyögd má'' ki!!! ]],11,1)
+
+elseif Text.GetPosition() == 8 then 
+ Text.SetMain([[Szóval én tudok neked segíteni. Elõttem nincsenek titkok. Nekem nyugodtan kiöntheted a lelked, tudod, hogy én nem mondom el senkinek... ]])
+
+ Text.AddLine([[Hú! mennem kell. ]],9,1)
+ Text.AddLine([[Ezesetben meséljen nekem kamarás ivánról, és hogy hogyan tudnám legyõzni. ]],10,1)
+ Text.AddLine([[Nyögje már ki!!! ]],11,1)
+
+elseif Text.GetPosition() == 9 then 
+ Text.SetMain([[Nono, fiatalember, a segítségem nélkül maga nem távozik innen. Kamarás Iván... ]])
+
+ Text.AddLine([[(Unott pofával végighallgatod) ]],10,1)
+
+elseif Text.GetPosition() == 10 then 
+ Text.SetMain([[Kamarás Iván 1999-ben elfogott egy csapat ukrán maffiózót, akik Bécs felé tartották az általuk eltérített Európa Expresszen. Szörnyû veszteségek árán, de Iván vízszintesen tartva a puskáját, lelõtte a fõ gaztevõt. Gryllus Dorka viszont odaveszett. (keresztet vet) De a rendõrség kicsit utánanézett, és kiderült, hogy Iván illegálisan használta fegyverét. Kivégzési parancsot adtak ki ellene. Ivánt megölték. ]])
+
+ Text.AddLine([[Eddig semmi olyat nem mondott, amit nem tudtam volna. ]],12,1)
+ Text.AddLine([[Tényleg? szuper. Mennem kell. ]],13,1)
+
+elseif Text.GetPosition() == 11 then 
+ Text.SetMain([[Siet valahová, fiatalember? ]])
+
+ Text.AddLine([[Ebbõl elég. Viszlát. ]],9,1)
+
+elseif Text.GetPosition() == 12 then 
+ Text.SetMain([[Ezt vajon tudja-e? Egyik kedves ismerõsöm - akinek a nevét most nem fedném fel, egyébként már rég megszakadt a barátságunk, na mindegy... Szóval elmesélte... Ööö, izé... ]])
+
+ Text.AddLine([[A kurva anyádat, nyögd már ki, te káráló picsa! ]],14,1)
+
+elseif Text.GetPosition() == 13 then 
+ Text.SetMain([[Nem megy sehova. (bereteszeli az ajtót, kulcsra zárja, a kulcsot lenyeli, és beforrasztja az ajtót) Most pedig szépen végighallgat! ]])
+
+ Text.AddLine([[ÁÁÁÁÁÁÁ! ]],12,1)
+
+elseif Text.GetPosition() == 14 then 
+ Text.SetMain([[Szóval 2000-ben a keresztény egyház - tudja akkor még létezett ilyen. Az egy vallás volt, monoteista világnézetet valottak. Hitük szerint Istenük fia, Jézus újjászületett a Földön, aholis meghalt az emberek bûneiért,... ]])
+
+ Text.AddLine([[Hát ez nem igaz... ]],15,1)
+
+elseif Text.GetPosition() == 15 then 
+ Text.SetMain([[Na mindegy, szóval ennek a vallásnak volt egy könyve, amit szentként tiszteltek. Szent Biblia volt a címe. Általában idõszámí- tásunk elõtti írások voltak benne, sõt, az idõszámításunkat is Jézus feltámadásától mérjük, viszont egyes tudósok kiszámolták, hogy Jézus nem támadhatott fel 0-ban, mert... ]])
+
+ Text.AddLine([[Elég! elmegyek! ha kell, a testeden keresztül!! ]],16,1)
+ Text.AddLine([[(Türelmesen hallgatod) ]],17,1)
+
+elseif Text.GetPosition() == 16 then 
+ Text.SetMain([[Hehe, jó vicc... Szóval... ]])
+
+ Text.AddLine([[Beszarok! ]],17,1)
+
+elseif Text.GetPosition() == 17 then 
+ Text.SetMain([[Szóval ezt a Bibliát 2000-ben felújították. Méghozzá egy Szirmai hívõ, Lakatos Taksony miatt. Állítása szerint õt meglátogatta Isten álmában, és életre segítette, amikor a 3-as busz elütötte. Innentõl hitt Istenben, és állítólag cserébe Isten meg is látogatta õt. Állítólag bizonyos jóslatokat mondott el neki, amit Taksony beküldött Vatikánba, az akkori vallási élet központjába, aholis II. János Pál Pápa elég hitelesnek tituálta az anyagot, és kiadatta a parancsot a Biblia felújítására. ]])
+
+ Text.AddLine([[Még mindig nem esett szó kamarás ivánról! ]],18,1)
+ Text.AddLine([[Még mindig nem esett szó kamarás ivánról, baszd meg! ]],18,1)
+
+elseif Text.GetPosition() == 18 then 
+ Text.SetMain([[Majd most: Taksony evangéliuma tartalmazott egy pontot, amit a mai napig nem tudtak értelmezni. A pont így szólt: "...És Isten megteremté az embert, aki nem tudá'' gazdál- kodni a mi Urunktól kapott ajándékkal, az élet- tel, és elkezdé háborúzni egymással. Urunk ekkor évezredek múlva lecsapá majd, és csak az õ benne hívõket, azoknak is csak egy részét tartá meg. Miután ez bekövetkezé'', kihal az álnok emberek hite Urunkban, akinek ezután már csak a mennyben lesz hatalma... Ám van esély arra, hogy az emberek újból hívei legyenek: K.risztus I.stenünket elítélték hamis vádakkal, és meg is gyilkolták õt, álnokul. De K.risztus I.stenünk feltámadá majd, és álnokul bosszút áll mindenkin! Úszó erõdjén keresztül ellenségeit legyõzé, barátait megmenté''." ]])
+
+ Text.AddLine([[Várjál már, hát ez értelmezhetetlen! jézus krisztus - vagy hogy hívják - nem lehetett bosszúálló, különben nem hittek volna benne. Az "urunk évezredek múlva lecsapá majd" részt értelmezhetjük az atomháborúként, de krisztus istenünket elmondásod alapján tényleg elítélték hamis vádakkal, és meg is ölték õt álnokul, és tényleg fel is támadt, de nemhogy nem állt bosszút mindenkin, hanem megbocsájtott, nem? milyen úszó erõd? nem értem... Mi a lófasz az a két pont ott a k.Risztus i.Stenben? ]],19,1)
+
+elseif Text.GetPosition() == 19 then 
+ Text.SetMain([[Éppen ez az. Senki sem érti... ]])
+
+ Text.AddLine([[Hát bassza meg, és ezért tartottál fel eddig??? ]],20,1)
+
+elseif Text.GetPosition() == 20 then 
+ Text.SetMain([[És a java még csak most jön: most fogunk pletykálkodni! ]])
+
+ Text.AddLine([[Nekem erre nincs idõm! tényleg mennem kell! meg kell találnom matit! ]],21,1)
+ Text.AddLine([[Atomkirály. ]],22,1)
+
+elseif Text.GetPosition() == 21 then 
+ Text.SetMain([[Mati? Beszéljünk róla! Képzeld el, amikor egy évvel ezelõtt leköltözött ide, totál depressziós volt: tele volt a töke mindennel: a feleségét elvesztette a háborúban, a farmját terroristák támadták meg, és a chipse is elfogyott. Bár nem nagyon menõzik vele, de 6 danja van karatéban! Viszont hiába mindez, mert naponta minimum egy zacskó Cheezy Poofs-ot kell megennie. A Cheezy Poofs a legjobb márkájú Chips itt, amerikában. A gyárat senki nem tudja hogy hol van, mert így rejtve vannak a terroristák támadásaitól. Ha naponta nem kap egy zacskó chipset, szörnyen ideges lesz! Halottam, hogy az egyik barátját MEGÖLTE, mert nem akart neki adni a chipsbõl! ]])
+
+ Text.AddLine([[Most beszéljünk zsuzsáról. ]],23,1)
+ Text.AddLine([[Most beszéljünk a ghoulokról odalent. ]],24,1)
+ Text.AddLine([[Most beszéljünk a mutánsokról idefönt. ]],25,1)
+ Text.AddLine([[Most beszéljünk a világ titkairól. ]],26,1)
+ Text.AddLine([[Most beszéljünk rólad. ]],27,1)
+
+elseif Text.GetPosition() == 22 then 
+ Text.SetMain([[Jó. Kirõl akarsz hallani? Matiról? Zsuzsáról? ]])
+
+ Text.AddLine([[Matiról. ]],21,1)
+ Text.AddLine([[Zsuzsáról. ]],23,1)
+ Text.AddLine([[A ghoulokról. ]],24,1)
+ Text.AddLine([[A mutánsokról. ]],25,1)
+ Text.AddLine([[Világi dolgokról. ]],26,1)
+ Text.AddLine([[Rólad. ]],27,1)
+ Text.AddLine([[Megyek. ]],28,1)
+
+elseif Text.GetPosition() == 23 then 
+ Text.SetMain([[Zsuzsa õsei alapították Necropolist. Alapítá- sakor véresküt fogadtak, hogy amelyik család- tag nem tesz semmit a városért, azt kiátkozzák. Zsuzsának nem tetszett ez az eskü, ezért 15 éves korában elszökött innen. San Franciscoba ment, ahol megismerkedett akkori szerelmével... ]])
+
+ Text.AddLine([[Micsoda? zsuzsa jár valakivel????? kivel? megölöm! ]],29,1)
+
+elseif Text.GetPosition() == 24 then 
+ Text.SetMain([[A ghoulok olyan népség, akik az atomrobbanás, vagy annak utóhatásainak következményeképp elváltoztak. A nagy átlag teste vörös, zöld, vagy fehér lett, úgy néznek ki, mint valami elhalt zombik, és több száz évig élnek. Gyerek ghoult még nem nagyon láttam... Viszont bármi hozzájuk nõhetett az atom robbanásának a pillanatában... Gecko városban (az a ghoulok városa) még olyan is van, akinek a fejéhez egy fa nõtt. A ghoulok lent élnek a csatornarend- szerben, mert a robbantásnál úgy gondolták, jobb lesz lent. A mutánsok viszont ideköl- töztek, és bezárták õket lentre. Késõbb csatlakozott hozzájuk Mati, aki kinevezte Pengét vezetõjüknek. Penge egy õsi ghoul harcos, akit viszont egyik nap a mutánsok kínvallatásnak vetettek alá egy olyan ügyben, amelyben késõbb ártatlannak bizonyult. Így veszítette el az egyik lábát és a fél szemét. ]])
+
+ Text.AddLine([[Jézusom, elég! beszéljünk matiról! ]],21,1)
+ Text.AddLine([[Zsuzsáról szeretnék hallani. ]],23,1)
+ Text.AddLine([[A mutánsok felizgattak... ]],25,1)
+ Text.AddLine([[Beszélj valamit a világról... ]],26,1)
+ Text.AddLine([[Most essen szó rólad! ]],27,1)
+ Text.AddLine([[Mennem kell. Puszipá. ]],28,1)
+
+elseif Text.GetPosition() == 25 then 
+ Text.SetMain([[A mutánsok néhánya az atomrobbantáskor keletkezett. Ha jól tudom, egy Military Base nevû helyen elkezdték szaporítani õket, és vezetõjük le akarta rohanni velük az egész világot! De egy... ]])
+
+ Text.AddLine([[...Vault dweller, azaz vault-védõ ember megölte a mutánsok vezetõjét, és felrobbantotta a military base-t. Tudom. Ott voltam én is. ]],30,1)
+
+elseif Text.GetPosition() == 26 then 
+ Text.SetMain([[A világ az atomrobbantások után eléggé szétszakadt, és még senki sem tudta feltér- képezni korrektül az egészet. Mi most Necropolis városában állunk. Annyit tudok, hogy New Reno hol van, de azt meg se mutatom neked, mert nem tudnál bemenni a két hónap alatt. Zsuzsa régen tudta, hol van San Fran- cisco, de minden emléket megpróbált kitörölni róla, és ha errõl kérdezed, rendkívül ideges lesz, úgyhogy ne is próbálj meg tapogatózni nála errõl... Mati viszont tudja, hol van. Minden hónapban egyszer oda megy chipset venni. ]])
+
+ Text.AddLine([[Mati? ]],21,1)
+ Text.AddLine([[Zsuzsa? mi történt vele san franciscoban? ]],23,1)
+ Text.AddLine([[Ghoulokról nem tudsz valamit? ]],24,1)
+ Text.AddLine([[Mutánsokról is akarok még hallani valamit a nap folyamán! ]],25,1)
+ Text.AddLine([[Most beszélj magadról! ]],27,1)
+ Text.AddLine([[Megyek. Ne is próbálj visszatartani! ]],28,1)
+
+elseif Text.GetPosition() == 27 then 
+ Text.SetMain([[Ejtsük a témát! ]])
+
+ Text.AddLine([[Mati. ]],21,1)
+ Text.AddLine([[Zsuzsa. ]],23,1)
+ Text.AddLine([[Ghoul. ]],24,1)
+ Text.AddLine([[Mutáns. ]],25,1)
+ Text.AddLine([[Világ. ]],26,1)
+ Text.AddLine([[Maradjunk csak nálad! ]],31,1)
+ Text.AddLine([[Megyek. ]],28,1)
+
+elseif Text.GetPosition() == 28 then 
+ Text.SetMain([[Jajj, édesem, nem engedlek én el ennyivel. Tudom, fontos küldetésed van. Mondd el szépen, miért kell Kamarás Ivánhoz megtalálni Matit! ]])
+
+ Text.AddLine([[Titok. ]],32,1)
+ Text.AddLine([[Mert õ az, aki tudhatja, merre van kamarás iván. ]],33,1)
+ Text.AddLine([[Azt hallottam, õ megtanít, hogy kell "szééép shiko-dachit" csinálni! ]],34,1)
+ Text.AddLine([[Meg akarom dugni. ]],34,1)
+ Text.AddLine([[Kereskedni fogok vele. ]],34,1)
+
+elseif Text.GetPosition() == 29 then 
+ Text.SetMain([[Miért érdekel ennyire? Csak nem vagy belezúgva Zsuzsába? SZERELMES ZSUZSÁBA, SZERELMES ZSUZSÁBA... ]])
+
+ Text.AddLine([[(Folytatás...) ]],106,1)
+
+elseif Text.GetPosition() == 30 then 
+ Text.SetMain([[TE... TE... AZ A IAN VAGY????!!!!! ]])
+
+ Text.AddLine([[Ha mondom! ]],35,1)
+ Text.AddLine([[Igen. ]],35,1)
+ Text.AddLine([[Ja. ]],35,1)
+ Text.AddLine([[Da. ]],35,1)
+ Text.AddLine([[Yes. ]],35,1)
+ Text.AddLine([[Si. ]],35,1)
+ Text.AddLine([[Oui. ]],35,1)
+
+elseif Text.GetPosition() == 31 then 
+ Text.SetMain([[Nem fogunk rólam beszélni, értem? És ha még egyszer szóba hozod, megbaszlak!!! ]])
+
+ Text.AddLine([[Ne, csak azt ne!!! matiról szeretnék hallani. ]],21,1)
+ Text.AddLine([[Ne, csak azt ne!!! zsuzsa felbaszta a fantá- ziámat. ]],23,1)
+ Text.AddLine([[Ne, csak azt ne!!! ghoulok érdekelnének. ]],24,1)
+ Text.AddLine([[Ne, csak azt ne!!! mutáns-mesét akarok. ]],25,1)
+ Text.AddLine([[Ne, csak azt ne!!! világi dolgok jöjjenek! ]],26,1)
+
+elseif Text.GetPosition() == 32 then 
+ Text.SetMain([[Elmondod, mert addig úgyse mész ki innen. ]])
+
+ Text.AddLine([[Jaj, ez igaz. Õ Talán tudja az utat kamarás ivánhoz! ]],33,1)
+ Text.AddLine([[Chipset hoztam neki. ]],34,1)
+
+elseif Text.GetPosition() == 33 then 
+ Text.SetMain([[Aha, ez a számítás sajnos hamis, mert ugye itt engem mindenki szeret, és természetesen itt mindenki megoszt velem mindent, mert tudják, hogy én semmit sem kotyogok ki. És tudod mi az én elõnyöm? Hogy akármikor rámszólnak, abba tudom hagyni a beszélgetést, és abszolút nem esik nehezemre... Szóval, ha Mati tudná, hol van Kamarás Iván, már én is rég tudnám... ]])
+
+ Text.AddLine([[Vedd úgy, hogy rádszóltam! ]],37,1)
+ Text.AddLine([[Elég, picsa! kussolsz, vagy a szádba lépek! ]],38,1)
+ Text.AddLine([[Hozz össze nekem egy randit zsuzsával! ]],39,1)
+ Text.AddLine([[Mennem kell. ]],40,1)
+
+elseif Text.GetPosition() == 34 then 
+ Text.SetMain([[Hazugságvizsgálatnak hajlandó lennél alávetni magad? Úgy érzem, hazudsz. ]])
+
+ Text.AddLine([[Igen. Szerintem õ tudja, hol van kamarás iván, csak eressz el, baszd meg! ]],33,1)
+
+elseif Text.GetPosition() == 35 then 
+ Text.SetMain([[Jézusom, mesélj nekem arról a kalandodról! ]])
+
+ Text.AddLine([[Shady shandsben találkoztunk. Felbérelt egy kis pénzért, eleinte csak egy víztisztító chipet akartunk szerezni a vault 13 lakóinak, de ké- sõbb, mikor a mutánsveszélyre fény derült, egybõl mentünk kinyírni õket. Társam már rég meghalt volna nélkülem. Nélkülem már ezerszer meghalt volna. De hála istennek, pontos célzásaimmal és gyors járású eszemmel azonnal pontot tettünk a történet végére a cathedral nevû helyen. ]],41,1)
+ Text.AddLine([[Nem! ]],42,1)
+ Text.AddLine([[Könyörgök! bármit megadok, csak eressz el! ]],43,1)
+
+elseif Text.GetPosition() == 36 then 
+ Text.SetMain([[Huhh, ez meleg volt... Látod, milyen rendes vagyok, megtehettem volna, hogy kikotyogom, mint valami pletykás vénaszonny valami harmad- rendû harmatgyenge magyar kis költségvetésû tehetségtelen színészekkel teli szappanope- rasztár, de nem mondtam el neki. ]])
+
+ Text.AddLine([[Jó, jó, jó. Mi volt zsuzsával san franciscóban?! ]],44,1)
+ Text.AddLine([[Te egy bolond vén kurva vagy! nem is szere- tem zsuzsát! ]],45,1)
+
+elseif Text.GetPosition() == 37 then 
+ Text.SetMain([[Rámszóltál? Hogyhogy rámszóltál? ]])
+
+ Text.AddLine([[Hogy fejezd be, te sárosagyú ribanc picsa! ]],46,1)
+ Text.AddLine([[Szóltam, hogy kérlek, engedj el! ]],47,1)
+ Text.AddLine([[Jujj, hogy szalad az idõ. Mennem kell! ]],47,1)
+
+elseif Text.GetPosition() == 38 then 
+ Text.SetMain([[Ja persze... Az én idõmben bezzeg... ]])
+
+ Text.AddLine([[Elég! az elõbb említetted, hogy befejezed a dumát, ha rádszólnak. Fejezd be!!!!!! ]],37,1)
+
+elseif Text.GetPosition() == 39 then 
+ Text.SetMain([[Óóó, pedálozik a kis szerelmes, mi? De ne aggódj, Magdi néni egy szerelemistennõ, segítek neked. Zsuzsa rendkívül szereti a romantikus dolgokat, például egy döglött békával biztos elnyered a szerelmét. ]])
+
+ Text.AddLine([[Döglött béka? hol szerezzek döglött békát? ]],48,1)
+
+elseif Text.GetPosition() == 40 then 
+ Text.SetMain([[Mielõtt elmész, kívánj még valamit, teljesítem. ]])
+
+ Text.AddLine([[Hozz össze egy randevút nekem zsuzsával... ]],39,1)
+ Text.AddLine([[Dögölj meg, te káráló kurva! ]],49,1)
+ Text.AddLine([[Hogy hadd menjek el! ]],40,1)
+ Text.AddLine([[Azt kívánom, bárcsak rádszólhatnék, hogy fejezd már be a pofázást! ]],37,1)
+
+elseif Text.GetPosition() == 41 then 
+ Text.SetMain([[Ah, várj! Ezt le kell írnom. Kezdd elõrõl! Micsoda sztorim lesz már, a "Pletykás Ribancok" magazin címoldalára kerülök majd! ]])
+
+ Text.AddLine([[ÁÁÁÁÁÁÁÁ! ]],50,1)
+
+elseif Text.GetPosition() == 42 then 
+ Text.SetMain([[De! Várj, elõveszek papírt, ceruzát, jegyze- telni fogok... Kész. Mondd! ]])
+
+ Text.AddLine([[Hogy a kurva... ]],50,1)
+
+elseif Text.GetPosition() == 43 then 
+ Text.SetMain([[Nem eresztelek. Egy sztorival még lógsz nekem. ]])
+
+ Text.AddLine([[Legyen! ]],50,1)
+
+elseif Text.GetPosition() == 44 then 
+ Text.SetMain([[Zsuzsának nem tetszettek az õsi, családi hagyományok. Tizenévesen megszökött, és San Franciscoban kötött ki. Ott megismerkedett egy Tage nevû vele egyidõs fiatalemberrel. Jártak egy darabig, de Tage megcsalta Zsuzsát egy Klamath-i kurvával. Zsuzsa egybõl kidobta Tagét, és azóta sem találkoztak, és nem is beszéltek soha egymással. ]])
+
+ Text.AddLine([[Tage érdekel. ]],51,1)
+ Text.AddLine([[A kurva érdekel. ]],52,1)
+ Text.AddLine([[Nem is szeretem zsuzsát! ]],45,1)
+
+elseif Text.GetPosition() == 45 then 
+ Text.SetMain([[Ja, meghiszem én azt... Szép a szerelem, fiatalember, legalább nekem valld be, ha magadnak nem is... ]])
+
+ Text.AddLine([[Elég. Váltsunk témát. Mati. ]],21,1)
+ Text.AddLine([[Mesélj a ghoulokról! ]],24,1)
+ Text.AddLine([[Mesélj a mutánsokról! ]],25,1)
+ Text.AddLine([[Világi dolgokról mesélj! ]],26,1)
+ Text.AddLine([[Magadról beszélj! ]],27,1)
+ Text.AddLine([[Megyek. ]],28,1)
+
+elseif Text.GetPosition() == 46 then 
+ Text.SetMain([[Csak nem unsz?? ]])
+
+ Text.AddLine([[De, te félbuzi kurva! elmegyek, most már baszok rád! ]],40,1)
+
+elseif Text.GetPosition() == 47 then 
+ Text.SetMain([[Na jó, most már tényleg elengedlek. ]])
+
+ Text.AddLine([[(Vársz, hogy vajon mi a francot talál még ki, hogy elmondhassa a szar pletykáit) ]],53,1)
+
+elseif Text.GetPosition() == 48 then 
+ Text.SetMain([[A döglött béka igen kifinomult, ritka és értékes tárgy. De neked meg súgom, hogy hol találhatsz egyet: fingom sincs. Keress! ]])
+
+ Text.AddLine([[Szóval a döglött béka zsuzsa szívének a kulcsa? ]],54,1)
+ Text.AddLine([[Valami támpontot azért csak tud adni. ]],55,1)
+ Text.AddLine([[Ebbõl elég, engem zsuzsa nem is érdekel. ]],45,1)
+
+elseif Text.GetPosition() == 49 then 
+ Text.SetMain([[(szipog) Zav... Zav... Zavarlak?? ]])
+
+ Text.AddLine([[Elég, rádszólok most utoljára, hogy kuss! ]],37,1)
+
+elseif Text.GetPosition() == 50 then 
+ Text.SetMain([[Shady Shandsbõl indultatok, majd összevissza mászkáltatok a nagyvilágban, közben csak úgy kiirtottatok pár mutánsot, köztük a bázisukat, és a Cathedral nevû helyen a nagyfõnököt is? ]])
+
+ Text.AddLine([[Tulajdonképpen igen. ]],56,1)
+ Text.AddLine([[Kihagytad, hogy mindez nélkülem természetesen nem sikerülhetett volna. ]],57,1)
+
+elseif Text.GetPosition() == 51 then 
+ Text.SetMain([[Tage egy San Franciscoi mûrapper. Tette a nagy rappert a jónépnek, közben pedig Pap Ritát hallgat. Rendkívül régóta fáj már a foga Pap Rita "Csovi Csovi Jasper 2: A kutya visszatér" c. CD-jére. Zsuzsa már közel volt ahhoz, hogy lassan elküldje neki. Ám egyik nap egy Klatamthból származó kurvával... Félrelépett. Aztán szakítottak. Nem tudom, él-e vagy hal-e mostanság. ]])
+
+ Text.AddLine([[A kurva érdekel. ]],52,1)
+ Text.AddLine([[Már nem szeretem zsuzsát. ]],45,1)
+ Text.AddLine([[Na jó. Másról akarok hallani! ]],22,1)
+
+elseif Text.GetPosition() == 52 then 
+ Text.SetMain([[A kurváról semmit nem tudok, hacsak nem azt, hogy még ma is él, és a Klamath-i kuplerájban dolgozik. Az van az épületre felírva, hogy Bathhouse. Barna a haja, és kevés ruhát visel. ]])
+
+ Text.AddLine([[ÉS tage? ]],51,1)
+ Text.AddLine([[Te most azt terjeszted, hogy én szeretem zsuzsát? ez hamis. ]],45,1)
+ Text.AddLine([[Elég. Beszéljünk másról! ]],22,1)
+
+elseif Text.GetPosition() == 53 then 
+ Text.SetMain([[Na, viszlát! ]])
+
+ Text.AddLine([[Semmi utolsó pletyka? semmi terjesztés? ]],58,1)
+ Text.AddLine([[Pussz! (rohansz) ]],59,1)
+ Text.AddLine([[Hát akkor a legközelebbi soha viszont nem látásra! ]],60,1)
+
+elseif Text.GetPosition() == 54 then 
+ Text.SetMain([[Igen. ]])
+
+ Text.AddLine([[Adjon már valami támpontot! ]],55,1)
+ Text.AddLine([[Tudja, hogy én nem szeretem zsuzsát? ]],45,1)
+ Text.AddLine([[Na jó. Váltsunk témát! ]],22,1)
+
+elseif Text.GetPosition() == 55 then 
+ Text.SetMain([[Na jó. Õszintén szólva van egy döglött békám. De azt nem adom. ]])
+
+ Text.AddLine([[ÉS mi a kibaszott kurva égért nem? ]],61,1)
+
+elseif Text.GetPosition() == 56 then 
+ Text.SetMain([[Ez fantasztikus. Köszönöm, hogy elmondtad. Én leszek a hónap pletykafészke a ribanc barátnõimnél New Renoban. Köszönöm! ]])
+
+ Text.AddLine([[Szóra sem érdemes. ]],22,1)
+
+elseif Text.GetPosition() == 57 then 
+ Text.SetMain([[Persze. Persze. Természetesen nem felejtettem el. Na jó. Mirõl beszéljünk? ]])
+
+ Text.AddLine([[Matiról. ]],21,1)
+ Text.AddLine([[Zsuzsáról. ]],23,1)
+ Text.AddLine([[Ghoulokról. ]],24,1)
+ Text.AddLine([[Mutánsokról. ]],25,1)
+ Text.AddLine([[A világról. ]],26,1)
+ Text.AddLine([[Rólad. ]],27,1)
+ Text.AddLine([[Megyek. ]],28,1)
+
+elseif Text.GetPosition() == 58 then 
+ Text.SetMain([[Miért, legyen? Na jó, ha ilyen szépen kéred... Képzeld... ]])
+
+ Text.AddLine([[(Már itt se vagy) (vége (tényleg! (komolyan!! (igaz!)))) ]],100,1)
+
+elseif Text.GetPosition() == 59 then 
+ Text.SetMain([[Neked is jó napot! Ha visszajössz Matitól, még beszélünk! ]])
+
+ Text.AddLine([[Nem hiszem! ]],101,1)
+
+elseif Text.GetPosition() == 60 then 
+ Text.SetMain([[Na, most miért? Valami rosszat mondtam? ]])
+
+ Text.AddLine([[Nem, de hogy ne is mondj, megyek! puszika! ]],101,1)
+
+elseif Text.GetPosition() == 61 then 
+ Text.SetMain([[Mert... Ez az én fizetségem. ]])
+
+ Text.AddLine([[Fizetséged? miért? ]],62,1)
+ Text.AddLine([[Na jó. Váltsunk témát. ]],22,1)
+
+elseif Text.GetPosition() == 62 then 
+ Text.SetMain([[New Renoban kaptam... A... Elég. Váltsunk témát! ]])
+
+ Text.AddLine([[Jó. ]],22,1)
+
+elseif Text.GetPosition() == 100 then
+ Mode.NormalMode()
+ Char.var1 = 1
+
+ System.AddTimer(0,0,0,0,0,2,[[
+  Classes.SetActualCharacter(0)
+  GVar.Set("CanTalkToLajos",0)
+  System.RunFile("Lajos.ios")
+ ]])
+
+elseif Text.GetPosition() == 101 then
+ Mode.NormalMode()
+ Char.var1 = 1
+
+ System.AddTimer(0,0,0,0,0,2,[[
+  Classes.SetActualCharacter(0)
+  GVar.Set("CanTalkToLajos",0)
+  System.RunFile("Lajos.ios")
+ ]])
+
+elseif Text.GetPosition() == 106 then
+ Mode.NormalMode()
+ Mode.StopUserInteract()
+ Text.SetPosition(36)
+ System.Fade(0)
+ Zsuzsa = Classes.GetCharacter(2000)
+
+ Zsuzsa.x = 208
+ Zsuzsa.y = 68
+
+ System.AddTimer(0,0,0,0,0,1,[[
+  System.Fade(1)
+  System.RunFile("magdizs.ios")
+ ]])
+
+
+end

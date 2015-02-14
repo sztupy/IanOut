@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<item name="CHEEZY" type="other">
+ <graphic picture="smalbox2" inventory="CHEEZY"/>
+ <text yousee="Valami" lookat="Valami"/>
+ <desc>
+  <mode name="use">
+  </mode>
+ </desc>
+</item>

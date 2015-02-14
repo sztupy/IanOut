@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<item name="rock" type="other">
+ <graphic picture="rock" inventory="rock"/>
+ <text yousee="Kõ" lookat="Kõ... nem jó semmire"/>
+ <desc>
+  <mode name="use">
+  </mode>
+ </desc>
+</item>

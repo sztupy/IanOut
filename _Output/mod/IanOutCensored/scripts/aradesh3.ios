@@ -1,0 +1,56 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+
+if Text.GetPosition() == 0 then 
+ Text.SetMain([[Ah, Ian. Végre itt vagy! Na, itt a holttest? ]])
+
+ Text.AddLine([[Igen. A tiéd! (megtámadod) ]],100,1)
+ Text.AddLine([[Igen. Nesze!! ]],2,1)
+ Text.AddLine([[Nem. Miféle holttest? ]],3,1)
+
+elseif Text.GetPosition() == 2 then 
+ Text.SetMain([[Szép példány. Na jó, most már hiszek neked. Idõközben viszont új veszélyforrás ütötte fel a fejét... ]])
+
+ Text.AddLine([[Jézusom, miféle? ]],4,1)
+ Text.AddLine([[Nem vállalom. Gracias. ]],3,1)
+
+elseif Text.GetPosition() == 3 then 
+ Text.SetMain([[Elegem van belõled! Most már végképp elteszlek láb alól! ]])
+
+ Text.AddLine([[(Megtámad) ]],100,1)
+
+elseif Text.GetPosition() == 4 then 
+ Text.SetMain([[Az egész a XX. században kezdõdött. Magyarországon 1999-ben egy csapat ukrán terrorista Bécs felé tartott az Európa Expresszen. Az ukránok egyik emberét azonban még idõben lekapcsolták, és így megtudták a terroristák tervét. A titkosrendõrség is felszállt az Európa Expresszre. Hosszas bonyodalmak és sikertelenebb akciók után visszafordították az Európa Expresszet, és elhitették a külföldön még sohasem járt ukrán-magyar terroristafõ- nökkel, hogy a Budapest Keleti Pu. valójában nem más, mint Bécs. Ennek megfelelõen át is alakították a Keletit, és Kamarás Iván vízszintesen tartva a pisztolyát leszámolt a gonosz maffiózokkal. ]])
+
+ Text.AddLine([[Ez mind szép és jó, de én nem esti mesét kértem! ]],5,1)
+ Text.AddLine([[Fantasztikus. Folytasd. ]],5,1)
+ Text.AddLine([[Elég. Elviszem az eddig megszerzett jutalmamat. ]],3,1)
+
+elseif Text.GetPosition() == 5 then 
+ Text.SetMain([[Kamarás Ivánt viszont tiltott fegyverhasználatért börtönbe csukták. Nem sokkal rá az ítéletet végre is hajtották: felakasztották. Ma, 2160-ban a szelleme itt járt, kijelentette, hogy két hónapon belül visszatér, és leigázza a falut. Azóta már biztos talált egy testet. Ian, a Te feladatod lesz megtalálni és likvidálni õt. Shady Shands jövõje tõled függ. ]])
+
+ Text.AddLine([[Tõlem ugyan nem. Foglalkozz Shady Shands jövõjével te, aradesh! ]],3,1)
+ Text.AddLine([[Jézusom! vállalom. De tudod, mekkora áldozatot hozok ezzel! ]],6,1)
+
+elseif Text.GetPosition() == 6 then 
+ Text.SetMain([[Vigyél el segítségül egy tárgyat az alábbiak közül: vihetsz tõlem Jimmy White-kotont, szemetet, követ, vagy egy kötelet. Van egy mobilod? ]])
+
+ Text.AddLine([[Van. ]],7,1)
+
+elseif Text.GetPosition() == 7 then 
+ Text.SetMain([[Hívd fel az egyik barátodat, és kérdezd meg, hogy mit kérjél el! Biztos nagyon jó tanácsai vannak, higgy neki! ]])
+
+ Text.AddLine([[O.K. ]],101,1)
+
+elseif Text.GetPosition() == 100 then
+ Mode.TurnBasedMode()
+ Char.var1 = 3
+ GVar.Set("artalk",1)
+
+elseif Text.GetPosition() == 101 then
+ Mode.NormalMode()
+ Char.var1 = 3
+ GVar.Set("artalk",1)
+ GVar.Set("CanTalkToLajos",0)
+
+end

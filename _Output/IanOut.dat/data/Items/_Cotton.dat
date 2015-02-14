@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<item name="cotton" type="other">
+ <graphic picture="smalbox2" inventory="condombl"/>
+ <text yousee="Kotton" lookat="Szükség van rá, ha tudod mi... :)"/>
+ <desc>
+  <mode name="use">
+  </mode>
+ </desc>
+</item>

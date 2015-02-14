@@ -1,0 +1,235 @@
+Asszony = Classes.GetCharacter(1)
+Gyerek1 = Classes.GetCharacter(2)
+Gyerek2 = Classes.GetCharacter(3)
+Ian = Classes.GetIan()
+Syme = Classes.GetCharacter(7)
+
+Classes.SetActualCharacter(0);
+
+Mode.NormalMode()
+Mode.StopUserInteract()
+
+if GVar.Get("partone") < 36 then
+  Gyerek1:MoveRandom(1);
+  Gyerek2:MoveRandom(1);
+end
+
+if GVar.Get("partone") == 0 then
+  Ian:CenterScreen()
+  Ian:Taunt(2,"1984. április 4.")
+
+elseif GVar.Get("partone") == 3 then
+  Ian:Taunt(1,"Hmm...")  
+
+elseif GVar.Get("partone") == 5 then
+  Text.SetFile("partone_1.ios")
+  Text.SetPosition(1)
+  Mode.TalkMode()
+
+elseif GVar.Get("partone") == 6 then
+  System.Fade(0)
+elseif GVar.Get("partone") == 7 then
+  System.Fade(1)
+elseif GVar.Get("partone") == 8 then
+  Ian:Taunt(2,"LE NAGY TESTVÉRREL")
+elseif GVar.Get("partone") == 9 then
+  Ian:Taunt(2,"LE NAGY TESTVÉRREL")
+  Ian:Taunt(2,"LE NAGY TESTVÉRREL")
+elseif GVar.Get("partone") == 10 then
+  Ian:Taunt(2,"LE NAGY TESTVÉRREL")
+  Ian:Taunt(2,"LE NAGY TESTVÉRREL")
+  Ian:Taunt(2,"LE NAGY TESTVÉRREL")
+elseif GVar.Get("partone") == 11 then
+  Asszony:CenterScreen();
+  Ian:Taunt(2,"LE NAGY TESTVÉRREL")
+  Ian:Taunt(2,"LE NAGY TESTVÉRREL")
+  Ian:Taunt(2,"LE NAGY TESTVÉRREL")
+  Ian:Taunt(2,"LE NAGY TESTVÉRREL")
+  Asszony:Taunt(3,"(kopp) (kopp)")  
+elseif GVar.Get("partone") == 12 then
+  Ian:UseItem(1);
+  Asszony:Taunt(3,"(kopp) (kopp)") 
+
+elseif GVar.Get("partone") == 13 then
+
+elseif GVar.Get("partone") == 14 then
+  Asszony:Taunt(1,"Ó, elvtárs, jól hallottam hát,")
+elseif GVar.Get("partone") == 15 then
+  Asszony:Taunt(1,"hogy hazajöttél. Nem tudnál átjönni")
+elseif GVar.Get("partone") == 16 then
+  Asszony:Taunt(1,"egy kicsit, hogy megnézd a mosogatómat?")
+elseif GVar.Get("partone") == 17 then
+  Asszony:Taunt(1,"Eldugult és...")
+elseif GVar.Get("partone") == 19 then
+  Asszony:Taunt(1,"Persze, csak azért kérlek, mert Tom nincs")
+elseif GVar.Get("partone") == 20 then
+  Asszony:Taunt(1,"itthon")
+elseif GVar.Get("partone") == 21 then
+  Asszony:UseItem(2);
+  Ian:MoveAbs(118,34)
+elseif GVar.Get("partone") == 22 then
+  Asszony:CenterScreen()
+elseif GVar.Get("partone") == 23 then
+  Asszony:CenterScreen()
+  Ian:MoveAbs(126,39);
+  Asszony:MoveAbs(132,42);
+elseif GVar.Get("partone") == 25 then
+  Ian:CenterScreen()
+  Asszony:LookAt(Ian.x,Ian.y)
+  Ian:LookAt(Asszony.x,Asszony.y);
+  Asszony:Taunt(1,"A gyerekek");
+elseif GVar.Get("partone") == 26 then
+  Asszony:Taunt(1,"még nem voltak ma kint. S persze...");
+elseif GVar.Get("partone") == 27 then
+  Asszony:Taunt(1,"Persze, ha Tom itthon volna, egy pillanat");
+elseif GVar.Get("partone") == 28 then
+  Asszony:Taunt(1,"alatt rendbe hozná. Szívesen foglalkozik");
+elseif GVar.Get("partone") == 29 then
+  Asszony:Taunt(1,"ilyesmivel. Tom nagyon ügyes kezu.");
+
+elseif GVar.Get("partone") == 32 then
+  Ian:Taunt(1,"Van csavarkulcsotok?");
+
+elseif GVar.Get("partone") == 33 then  
+  Asszony:Taunt(1,"Csavarkulcsunk?");
+elseif GVar.Get("partone") == 34 then
+  Asszony:Taunt(1,"Én nem is tudom, valószínuleg van...");
+elseif GVar.Get("partone") == 35 then
+  Asszony:Taunt(1,"Talán a gyerekek...");
+
+elseif GVar.Get("partone") == 36 then
+  Gyerek1:CenterScreen();
+  Gyerek1:LookAt(Ian.x,Ian.y);
+  Gyerek1:Taunt(1,"Fel a kezekkel!");
+
+elseif GVar.Get("partone") == 37 then
+  Gyerek1:CenterScreen();
+  Gyerek1:LookAt(Ian.x,Ian.y);
+  Gyerek1:Taunt(1,"Áruló Vagy! Gondolatbunözo vagy!");
+
+elseif GVar.Get("partone") == 38 then
+  Gyerek1:CenterScreen();
+  Gyerek1:LookAt(Ian.x,Ian.y);
+  Gyerek1:Taunt(1,"Eurázsiai kém vagy! Lelolek, elgozösítlek, a sóbányákba küldelek!");
+
+elseif GVar.Get("partone") == 39 then
+  Gyerek1:Taunt(1,"Áruló!");
+  Gyerek2:Taunt(1,"Gondolatbûnözõ!");
+  Asszony:CenterScreen();
+  Asszony:Taunt(1,"Olyan lármásak");
+
+elseif GVar.Get("partone") == 40 then
+  Gyerek2:Taunt(1,"Áruló!");
+  Gyerek1:Taunt(1,"Gondolatbûnözõ!");
+  Asszony:Taunt(1,"Csalódottak, mert nem nézhetik meg az akasztást.");
+
+elseif GVar.Get("partone") == 41 then
+  Gyerek1:Taunt(1,"Áruló!");
+  Gyerek2:Taunt(1,"Gondolatbûnözõ!");
+  Asszony:Taunt(1,"Én nem érek rá. Tom meg nem fog idejében hazajönni a munkából."); 
+
+elseif GVar.Get("partone") == 42 then
+  Gyerek1:CenterScreen();
+  Gyerek1:LookAt(Asszony.x,Asszony.y);
+  Gyerek1:Taunt(1,"Miért nem mehetünk el megnézni az akasztást");
+  
+elseif GVar.Get("partone") == 43 then
+  Gyerek2:CenterScreen();
+  Gyerek2:LookAt(Asszony.x,Asszony.y);
+  Gyerek2:Taunt(1,"Látni akarjuk az akasztást! Látni akarjuk az akasztást!");
+
+elseif GVar.Get("partone") == 44 then
+  System.Fade(0);
+  Ian.x = 288
+  Ian.y = 29
+  Ian:CenterScreen();
+  GVar.Set("partone",98);
+
+elseif GVar.Get("partone") == 99 then
+  System.Fade(1);
+elseif GVar.Get("partone") == 100 then
+ Ian:Taunt(2,"times 83. 12. 3.");
+elseif GVar.Get("partone") == 101 then
+ Ian:Taunt(2,"nt napiparancs közlemény duplaplusznemjó");
+elseif GVar.Get("partone") == 102 then
+ Ian:Taunt(2,"nemszemélyek eml átír felülben utánikt");
+
+elseif GVar.Get("partone") == 103 then
+ Text.SetFile("partone_1.ios")
+ Text.SetPosition(2)
+ Mode.TalkMode()
+
+elseif GVar.Get("partone") == 104 then
+ System.Fade(0);
+  Ian.x = 290
+  Ian.y = 113
+  Syme.x=288
+  Syme.y=113
+  Ian:CenterScreen();
+  GVar.Set("partone",198)
+
+elseif GVar.Get("partone") == 199 then
+  System.Fade(1);
+
+elseif GVar.Get("partone") == 200 then
+  Ian:LookAt(Syme.x,Syme.y);
+  Syme:LookAt(Ian.x,Ian.y);
+  Syme:CenterScreen()
+  Syme:Taunt(4,"Éppen téged kereslek");
+elseif GVar.Get("partone") == 201 then
+  Syme:Taunt(4,"Meg akartam kérdezni, hogy sikerült-e szerezned borotvapengét");
+elseif GVar.Get("partone") == 202 then
+  Ian:Taunt(1,"Nem sikerült! Mindenfelé próbáltam, de sehol sincs egy darab se.");
+elseif GVar.Get("partone") == 203 then
+  Ian:Taunt(1,"Hat hete ugyanazt a pengét használom");
+elseif GVar.Get("partone") == 204 then
+  Syme:Taunt(4,"Megnézted este a hadifoglyok akasztását?");
+elseif GVar.Get("partone") == 205 then
+  Ian:Taunt(1,"Dolgoztam. Bizonyára bemutatják majd a moziban.");
+elseif GVar.Get("partone") == 206 then
+  Syme:Taunt(4,"Nagyon tökéletlen pótlék");
+elseif GVar.Get("partone") == 207 then
+  Syme:Taunt(4,"Sikeres akasztás volt.");
+elseif GVar.Get("partone") == 208 then
+  Syme:Taunt(4,"Véleményem szerint elrontják az egészet, ha");
+elseif GVar.Get("partone") == 209 then
+  Syme:Taunt(4,"összekötik a lábukat. Szeretem látni, ahogy rugdalóznak.");
+elseif GVar.Get("partone") == 210 then
+  Syme:Taunt(4,"S foleg a végét, amikor szép kékek lesznek.");
+elseif GVar.Get("partone") == 211 then
+  Syme:Taunt(4,"Foleg ez a része érdekel.");
+elseif GVar.Get("partone") == 212 then
+  Char = Classes.GetCharacter(5);
+  Char:Taunt(1,"Következõ");
+  Ian:MoveAbs(296,113);
+elseif GVar.Get("partone") == 213 then
+  Syme:Taunt(4,"Ott egy üres asztal, az alatt a telekép alatt");
+elseif GVar.Get("partone") == 214 then
+  Ian:MoveAbs(284,135);
+  Syme:MoveAbs(286,135);
+elseif GVar.Get("partone") == 215 then
+  Ian:MoveAbs(284,135);
+  Syme:MoveAbs(286,135);
+  Ian:CenterScreen();
+elseif GVar.Get("partone") == 216 then
+  Ian:MoveAbs(284,135);
+  Syme:MoveAbs(286,135);
+  Ian:CenterScreen();
+elseif GVar.Get("partone") == 217 then
+  Ian:CenterScreen();
+  Ian.x = 284;
+  Ian.y = 135;
+  Syme.x = 286;
+  Syme.y = 135;
+  Ian:LookAt(Syme.x,Syme.y);
+  Syme:LookAt(Ian.x,Ian.y); 
+
+  Text.SetFile("partone_1.ios")
+  Text.SetPosition(3)
+  Mode.TalkMode()
+  
+end
+
+GVar.Set("partone",GVar.Get("partone")+1)
+
+System.AddTimer(0,0,0,0,0,2,[[ System.RunFile('partone.ios') ]]);

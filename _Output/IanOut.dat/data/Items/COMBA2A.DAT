@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<item name="COMBA2A" type="other">
+ <graphic picture="smalbox2" inventory="COMBA2A"/>
+ <text yousee="Valami" lookat="Valami"/>
+ <desc>
+  <mode name="use">
+  </mode>
+ </desc>
+</item>

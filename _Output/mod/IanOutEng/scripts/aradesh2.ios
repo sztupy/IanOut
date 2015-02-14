@@ -1,0 +1,52 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+
+if Text.GetPosition() == 0 then 
+ Text.SetMain([[What happend? Have you succeded?]])
+
+ Text.AddLine([[Yes! It was as simple as 1-2-3!]],2,1)
+ Text.AddLine([[No you motherfucker sadist animal!]],3,1)
+
+elseif Text.GetPosition() == 2 then 
+ Text.SetMain([[Great. But the fact that you''re bleeding from top to bottom and that you cannot use your arms, doesn''tr really confirm your statement, but it''s just the same. ]])
+
+ Text.AddLine([[All right, all right ]],4,1)
+
+elseif Text.GetPosition() == 3 then 
+ Text.SetMain([[Hey! ]])
+
+ Text.AddLine([[(Attack) ]],100,1)
+
+elseif Text.GetPosition() == 4 then 
+ Text.SetMain([[Now, where is the corpse of the mantis? ]])
+
+ GVar.Set("NeedMantis",1)
+
+ Text.AddLine([[What? ]],5,1)
+ Text.AddLine([[HERE. (You show him your dick) ]],3,1)
+
+elseif Text.GetPosition() == 5 then 
+ Text.SetMain([[What were you thinking? I will believe it and tomorrow it will destroy the town. Go and get the corpse, you fat-ass! ]])
+
+ Text.AddLine([[(you begin to cry) ]],101,1)
+ Text.AddLine([[What the fucking hell...]],101,1)
+ Text.AddLine([[I''m finished you jugheaded motherfucker!]],3,1)
+
+elseif Text.GetPosition() == 100 then
+ Mode.TurnBasedMode()
+ Char.var1 = 2
+ GVar.Set("artalk",1)
+
+elseif Text.GetPosition() == 101 then
+ Mode.NormalMode()
+ Char.var1 = 2
+ GVar.Set("artalk",1)
+
+ System.AddTimer(0,0,0,0,0,2,[[
+Classes.SetActualCharacter(0)
+GVar.Set("artalk",1)
+GVar.Set("CanTalkToLajos",0)
+System.RunFile("Lajos.ios")
+]])
+
+end

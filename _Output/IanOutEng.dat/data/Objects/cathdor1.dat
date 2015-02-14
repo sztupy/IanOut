@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<object name="cathdor1">
+ <graphic picture="scenery\cathdor1"/>
+ <text yousee="Ajtó" lookat="Gondolom már láttál ajtót életedben..."/>
+ <desc ability="1000001001">
+    <onuse type="1">
+   <direction x="0" y="0"/>
+   <script>
+    System.RunFile("door.ios")
+   </script>
+   <script2>
+    System.RunFile("door2.ios")
+   </script2>
+  </onuse>
+ </desc>
+</object>

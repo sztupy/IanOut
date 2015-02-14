@@ -1,0 +1,19 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+
+if Text.GetPosition() == 1 then 
+ Text.SetMain([[Halló? ]])
+
+ Text.AddLine([[Csõ, Lajos. Itt vagyok arardeshhel. ÚJ munkám van: kamarás ivánt kell megölnöm két hónapon belül. Egy tárgyat kapok segítségül aradeshtõl: melyiket kérjem??!! van jimmy paige-koton, szemét, kõ és kötél. ]],2,1)
+
+elseif Text.GetPosition() == 2 then 
+ Text.SetMain([[Válaszd a kötelet! ]])
+
+ Text.AddLine([[Rendben van. Kösz. Majd legközelebb te hívj! ]],101,1)
+
+elseif Text.GetPosition() == 101 then
+ Mode.NormalMode()
+ GVar.Set("CanTalkToLajos",1)
+ GVar.Set("LajosTalk",5)
+ GVar.Set("artalk",0)
+end

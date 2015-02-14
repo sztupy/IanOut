@@ -1,0 +1,84 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+
+if Text.GetPosition() == 0 then
+ Text.SetMain([[Ahh, Ian. I''ve already waiting for you. I''ve got a quest for you. It''s dangerous, but you can gain reputation in the town.]])
+
+ Text.AddLine([[Come what may come!]],3,1)
+ Text.AddLine([[No, Aradesh, I''m frightened!]],2,1)
+
+
+elseif Text.GetPosition() == 2 then
+ Text.SetMain([[Then I will pronounce you DEATH!]])
+
+ Text.AddLine([[(attack)]],100,1)
+
+elseif Text.GetPosition() == 3 then
+ Text.SetMain([[Wery well, I know, that you''re the bravest and most intelligent p[erson in Shady Sands. (:-)) We face the biggest problem Shady Sands ever had. We urgently need you, but with your help...]])
+
+ Text.AddLine([[Spit it out!]],4,1)
+ Text.AddLine([[(you wait)]],5,1)
+
+elseif Text.GetPosition() == 4 then
+ Text.SetMain([[Don''t be impatient! So...]])
+
+ Text.AddLine([[(you wait)]],5,1)
+
+elseif Text.GetPosition() == 5 then
+ Text.SetMain([[So we couldn''t solve the problem. We have found a small den north-east of Shady Sands. It''s called Rat Base. It is just a small meadow, but the threat our town must face is...]])
+
+ Text.AddLine([[Tell me the problem, I''ve already faced wolves, deathclaws, humans, bandits, dangerous creatures, UFOs, nothing is a threat to me.]],6,1)
+ Text.AddLine([[Sorry I''ve already retired.]],2,1)
+
+elseif Text.GetPosition() == 6 then
+ Text.SetMain([[A MANTIS lives there!]])
+
+ Text.AddLine([[Hû, micsoda ellenfél...]],7,1)
+ Text.AddLine([[Hah, what an enemy...]],8,1)
+ Text.AddLine([[Well, that''s too much for me.]],2,1)
+
+elseif Text.GetPosition() == 7 then
+ Text.SetMain([[For you it''s enough. I''l give you a PipGirl 2000, which is a great laptop.]])
+
+ Text.AddLine([[What technology...]],9,1)
+ Text.AddLine([[I give up.]],2,1)
+
+elseif Text.GetPosition() == 8 then
+ Text.SetMain([[Mantis is a small green bug. It can fly, but during combat it doesn''t use this ability.]])
+
+ Text.AddLine([[And why is a mantis a threat to our town?]],10,1)
+ Text.AddLine([[What a great enemy...]],7,1)
+ Text.AddLine([[I think I''l retire!]],2,1)
+
+elseif Text.GetPosition() == 9 then
+ Text.SetMain([[Go Ian, I''ve already marked the location of Rat Base in your PipGirl, and Shady Sands is also marked, so you can come back. We now, that you''re dumb enough not to find your way back home. Now go!]])
+
+ Text.AddLine([[Okey, okey, I''l go!]],101,1)
+ Text.AddLine([[I''ll go, wish me good luck!]],11,1)
+ Text.AddLine([[I won''t go!]],2,1)
+
+ Map.WorldMapShow(22,25)
+ Map.ShowCity(1)
+
+elseif Text.GetPosition() == 10 then
+ Text.SetMain([[He eats our crops. I am speaking of a WHOLE mantis!]])
+
+ Text.AddLine([[What a great enemy...]],7,1)
+ Text.AddLine([[No.]],2,1)
+
+elseif Text.GetPosition() == 11 then
+ Text.SetMain([[DIE!]])
+
+ Text.AddLine([[It will happen...]],101,1)
+
+elseif Text.GetPosition() == 100 then
+ Mode.TurnBasedMode()
+ Char.var1 = 1
+ GVar.Set("artalk",1)
+
+elseif Text.GetPosition() == 101 then
+ Mode.NormalMode()
+ Char.var1 = 1
+ GVar.Set("artalk",1)
+
+end

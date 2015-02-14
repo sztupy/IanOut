@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<item name="MantAttack" type="weapon">
+ <desc mode="noammo">
+  <mode name="punch" type="2" apuse="3">
+   <dammage min="5" max="10"/>
+   <critter idle="aa" shoot="aq" move="ab"/>
+  </mode>
+ </desc>
+</item>

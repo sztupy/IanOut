@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<cities startarea="0" x="1225" y="1325">
+ <area id="0">
+  <name long="Shady Sands" short="Shady S."/>
+  <location visible="1" xpos="1225" ypos="1325" size="3"/>
+  <start default="0" loc="0"/>
+ </area>
+ <area id="1">
+  <name long="Rat Base" short="Rat Base"/>
+  <location visible="0" xpos="1128" ypos="1292" size="1"/>
+  <start default="0" loc="1"/>
+ </area>
+ <area id="2">
+  <name long="Shady Sands" short="Shady S."/>
+  <location visible="0" xpos="1225" ypos="1325" size="3"/>
+  <start default="0" loc="2"/>
+ </area>
+ <area id="3">
+  <name long="Necropolis" short="Necrop."/>
+  <location visible="0" xpos="1025" ypos="1225" size="3"/>
+  <start default="0" loc="3"/>
+ </area>
+</cities>

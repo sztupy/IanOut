@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<object name="casino5">
+ <graphic picture="scenery\casino5"/>
+ <text yousee="Scenery" lookat="Scenery item..."/>
+ <desc ability="0000001001" animationspeed="2">
+ </desc>
+</object>

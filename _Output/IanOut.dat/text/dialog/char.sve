@@ -1,0 +1,90 @@
+[global]
+def1=Ian
+def2=30 éves
+def3=Férfi???
+def4=Képességek:
+def5=Elosztandó pontok:
+def6=Pluszpontok:
+def7=Jellemvonások:
+
+[primaryskill]
+
+typ-3=Pocsék
+typ-2=Pocsék
+typ-1=Pocsék
+typ0=Pocsék
+typ1=Pocsék
+typ2=Rossz
+typ3=Gyenge
+typ4=Elmegy
+typ5=Átlag
+typ6=Jó
+typ7=Nyerõ 
+typ8=Kiváló
+typ9=Tuti
+typ10=Hõsies
+typ11=Hõsies
+typ12=Hõsies
+typ13=Hõsies
+
+
+[secondary]
+sec1=Páncélzat
+sec2=Akciópont
+sec3=Teherbírás
+sec4=Sebzés
+sec5=Sebzés-ell.
+sec6=Betegs.ell.
+sec7=Képzés Pont
+sec8=Szekvencia
+sec9=Gyógyulás
+sec10=Kritikusok
+
+[traits]
+
+tra1=Gyors anyagcsere
+tra2=Zúzó
+tra3=Kis termet
+tra4=Egykezes
+tra5=Ravasz
+tra6=Kamikáze
+tra7=Kemény öklû
+tra8=Gyorsabb lövés
+tra9=Vérfürdõ
+tra10=Balszerencse
+tra11=Jó természetû
+tra12=Drogfüggõ
+tra13=Drogellenállás
+tra14=Szexepil
+tra15=Képzett
+tra16=Tehetséges
+
+[skills]
+ski1=Kézi lõfegyverek
+ski2=Nehéz lõfegyverek
+ski3=Energiafegyverek
+ski4=Ökölharc
+ski5=Közelharc
+ski6=Hajítás
+ski7=Elsõsegély
+ski8=Orvos
+ski9=Lopózás
+ski10=Zárak
+ski11=Lopás
+ski12=Csapdák
+ski13=Tudományok
+ski14=Javítás
+ski15=Beszéd
+ski16=Üzletelés
+ski17=Szerencsejáték
+ski18=Túlélés
+
+[health]
+hea1=Életerõ:
+hea2=Agyhártyagyull.
+hea3=AIDS
+hea4=Száj- és körömf.
+hea5=Pestis
+hea6=Ebola
+hea7=Hepatitis-B
+hea8=Hasmenés

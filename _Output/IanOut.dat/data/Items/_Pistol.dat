@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<item name="Pistol" type="weapon">
+ <graphic picture="Pistol" inventory="Pistol"/>
+ <text yousee="9mm-es pisztoly" lookat="9mm-es pisztoly"/>
+ <critter idle="ha" move="hb" miss="he"/>
+ <desc mode="ammo">
+  <ammo type="3" capacity="12" />
+  <mode name="single" type="2" apuse="4">
+   <range min="1" max="20"/>
+   <dammage min="3" max="6"/>
+   <critter before="hh" shoot="hj" after="hi"/>
+   <critical deathtype="3" chance="10"/>
+  </mode>
+  <mode name="reload" type="10" apuse="2">
+   <critter shoot="ha"/>
+  </mode>
+ </desc>
+</item>

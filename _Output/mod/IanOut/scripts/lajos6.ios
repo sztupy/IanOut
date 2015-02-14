@@ -1,0 +1,48 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+
+if Text.GetPosition() == 1 then 
+ Text.SetMain([[Halló? Ian?]])
+
+ Text.AddLine([[Csõ]],2,1)
+
+elseif Text.GetPosition() == 2 then 
+ Text.SetMain([[Mi történt veled mostanság?]])
+
+ Text.AddLine([[Semmi? ]],3,1)
+ Text.AddLine([[Semmi, csak megtámadott egy titokzatos gyilkos, elájultam, beleszerettem egy kurva szép nõbe, akit zsuzsának hívnak, három óráig hallgattam egy pleytkafészek picsa cseverészését, amúgy semmi...]],4,1)
+
+elseif Text.GetPosition() == 3 then 
+ Text.SetMain([[Akkor jó. Még egyszer elmondanád bõvebben, mi a feladatod?]])
+
+ Text.AddLine([[Kamarás Ivánt a XX. században illegális fegyverhasználatárt megölték, de az atomszelleme feltámadt, megfenyegette Shady Sandst, és két hónapot kapott a falu]],5,1)
+
+elseif Text.GetPosition() == 4 then 
+ Text.SetMain([[Mi az? Bocs, rossz a vonal, nem halottam.]])
+
+ Text.AddLine([[Áááá, te faszagyú kurvapecér, hagyjuk!]],3,1)
+
+elseif Text.GetPosition() == 5 then 
+ Text.SetMain([[Jó]])
+
+ Text.AddLine([[Nem, nem jó... sõt mondok egy idézetet a Biblia 2000-bõl]],6,1)
+
+elseif Text.GetPosition() == 6 then 
+ Text.SetMain([[Mondjad]])
+
+ Text.AddLine([["...És Isten megteremté az embert, aki nem tudá' gazdálkodni a mi Urunktól kapott ajándékkal, az élettel, és elkezdé háborúzni egymással. Urunk ekkor évezredek múlva lecsapá majd, és csak az õ benne hívõket, azoknak is csak egy részét tartá meg. Miután ez bekövetkezé', kihal az álnok emberek hite Urunkban, akinek ezután már csak a mennyben lesz hatalma... Ám van esély arra, hogy az emberek újból hívei legyenek: Krisztus Istenünket elítélték hamis vádakkal, és meg is gyilkolták õt, álnokul. De Krisztus Istenünk feltámadá majd, és álnokul bosszút áll mindenkin! Úszó erõdjén keresztül ellenségeit legyõzé, barátait megmenté'."]],7,1)
+
+elseif Text.GetPosition() == 7 then 
+ Text.SetMain([[Fingom sincs, mit jelenthet.]])
+
+ Text.AddLine([[Na jól van bassza meg. Nagy segítség vagy te nekem (lebaszod a telefont)]],101,1)
+
+
+elseif Text.GetPosition() == 101 then
+ Mode.NormalMode()
+ GVar.Set("CanTalkToLajos",1)
+ GVar.Set("LajosTalk",6)
+
+ System.WriteLn("ennyi volt a játék jelenleg... de még folytatjuk :)")
+
+end

@@ -1,0 +1,166 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+
+if Text.GetPosition() == 1 then 
+ Text.SetMain([[Á, látom, már jobban vagy. Teát? Vizet? ]])
+
+ Text.AddLine([[Hol vagyok? ]],2,1)
+
+elseif Text.GetPosition() == 2 then 
+ Text.SetMain([[Necropolisban, a házamban. Engedd meg, hogy bemutatkozzam: Zsuzsa vagyok. ]])
+
+ Text.AddLine([[Mióta fekszem itt eszméletlenül? ]],3,1)
+
+elseif Text.GetPosition() == 3 then 
+ Text.SetMain([[Nemrég. Egy fél órája hozott be a barátnõm... ]])
+
+ Text.AddLine([[A barátnõd is ilyen csinos mint te? (közben a melleit stírölöd) ]],5,1)
+ Text.AddLine([[A barátnõd is ilyen csinos mint te? (nem nézed a melleit) ]],4,1)
+
+elseif Text.GetPosition() == 4 then 
+ Text.SetMain([[Na, te vagy az elsõ, aki nem nézi a melleimet. Tudod, tavaly nyertem egy Necropolis-szépe választást, és azóta nincs nyugtom itt. ]])
+
+ Text.AddLine([[(Nem bírod ki, és ránézel a melleire) ]],5,1)
+
+elseif Text.GetPosition() == 5 then 
+ Text.SetMain([[(azta, micsoda mellek! ez szerelem elsõ látásra...) -A melleimet nézed??!! ]])
+
+ Text.AddLine([[Nem, én csak, izé... ]],6,1)
+ Text.AddLine([[Ja. Iszonyú jók!!! ]],7,1)
+
+elseif Text.GetPosition() == 6 then 
+ Text.SetMain([[Jajj, elnézést. Tudod, a férfiak tavaly óta üldöznek. Szóval én egy Necropolis-szépe verseny gyõztese vagyok. Hozzáteszem, nem volt nehéz megnyerni, mert ebben a városban a barátnõmmel ketten vagyunk összesen emberek. ]])
+
+ Text.AddLine([[ÉS a barátnõd is ilyen csinos? ]],8,1)
+ Text.AddLine([[A barátnõdnek is ekkora mellei vannak? ]],9,1)
+ Text.AddLine([[Ez szilikon? ]],10,1)
+ Text.AddLine([[Hogyhogy csak ketten egy ekkora városban??!! ]],11,1)
+
+elseif Text.GetPosition() == 7 then 
+ Text.SetMain([[Micsoda??? Te neveletlen tuskó tetû, takarodj a házamból! ]])
+
+ Text.AddLine([[Jaj, elnézést, igent mondtam volna? úgy értettem: ja, iszonyú jók a bútoraid... ]],6,1)
+
+elseif Text.GetPosition() == 8 then 
+ Text.SetMain([[Hát, õ egy pár évvel idõsebb nálam, de még így is rendkívül szexi hölgy... ]])
+
+ Text.AddLine([[Szeretnék megismerkedni vele. ]],12,1)
+ Text.AddLine([[Jajj, de fáj még a fejem... ]],13,1)
+
+elseif Text.GetPosition() == 9 then 
+ Text.SetMain([[Nem tudom, még nem igazán nézegettem... ]])
+
+ Text.AddLine([[Szeretnék megismerkedni vele. ]],12,1)
+ Text.AddLine([[ÉS tényleg csak ketten vagytok egy ilyen városban? ]],11,1)
+
+elseif Text.GetPosition() == 10 then 
+ Text.SetMain([[Pofátlan disznó! ]])
+
+ Text.AddLine([[(Megtámad) ]],100,1)
+
+elseif Text.GetPosition() == 11 then 
+ Text.SetMain([[Necropolist még akkor alapították, amikor én még nem éltem. Az atomháború elõtt valószinû- leg virágzó városka lehetett, de a sugárzás itt sem kímélt semmit. Lakosai ghoulokká változtak, és a helyzetet súlyosbítva még a mutánsok is beköltöztek ide, a szomszéd házba, ellenõrzésük alatt tartva az egész várost. A ghoulok leköltöztek a csatornarendszerbe újdon- sült barátukkal, Matival. Mati karate-oktató volt, de bizonyos okok miatt elbújdosott a ghoulokkal ide, lentre. Csakhogy a mutánsok kitalálták, hogy ellenõrzésük alatt fogják tartani a csatornájuk bejáratát. Egy mutáns mindig áll ott, hogy õrizze, nehogy bejusson valaki. ]])
+
+ Text.AddLine([[Szóval mati itt van? remek. Beszélnem kell vele. Tudnál segíteni? ]],14,1)
+ Text.AddLine([[Nézd, zsuzsa. ÕSzinte leszek veled. Shady shands-bõl, egy kis faluból származom, és egy pár tahót kell megmentenem. Kamarás iván szelleme újraéledt, és két hónap határidõvel lerombolja kis falucskánkat. Elõször is matival kell beszélnem, õ talán tudja, hol tartózkodik most. ]],15,1)
+ Text.AddLine([[Ha nem jutok be matihoz két percen belül, megöllek! ]],10,1)
+ Text.AddLine([[Megölöm az összes mutánsot, csak légy az enyém! ]],16,1)
+
+elseif Text.GetPosition() == 12 then 
+ Text.SetMain([[Kertész Magdinak hívják. Színész volt New Renoban, de az ügynöksége egy pornófilm-forga- tásra kérte fel, amit õ nem vállalt el, cserébe kirúgták. Aztán vándorolni kezdett, és itt kötött ki. ]])
+
+ Text.AddLine([[ÉS te hogy kötöttél ki itt? ]],17,1)
+ Text.AddLine([[Remek. Beszélni akarok vele. ]],18,1)
+ Text.AddLine([[Elég a dumából, bébi. Szeretkezzünk! ]],19,1)
+ Text.AddLine([[ÉS tényleg ketten vagytok ebben a lerobbant városban? ]],11,1)
+
+elseif Text.GetPosition() == 13 then 
+ Text.SetMain([[Fáj a fejed? Maradhatsz még nálam, ha akarod... ]])
+
+ Text.AddLine([[Köszönöm. (Egy rövid pillantást vetsz a mellére, totál belezúgtál) mesélj valamit kettõtökrõl a városkában! ]],11,1)
+
+elseif Text.GetPosition() == 14 then 
+ Text.SetMain([[Mit akarsz Matitól? ]])
+
+ Text.AddLine([[ÖÖÖ... Kereskedõ vagyok, és azt halottam jó cuccai vannak. ]],20,1)
+ Text.AddLine([[Az igazság az, hogy tõle függ falum jövõje. Kamarás Iván atomszelleme visszatért 200 év után, hogy elégtételt vegyen ártatlan falucskámon. Két hónapom van még... ]],15,1)
+ Text.AddLine([[Semmi közöd hozzá! ]],21,1)
+ Text.AddLine([[Ha elmondanám, túl sokat tudnál, és kénytelen lennélek megölni. ]],22,1)
+ Text.AddLine([[Akarsz szeretkezni? ]],10,1)
+
+elseif Text.GetPosition() == 15 then 
+ Text.SetMain([[Rendben van. Érzem, hogy igazat mondasz. A mutánsok vezetõjének a neve Shadwell. Kicsit rasszista beütésû, gyûlöli a ghoulokat. Így nem is merészkedik le hozzájuk, egyszerûen nagyobbnak érzi magát annál, hogy lemerészkedjen ebbe a söpredékbe. De a felettesei megbízták azzal, hogy fontos papírokat vigyen le Matihoz. Õ viszont természetesen nem hajlandó erre. Ha rá tudnád beszélni, hogy vigyen le... ]])
+
+ Text.AddLine([[Miféle papírokat? ]],25,1)
+ Text.AddLine([[Rendben. Merre találom õket? ]],23,1)
+ Text.AddLine([[Félek. Haza akarok menni. Anyu... ]],24,1)
+
+elseif Text.GetPosition() == 16 then 
+ Text.SetMain([[Nahát, én azonnyomban a tiéd leszek, ha azt mindet megölöd. ]])
+
+ Text.AddLine([[Jó. Nézzük! ]],102,1)
+ Text.AddLine([[Csak vicc volt. ]],14,1)
+
+elseif Text.GetPosition() == 17 then 
+ Text.SetMain([[Az én õseim alapították Necropolist. Családról családra száll a hagyomány, hogy átkozott az a személy, aki nem tesz semmit faluja fennmaradásért. Kicsit félek, mert én már egyedül vagyok a család utolsó sarjaként... ]])
+
+ Text.AddLine([[Na! csinálok neked sok kis sarjat! ]],10,1)
+ Text.AddLine([[ÉS a barátnõd? ebben a városban csak ketten? ]],11,1)
+
+elseif Text.GetPosition() == 18 then 
+ Text.SetMain([[Hamarosan visszajön. A szomszédos szobában van. Addig is mesélek neked az õseimrõl. ]])
+
+ Text.AddLine([[Király. ]],17,1)
+
+elseif Text.GetPosition() == 19 then 
+ Text.SetMain([[Édesem, én csak azzal fekszem le, akit szeretek. Én már csak ilyen maradi vagyok. Téged szeretlek, de nem úgy... ]])
+
+ Text.AddLine([[Kár. Na jó, beszéljünk a városról. ]],11,1)
+
+elseif Text.GetPosition() == 20 then 
+ Text.SetMain([[Mindenki tudja Matiról, hogy útálja a kerskedõket. A valóságot akarom! ]])
+
+ Text.AddLine([[Na jó. Kamarás Ivánt ismered? õ fogja két hónapon belül legyalulni kicsiny falucskámat, amennyiben nem segít nekem. ]],15,1)
+
+elseif Text.GetPosition() == 21 then 
+ Text.SetMain([[Na jó, nem kell nekem segítenem neked. ]])
+
+ Text.AddLine([[Na jó. Kamarás ivánt ismered? õ fogja két hónapon belül legyalulni kicsiny falucskámat, amennyiben nem segít nekem. ]],15,1)
+
+elseif Text.GetPosition() == 22 then 
+ Text.SetMain([[Na ne mondd! (elõvesz egy FN-FAILT) Akkor most szépen elmondod, miben sántikálsz. Ha egy kicsit is hazugság-íze van a dolognak, a töltények átköltöznek a testedbe! És ha valami disznóság miatt keresed, akkor is. Nem támogatom a bûnözõket! ]])
+
+ Text.AddLine([[Shady shandset megtámadja Kamarás Iván két hónapon belül, és csak Mati segíthet!!! Ne lõj le, kérlek!!!!!!!! ]],15,1)
+
+elseif Text.GetPosition() == 23 then 
+ Text.SetMain([[A szomszédos házban vannak, de elõbb beszélj Magdival... õ tudja, hogy mit kell levinned. Sok sikert, még beszélünk. ]])
+
+ Text.AddLine([[(Vége) ]],101,1)
+
+elseif Text.GetPosition() == 24 then 
+ Text.SetMain([[Ez az igazi FÉRFI... ]])
+
+ Text.AddLine([[Jajj, istenem! na jó. ÖSszeszedtem magam. Mondd, hol találom õket! ]],23,1)
+ Text.AddLine([[Na jó, mégse megyek anyuhoz. Milyen papírokról lenne szó? ]],25,1)
+
+elseif Text.GetPosition() == 25 then 
+ Text.SetMain([[Valami "Dráma" c. mûvet kéne levinni Matinak. Hogy az mi nem tudom... Beszélj Magdival elõtte! ]])
+
+ Text.AddLine([[Na jó. Magdi ugye a szomszéd szobában van? Beszélek vele... ]],23,1)
+
+elseif Text.GetPosition() == 100 then
+ Mode.TurnBasedMode()
+ Char.var1 = 1
+
+elseif Text.GetPosition() == 101 then
+ Mode.NormalMode()
+ Char.var1 = 1
+
+elseif Text.GetPosition() == 102 then
+ Ian = Classes.GetIan()
+ Ian.x = 262
+ Ian.y = 68
+ Char.var1 = 1
+ Mode.TurnBasedMode()
+
+end

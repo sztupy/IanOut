@@ -1,0 +1,25 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+
+if Text.GetPosition() == 1 then 
+ Text.SetMain([[Halló? ]])
+
+ Text.AddLine([[Lajos, help me! I''m standing in front of the mantis, but it''s bigger than me. I''m afraid! What should I do?]],2,1)
+ Text.AddLine([[Mantis! Aaaaaaaaaaa!]],3,1)
+
+elseif Text.GetPosition() == 2 then 
+ Text.SetMain([[Keep cool! I will help y...]])
+
+ Text.AddLine([[(The mantis attacked you)  ]],100,1)
+
+elseif Text.GetPosition() == 3 then 
+ Text.SetMain([[Don''t be afraid, I will be always with y... ]])
+
+ Text.AddLine([[(The mantis attacked you) ]],100,1)
+
+elseif Text.GetPosition() == 100 then
+ Mode.TurnBasedMode()
+ GVar.Set("CanTalkToLajos",1)
+ GVar.Set("LajosTalk",2)
+
+end

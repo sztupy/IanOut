@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<maps start_loc="0" start_entr="0">
+ <location id="0">
+  <sound name="01hub"/>
+  <name desc="1984 part one" filename="1984.map" actorinf="1984.act"/>
+  <entrdat isentrance="1" defaultentr="0" xpos="-1" ypos="-1"/>
+  <boundaries type="1" x="0" y="0" width="512" height="512"/>
+  <onenter>
+    System.WriteLn("George Orwell: 1984 Elsö rész.");
+    System.RunFile("partone.ios")
+  </onenter>
+  <entrance id="0" x="114" y="39"/>
+ </location>
+</maps>

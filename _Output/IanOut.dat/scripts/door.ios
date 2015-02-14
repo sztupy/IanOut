@@ -1,0 +1,6 @@
+Item = Classes.GetCurrentItem()
+if Item:GetState() == 1 then
+ Item:ChangeState(0)
+else
+ Item:ChangeState(1)
+end

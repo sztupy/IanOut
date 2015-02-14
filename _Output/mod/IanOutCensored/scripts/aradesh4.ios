@@ -1,0 +1,98 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+Ian = Classes.GetIan()
+
+if Text.GetPosition() == 0 then 
+ Text.SetMain([[Na,  mit ajánlott a barátod? ]])
+
+ Text.AddLine([[A kötelet. ]],2,1)
+
+elseif Text.GetPosition() == 2 then 
+ Text.SetMain([[Jó. Akkor azt viszed el? ]])
+
+ Text.AddLine([[Nem. A kotont kérem. Tudod, hátha... ]],3,1)
+ Text.AddLine([[Nem. A szemetet kérem. Így egész úton otthon érzem majd magam. ]],4,1)
+ Text.AddLine([[Nem. A követ kérem. ]],5,1)
+ Text.AddLine([[Igen. Hiszek Lajosnak. A kötelet viszem el. ]],6,1)
+
+elseif Text.GetPosition() == 3 then 
+ IanInv = Ian.inventory
+ IanInv:AddItem(7,1)
+
+ ArInv = Char.inventory
+ ArInv:AddItem(6,1)
+ ArInv:AddItem(8,1)
+ ArInv:AddItem(9,1)
+
+ Text.SetMain([[Jó. Bár én hittem volna Lajosnak. Na mindegy. Itt egy Jimmy féle vörös koton. ]])
+
+ Text.AddLine([[Köszönöm. Kérem a további instrukciókat! ]],7,1)
+
+elseif Text.GetPosition() == 4 then 
+ IanInv = Ian.inventory
+ IanInv:AddItem(9,1)
+
+ ArInv = Char.inventory
+ ArInv:AddItem(6,1)
+ ArInv:AddItem(8,1)
+ ArInv:AddItem(7,1)
+
+ Text.SetMain([[Vigyed. Legalább nem kerültél túl sokba. ]])
+
+ Text.AddLine([[Köszike:). ]],7,1)
+
+elseif Text.GetPosition() == 5 then 
+ IanInv = Ian.inventory
+ IanInv:AddItem(8,1)
+
+ ArInv = Char.inventory
+ ArInv:AddItem(6,1)
+ ArInv:AddItem(7,1)
+ ArInv:AddItem(9,1)
+ Text.SetMain([[Király. Tessék. Bár minden sarkon találhatsz követ. ]])
+
+ Text.AddLine([[Sebaj. ]],7,1)
+
+elseif Text.GetPosition() == 6 then 
+ IanInv = Ian.inventory
+ IanInv:AddItem(6,1)
+
+ ArInv = Char.inventory
+ ArInv:AddItem(7,1)
+ ArInv:AddItem(8,1)
+ ArInv:AddItem(9,1)
+ Text.SetMain([[Tessék. Kötél. ]])
+
+ Text.AddLine([[Köszi-puszi. ]],8,1)
+
+elseif Text.GetPosition() == 7 then 
+ Text.SetMain([[No. Kamarás Iván jelenlegi tartózkodási helye ismeretlen. Valószínûleg már megölt egy embert, így beleköltözhetett a testébe. Amennyiben hiszünk az újjászületésben, úgy az a megoldás is helyes, miszerint rátalált a SAJÁT testére. Biztos ismered, hogy hogy néz ki. Valószínûleg egy Mati nevû ember tudja, hogy hol tartózkodik. Mati Necropolisban van. Nézz utána! Necropolist bejelöltük a PipGirl-ödön. Két hónapod van. Ide már ne térj vissza, mert elbarikádozzuk a jövõ héten a falut, nehogy betörjön ide Kamarás Iván. Sok sikert! ]])
+
+ Text.AddLine([[Köszönöm. Megígérem, megteszem, ami tõlem telik. ]],9,1)
+
+ Map.WorldMapShow(20,24)
+ Map.ShowCity(3)
+
+elseif Text.GetPosition() == 8 then 
+ Text.SetMain([[Na ,jó. Eredj. ]])
+
+ Text.AddLine([[Puszi. ]],100,1)
+
+elseif Text.GetPosition() == 9 then 
+ Text.SetMain([[Ajaj! Akkor van félnivalónk... ]])
+
+ Text.AddLine([[Hehehe, nagyon vicces! ]],101,1)
+
+elseif Text.GetPosition() == 100 then
+ System.WriteLn("Megbotlottál a kötélben, beverted a fejed és meghaltál...")
+ Ian = Classes.GetIan()
+ Ian:Kill(0)
+
+elseif Text.GetPosition() == 101 then
+ Mode.NormalMode()
+ Char.var1 = 4
+ GVar.Set("artalk",1)
+ Map.HideCity(0)
+ Map.ShowCity(2);
+
+end

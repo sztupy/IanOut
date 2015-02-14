@@ -1,0 +1,83 @@
+Magdi = Classes.GetCharacter(2001)
+Zsuzsa = Classes.GetCharacter(2000)
+Ian = Classes.GetIan()
+
+Zsuzsa:CenterScreen()
+
+System.AddTimer(0,0,0,0,0,2,[[
+
+Magdi = Classes.GetCharacter(2001)
+Zsuzsa = Classes.GetCharacter(2000)
+Ian = Classes.GetIan()
+
+Zsuzsa:Taunt(0,"Mi van? Ki szerelmes belém?")
+
+System.AddTimer(0,0,0,0,0,2,[[
+ Magdi = Classes.GetCharacter(2001)
+ Zsuzsa = Classes.GetCharacter(2000)
+ Ian = Classes.GetIan()
+ 
+ Ian:Taunt(1,"Magdi kuss!")
+ Zsuzsa:Taunt(0,"Nyögd már ki!!")
+
+ System.AddTimer(0,0,0,0,0,2,[[
+  Magdi = Classes.GetCharacter(2001)
+  Zsuzsa = Classes.GetCharacter(2000)
+  Ian = Classes.GetIan()
+
+  Magdi:Taunt(2,"Az egyik ghoul odalent")
+
+  System.AddTimer(0,0,0,0,0,2,[[
+   Magdi = Classes.GetCharacter(2001)
+   Zsuzsa = Classes.GetCharacter(2000)
+
+   Zsuzsa:Taunt(0,"Ezt még nekem nem is mondtad!")
+
+   System.AddTimer(0,0,0,0,0,2,[[
+    Magdi = Classes.GetCharacter(2001)
+    Zsuzsa = Classes.GetCharacter(2000)
+
+    Magdi:Taunt(2,"Megígértette velem, hogy nem mondom el.")
+
+    System.AddTimer(0,0,0,0,0,2,[[
+     Magdi = Classes.GetCharacter(2001)
+     Zsuzsa = Classes.GetCharacter(2000)
+
+     Zsuzsa:Taunt(0,"Pedig te mindent kikotyogsz.")
+
+     System.AddTimer(0,0,0,0,0,2,[[
+      Magdi = Classes.GetCharacter(2001)
+      Zsuzsa = Classes.GetCharacter(2000)
+
+      Magdi:Taunt(2,"Kikérem magamnak! Nem vagyok én pletykás vénasszony!.")
+
+      System.AddTimer(0,0,0,0,0,2,[[
+       Magdi = Classes.GetCharacter(2001)
+       Zsuzsa = Classes.GetCharacter(2000)
+
+       Zsuzsa:Taunt(0,"Áááá.")
+
+       System.AddTimer(0,0,0,0,0,2,[[
+        Magdi = Classes.GetCharacter(2001)
+        Zsuzsa = Classes.GetCharacter(2000)
+        
+        System.Fade(0)
+        Zsuzsa.x = 186
+        Zsuzsa.y = 70
+
+        System.AddTimer(0,0,0,0,0,1,[[
+         Text.SetFile("magdi.ios")
+         Text.SetPosition(36)
+	 System.Fade(1)
+         Mode.AllowUserInteract()
+         Mode.TalkMode()
+        ]])
+       ]])
+      ]])
+     ]])
+    ]])
+   ]])
+  ]])
+ ]])
+]])
+]])

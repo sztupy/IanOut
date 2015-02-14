@@ -1,0 +1,29 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+
+if Text.GetPosition() == 1 then 
+ Text.SetMain([[Halló! ]])
+
+ Text.AddLine([[Lajoskám! A halott mantist miért nem mondtad, hogy tegyem el? ]],2,1)
+
+elseif Text.GetPosition() == 2 then 
+ Text.SetMain([[Áááh... ]])
+
+ Text.AddLine([[Mi a jó égért nem bírtad volna ezt nekem mondani? ]],3,1)
+
+elseif Text.GetPosition() == 3 then 
+ Text.SetMain([[Nem tudom a számod! ]])
+
+ Text.AddLine([[06-60-123-456-789. ]],4,1)
+
+elseif Text.GetPosition() == 4 then 
+ Text.SetMain([[Jó. Az idõ a Rat Base-ig körülbelül fél nap. 6 óra múlva hívlak. Csõ! (leteszi) ]])
+
+ Text.AddLine([[Öcsém! ]],101,1)
+
+elseif Text.GetPosition() == 101 then
+ Mode.NormalMode()
+ GVar.Set("CanTalkToLajos",1)
+ GVar.Set("LajosTalk",3)
+
+end

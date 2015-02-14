@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<critter name="naghul" graphics="mamtn2">
+ <moving idle="aa" move="ab" run="ab" pickup="ak" use="al" miss="an" hit="ao" hitback="ap"/>
+</critter>

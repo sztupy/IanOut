@@ -1,0 +1,29 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+
+if Text.GetPosition() == 1 then 
+ Text.SetMain([[Csõ, Ian! ]])
+
+ Text.AddLine([[Csõ, Lajos! itt vagyok a Rat Base-ben! miért hívtál? ]],2,1)
+
+elseif Text.GetPosition() == 2 then 
+ Text.SetMain([[Há, izé... ]])
+
+ Text.AddLine([[Ezért? ]],3,1)
+
+elseif Text.GetPosition() == 3 then 
+ Text.SetMain([[Ááááh... ]])
+
+ Text.AddLine([[Ecsém, akkor kösz a hívást! ]],4,1)
+
+elseif Text.GetPosition() == 4 then 
+ Text.SetMain([[Csõ! ]])
+
+ Text.AddLine([[(Vége) ]],101,1)
+
+elseif Text.GetPosition() == 101 then
+ Mode.NormalMode()
+ GVar.Set("CanTalkToLajos",1)
+ GVar.Set("LajosTalk",4)
+
+end

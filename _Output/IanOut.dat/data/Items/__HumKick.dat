@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<item name="HumKick" type="weapon">
+ <desc mode="noammo">
+  <mode name="kick" type="2" apuse="4">
+   <dammage min="3" max="6"/>
+   <critter shoot="ar"/>
+  </mode>
+ </desc>
+</item>

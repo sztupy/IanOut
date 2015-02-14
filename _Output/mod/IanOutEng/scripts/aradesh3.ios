@@ -1,0 +1,56 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+
+if Text.GetPosition() == 0 then 
+ Text.SetMain([[Ahh Ian, you''re here at last! Did you get the corpse? ]])
+
+ Text.AddLine([[Yes. YOURS! (attack) ]],100,1)
+ Text.AddLine([[Yes. It''s here ]],2,1)
+ Text.AddLine([[Corpse? What corpse? ]],3,1)
+
+elseif Text.GetPosition() == 2 then 
+ Text.SetMain([[Great specimen. Ah well I believe you now. But meanwhile we got another problem. ]])
+
+ Text.AddLine([[Oh my god, what? ]],4,1)
+ Text.AddLine([[I don''t care. Gracias!]],3,1)
+
+elseif Text.GetPosition() == 3 then 
+ Text.SetMain([[I''ve had enough with you you son-of-a-bitch lame shithead! I''l kill you forever!]])
+
+ Text.AddLine([[(attack) ]],100,1)
+
+elseif Text.GetPosition() == 4 then 
+ Text.SetMain([[The whole started in the XX. century. In 1999 in Hungary a group of russian terrorists wanted to exit to Wienna on the Europe Express. One of the russians were chatched before this, so the police knew the plan of the terrorists. The secret-agents got up on the Europe Express. After lots of complications and unsuccesful missions they turned back the Europe Express and carried down with the terrorists (who were never abroad) that the Keleti Pályaudvar is really Wienna. Thez changed the station, and Iván Kamarás killed the evil terrorist while holding his gun horiyontally. (comments from the translator: Europe Express is the first hungarian action-film, and Iván Kamarás is the main actor in that film) ]])
+
+ Text.AddLine([[It''s great but I didn''t want a good-night story! ]],5,1)
+ Text.AddLine([[Great, please continue. ]],5,1)
+ Text.AddLine([[I''ve had enough. ]],3,1)
+
+elseif Text.GetPosition() == 5 then 
+ Text.SetMain([[Iván Kamarás was imprisoned because he used his weapon illegally. After a week, the adjudgement come: he was hanged up. Today, in 2160-ban his ghost was here, and he said that he will come back in two montsh, and will destroy the town. I''m sure he had found a body ever since. Ian, you''re quest will be to find and kill him. The future of Shady Sands depends on you! ]])
+
+ Text.AddLine([[Fuck the future of Shady Sands, Aradesh! ]],3,1)
+ Text.AddLine([[Oh my god! I''l accept, but you know what sacrifice I will make! ]],6,1)
+
+elseif Text.GetPosition() == 6 then 
+ Text.SetMain([[Take one of the following for help: Jimmy White cotton, junk, rock or a rope. Do you got a phone? ]])
+
+ Text.AddLine([[Yes. ]],7,1)
+
+elseif Text.GetPosition() == 7 then 
+ Text.SetMain([[Call one of your friends, and ask him what you should take. Believe him! ]])
+
+ Text.AddLine([[Okey ]],101,1)
+
+elseif Text.GetPosition() == 100 then
+ Mode.TurnBasedMode()
+ Char.var1 = 3
+ GVar.Set("artalk",1)
+
+elseif Text.GetPosition() == 101 then
+ Mode.NormalMode()
+ Char.var1 = 3
+ GVar.Set("artalk",1)
+ GVar.Set("CanTalkToLajos",0)
+
+end

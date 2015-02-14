@@ -1,0 +1,29 @@
+Char = Classes.GetCurrentChar()
+Ian = Classes.GetIan()
+
+if Char.var1 == 2 then
+ if Ian.inventory:CountItem(10) > 0 then
+  GVar.Set("artalk",0)
+ end  
+end
+if GVar.Get("artalk") == 0 then
+ if Char.var1 == 0 then
+  Text.SetFile("aradesh1.ios")
+ elseif Char.var1 == 1 then
+  Text.SetFile("aradesh2.ios")
+ elseif Char.var1 == 2 then
+  Text.SetFile("aradesh3.ios")
+ elseif Char.var1 == 3 then
+  Text.SetFile("aradesh4.ios")
+ end
+ Text.SetPosition(0)
+ Mode.TalkMode()
+else
+ if Char.var1 == 1 then
+  Char:Taunt(0,System.GetText("aradesh.sve",11,14))
+ elseif Char.var1 == 2 then
+  Char:Taunt(0,System.GetText("aradesh.sve",15,17))  
+ elseif Char.var1 == 3 then
+  Char:Taunt(0,System.GetText("aradesh.sve",18,18))  
+ end
+end

@@ -1,0 +1,239 @@
+[dialog]
+de1_0=Erõ
+de1_1=---------------------------------------------------------------
+de1_2=A fizikai erõd. Ettõl függenek életerõpontjaid, hogy milyen fegyvert tudsz használni, gyógyulási sebességed, stb.
+
+de2_0=Érzékelés
+de2_1=---------------------------------------------------------------
+de2_2=Érzékelésmódok. Minél nagyobb, annál nagyobb területet látsz, és módosítja a találati esélyeket is.
+
+de3_0=Tûrõképesség
+de3_1=---------------------------------------------------------------
+de3_2=Tûrõképességed kifejezi, hogy mekkora fájdalmat tudsz elviselni, mielõtt összeesel, de az életerõd is függ ettõl.
+
+de4_0=Karizma
+de4_1=---------------------------------------------------------------
+de4_2=Népszerûségedet mutatja. Minél nagyobb, annál szimpatikusabb vagy az emberek körében.
+
+de5_0=Intelligencia
+de5_1=---------------------------------------------------------------
+de5_2=Az intelligencia pontjaid normális esetben rendkívül sokmindenre kihatnak, ám ne feledd: most Ian-al játszol, tehát hülye vagy, mint a segg.
+
+de6_0=Ügyesség
+de6_1=---------------------------------------------------------------
+de6_2=Befolyásolja találati esélyeidet, milyen jól használod fegyveredet, stb.
+
+de7_0=Szerencse
+de7_1=---------------------------------------------------------------
+de7_2=Szerencséd a harcban jöhet jól, mivel befolyásolja kritikus sebzéseidet.
+
+de8_0=Életerõ
+de8_1=---------------------------------------------------------------
+de8_2=Az életerõd megmutatja, mennyit sebzõdhetsz, mielõtt meghalnál. Ha az életrõd 1 alá esik, akkor meghalsz.
+
+de9_0=Agyhártyagyulladás
+de9_1=---------------------------------------------------------------
+de9_2=Ha megkapod e betegséget, akkor sietned kell a játékkal, mert csak 1 heted van a sírig.
+
+de10_0=AIDS
+de10_1=--------------------------------------------------------------
+de10_2=Anyukád nem mondta, hogy ne feküdj le ismeretlenekkel? Mindegy, az AIDS 10 év múlva öl csak meg...
+
+de11_0=Száj- és körömfájás
+de11_1=---------------------------------------------------------------
+de11_2=Úgy néz ki, túl közel kerültél egy Brahminhoz. Imádkozz, hátha immunis vagy a betegséggel szemben.
+
+de12_0=Pestis
+de12_1=---------------------------------------------------------------
+de12_2=Legközelebb vigyázz a patkányokkal, bár már elúszott a hajó, mert 2 nap múlva úgyis meghalsz.
+
+de13_0=Ebola
+de13_1=---------------------------------------------------------------
+de13_2=Legközelebb kerüld el az ebolás embereket. Már nincs sok idõd hátra.
+
+de14_0=Hepatitis-B
+de14_1=---------------------------------------------------------------
+de14_2=Látod, látod, a védekezés elmaradása hova vezethet? Ha szerencséd van, a játékot még túléled, de utána...
+
+de15_0=Hasmenés
+de15_1=---------------------------------------------------------------
+de15_2=Legközelebb jobban vigyázz a gyomrodra! De semmi baj, a betegségbe még nem sokan haltak bele. Mondjuk te Ian vagy...
+
+de16_0=Páncélzat
+de16_1=---------------------------------------------------------------
+de16_2=A páncélzat megmutatja, hogy a normál (nem kritikus) sebzés mekkora részét tudod kivédeni.
+
+de17_0=Akciópontok
+de17_1=---------------------------------------------------------------
+de17_2=Az akciópontok megmutatják, hogy harc esetén hány lépést tudsz megtenni, ill. hányszor tudsz támadni
+
+
+de18_0=Teherbírás
+de18_1=---------------------------------------------------------------
+de18_2=Az általad elbírt tárgyak összsúlyát fejezi ki.
+
+de19_0=Sebzés
+de19_1=---------------------------------------------------------------
+de19_2=Megmutatja, hogy milyen erõsen tudsz ütni és rúgni.
+
+de20_0=Sebzés-ellenállás
+de20_1=---------------------------------------------------------------
+de20_2=Megmutatja, hogy a sebzõdések hány százalékát tudod kivédeni.
+
+de21_0=Betegség-ellenállás
+de21_1=---------------------------------------------------------------
+de21_2=Minél nagyobb ez az érték, annál kisebb eséllyel betegedsz meg.
+
+de22_0=Képzés Pontok
+de22_1=---------------------------------------------------------------
+de22_2=Ettõl függ, hogy szintlépéskor hány pontot kapsz.
+
+de23_0=Szekvencia
+de23_1=---------------------------------------------------------------
+de23_2=Ettõl függ, hogy harc esetén milyen hamar kerülsz sorra.
+
+de24_0=Gyógyulás
+de24_1=---------------------------------------------------------------
+de24_2=Pihenés esetén hatóránként, egyébként naponta ennyi HP-t gyógyulsz.
+
+de25_0=Kritikus sebzések
+de25_1=---------------------------------------------------------------
+de25_2=Minél nagyobb, annál nagyobb eséllyel okozol kritikus sebzést.
+
+de26_0=Gyorsan gyógyuló
+de26_1=---------------------------------------------------------------
+de26_2=Bár nem vagy olyan ellenálló a betegségekkel szemben, sokkal gyorsabban felépülsz.
+
+de27_0=Izomagy
+de27_1=---------------------------------------------------------------
+de27_2=Az átlag embernél erõsebb vagy, de lassabb is.
+
+de28_0=Cingár
+de28_1=---------------------------------------------------------------
+de28_2=Az átlag embernél vékonyabb vagy. Emiatt nem bírsz annyit cipelni, mint az átlagpolgár, de gyorsabb vagy a többieknél.
+
+de29_0=Egykezes
+de29_1=---------------------------------------------------------------
+de29_2=Az egyik kezed sokkal fejlettebb a másiknál. Ez az egykezes fegyvereknél jól jön, de a többinél nem...
+
+de30_0=Hatodik érzék
+de30_1=---------------------------------------------------------------
+de30_2=Furcsa okból egy belsõ hang mindig ellát tanácsokkal. Persze lehet, hogy hülyeséget mond...
+
+de31_0=Kamikaze
+de31_1=---------------------------------------------------------------
+de31_2=Bár a támadásokat nehezebben tudod kivédeni, a harcban hamarabb kerülsz sorra.
+
+
+de32_0=Erõskezû
+de32_1=---------------------------------------------------------------
+de32_2=Erõsebben ütsz, így közelharcban jobban sebzel, de a kritikus sebzésekrõl lemondhatsz.
+
+de33_0=Gyorstüzelõ
+de33_1=---------------------------------------------------------------
+de33_2=Sok gyakorlás miatt gyorsabban tudod fegyveredet használni, de a célzással már gondjaid vannak...
+
+
+de34_0=Véreskezû
+de34_1=---------------------------------------------------------------
+de34_2=Furcsa véletlen során mindenki szörnyû kínok közt, véresen hal meg, akit te ölsz meg.
+
+de35_0=Balfasz-világ
+de35_1=---------------------------------------------------------------
+de35_2=Valamilyen különös de35_3=oknál fogva mindenkinek több a kritikus hibázása. Neked is...
+
+de36_0=Jótermészetû
+de36_1=---------------------------------------------------------------
+de36_2=Kiskorodban nem nagyon érdeklõdtél a fegyverek iránt, inkább a többi képesség érdekelt téged.
+
+de37_0=Krónikus beteg
+de37_1=---------------------------------------------------------------
+de37_2=Könnyebben elkapod a betegségeket, ám hamarabb kigyógyulsz belõlük.
+
+de38_0=Betegség-ellenálló
+de38_1=---------------------------------------------------------------
+de38_2=A betegségek nehezebben támadnak meg, de ha egyszer elkaptad, nehezebben gyógyulsz.
+
+de39_0=Szexi
+de39_1=---------------------------------------------------------------
+de39_2=Míg a másik nem jobban vonzódik hozzád, a sajátod hajlamosabb a féltékenységre.
+
+de40_0=Mûvelt
+de40_1=---------------------------------------------------------------
+de40_2=Kiskorodban sokat tanultál, ezáltal a másodlagos képességeid fejlettebbek, de csak minden 4. szintlépésnél kaphatsz extra tulajdonságokat.
+
+de41_0=Tehetséges
+de41_1=---------------------------------------------------------------
+de41_2=Az elsõdleges képességeid már születésed óta nagyobbak az átlagnál. Emiatt nem is fordítottál sok idõt a tanulásra, a másodlagos képességeid emiatt gyengébbek.
+
+de42_0=Kis fegyverek 5% + (4 x AG)
+de42_1=---------------------------------------------------------------
+de42_2=A kis fegyverek (SMG, pisztoly stb.) kezelése, valamint karbantartása.
+
+de43_0=Nagy fegyverek 0% + (2 x AG)
+de43_1=---------------------------------------------------------------
+de43_2=Az igazán nagy fegyverek (minigun, rakétavetõ, stb.) kezelése, valamint karbantartása.
+
+de44_0=Energiafegyverek 0% + (2 x AG)
+de44_1=---------------------------------------------------------------
+de44_2=A lézer- és plazmatechnikával mûködõ fegyverek feltöltése, használata és karbantartása.
+
+de45_0=Pusztakezes harc 30% + (2 x (AG + ST))
+de45_1=---------------------------------------------------------------
+de45_2=Lábbal és kézzel történõ harcok, valamint a boxolás, illetve az önvédelmi technikák ismerete.
+
+de46_0=Közelharci fegyverek 20% + (2 x (AG + ST))
+de46_1=---------------------------------------------------------------
+de46_2=A kések, kalapácsok és egyéb közelharci fegyverek ismerete.
+
+de47_0=Dobás 0% + (4 x AG)
+de47_1=---------------------------------------------------------------
+de47_2=Az izommeghajtású fegyverek kezelése és használata.
+
+de48_0=Elsõsegélnyújtás 0% + (2 x (PE + IN))
+de48_1=---------------------------------------------------------------
+de48_2=Alapvetõ segély nyújtás, a kisebb sebek gyógyításának a képessége.
+
+de49_0=Doktor 5% + (PE + IN)
+de49_1=---------------------------------------------------------------
+de49_2=A nagyobb sebek, sérülések ellátá sának a képessége.
+
+de50_0=Lopakodás 5% + (3 x AG)
+de50_1=---------------------------------------------------------------
+de50_2=Halk, észrevétlen lépések megtételének a képessége.
+
+de51_0=Zárnyitás 10% + (PE + AG)
+de51_1=---------------------------------------------------------------
+de51_2=Száma minél nagyobb, annál bonyolultabb zárakat tudsz könnyûszerrel feltörni.
+
+de52_0=Lopás 0% + (3 x AG)
+de52_1=---------------------------------------------------------------
+de52_2=A képesség, mely megmutatja, milyen nagy eséllyel lopsz ellenfeledtõl. A lebukásra azonban mindig van esély!
+
+de53_0=Csapdahatástalanítás 10% + (PE + AG)
+de53_1=---------------------------------------------------------------
+de53_2=A csapdák megtalásának és hatástalanításának a képessége.
+
+de54_0=Tudományok 0% + (4 x IN)
+de54_1=---------------------------------------------------------------
+de54_2=Számítógépeknek, és egyéb tudományos dolgoknak a kezelését fejezi ki.
+
+de55_0=Javítás 0% + (3 x IN)
+de55_1=---------------------------------------------------------------
+de55_2=Törött, vagy mûködésképtelen eszközök megja vításának a képessége.
+
+de56_0=Kommunikációs készség 0% + (5 x CH)
+de56_1=---------------------------------------------------------------
+de56_2=Minél nagyobb, annál könyebben tudsz társalogni, hazudni, és harc nélkül megoldani a helyzetet.
+
+de57_0=Üzleti érzék 0% + (4 x CH)
+de57_1=---------------------------------------------------------------
+de57_2=Minél nagyobb, annál olcsóbban tudsz venni, és drágábban eladni.
+
+de58_0=Szerencsejáték 0% + (5 x LK)
+de58_1=---------------------------------------------------------------
+de58_2=Szerencsejátékok esetében növekedése a nyerési esély növekedésével arányos.
+
+de59_0=Tájékozódás 0% + (2 x (EN + IN))
+de59_1=---------------------------------------------------------------
+de59_2=A világban való tájékozódás,  valamint a "kinti" világ ismerete.

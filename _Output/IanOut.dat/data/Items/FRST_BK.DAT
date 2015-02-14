@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<item name="FRST_BK" type="other">
+ <graphic picture="smalbox2" inventory="FRST_BK"/>
+ <text yousee="Valami" lookat="Valami"/>
+ <desc>
+  <mode name="use">
+  </mode>
+ </desc>
+</item>

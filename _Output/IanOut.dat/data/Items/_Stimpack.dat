@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<item name="stimpack" type="drug">
+ <graphic picture="bpack2" inventory="stimx"/>
+ <text yousee="Stimpack" lookat="A legismertebb gyuladáscsökkentõ szer"/>
+ <desc addic="100000" addict_dead="100000">
+  <mode name="use on" type="1" apuse="2">
+  </mode>
+  <onuse>
+   <script>
+    Char = Classes.GetCurrentChar()
+    addhp = Char:IncHp(math.random(10)+10)
+    System.WriteLn("Healed "..addhp.." hit points.")
+   </script>
+  </onuse>
+ </desc>
+</item>

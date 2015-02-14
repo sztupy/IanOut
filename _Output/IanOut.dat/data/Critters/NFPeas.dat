@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<critter name="nfpeas" graphics="nfpeas">
+ <moving idle="aa" move="ab" run="at" pickup="ak" use="al" miss="an" hit="ao" hitback="ap"/>
+</critter>

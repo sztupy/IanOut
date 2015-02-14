@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<object name="grave6">
+ <graphic picture="items\grave6"/>
+ <text yousee="Item holder" lookat="Item holder..."/>
+ <desc ability="1001001101">
+  <onuse type="0">
+   <direction x="0" y="0"/>
+   <script>
+    System.RunFile("locker.ios")
+   </script>
+   <script2>
+    System.RunFile("locker2.ios")
+   </script2>
+  </onuse>
+ </desc>
+</object>

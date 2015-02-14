@@ -1,0 +1,98 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+Ian = Classes.GetIan()
+
+if Text.GetPosition() == 0 then 
+ Text.SetMain([[What did you''r friend suggest?]])
+
+ Text.AddLine([[The rope.]],2,1)
+
+elseif Text.GetPosition() == 2 then 
+ Text.SetMain([[Good, do you believe him?]])
+
+ Text.AddLine([[No. Fucking is more important than anyithing else, so I''ll take the cotton.]],3,1)
+ Text.AddLine([[No. I''ll take the junk, so I will feel comfortable wherever I am.]],4,1)
+ Text.AddLine([[No. I''ll take the rock.]],5,1)
+ Text.AddLine([[Yes, I believe Lajos and take the rope. ]],6,1)
+
+elseif Text.GetPosition() == 3 then 
+ IanInv = Ian.inventory
+ IanInv:AddItem(7,1)
+
+ ArInv = Char.inventory
+ ArInv:AddItem(6,1)
+ ArInv:AddItem(8,1)
+ ArInv:AddItem(9,1)
+
+ Text.SetMain([[Good, but if I were you...]])
+
+ Text.AddLine([[Thanks, What are the instructions? ]],7,1)
+
+elseif Text.GetPosition() == 4 then 
+ IanInv = Ian.inventory
+ IanInv:AddItem(9,1)
+
+ ArInv = Char.inventory
+ ArInv:AddItem(6,1)
+ ArInv:AddItem(8,1)
+ ArInv:AddItem(7,1)
+
+ Text.SetMain([[Take. At least you didn''t cost much. ]])
+
+ Text.AddLine([[Thx:). ]],7,1)
+
+elseif Text.GetPosition() == 5 then 
+ IanInv = Ian.inventory
+ IanInv:AddItem(8,1)
+
+ ArInv = Char.inventory
+ ArInv:AddItem(6,1)
+ ArInv:AddItem(7,1)
+ ArInv:AddItem(9,1)
+ Text.SetMain([[Great, but you could get a fucking rock at any corner. ]])
+
+ Text.AddLine([[Doesn''t matter. ]],7,1)
+
+elseif Text.GetPosition() == 6 then 
+ IanInv = Ian.inventory
+ IanInv:AddItem(6,1)
+
+ ArInv = Char.inventory
+ ArInv:AddItem(7,1)
+ ArInv:AddItem(8,1)
+ ArInv:AddItem(9,1)
+ Text.SetMain([[Here: rope ]])
+
+ Text.AddLine([[Thanks. ]],8,1)
+
+elseif Text.GetPosition() == 7 then 
+ Text.SetMain([[Now, the correct location of Iván Kamarás is unknown. It''s likely that he had already killed somebody, and moved into his body. If believe in reincarnation it is also possible that he had found his OWN body. You know how he looks like. It is said, that a man called MATI knows where he lives. He lives in Necropolis. Go there, Necropolis was added to your PipGirl. You''ve got two montsh. Don''t come back, because we build a baricade aroiund the town, in case you fail. Good luck! ]])
+
+ Text.AddLine([[Thanks. I promiss I will do what I can. ]],9,1)
+
+ Map.WorldMapShow(20,24)
+ Map.ShowCity(3)
+
+elseif Text.GetPosition() == 8 then 
+ Text.SetMain([[Now go! ]])
+
+ Text.AddLine([[Bye... ]],100,1)
+
+elseif Text.GetPosition() == 9 then 
+ Text.SetMain([[Oh no, we have died... ]])
+
+ Text.AddLine([[Hahaha, really funny!]],101,1)
+
+elseif Text.GetPosition() == 100 then
+ System.WriteLn("Megbotlottál a kötélben, beverted a fejed és meghaltál...")
+ Ian = Classes.GetIan()
+ Ian:Kill(0)
+
+elseif Text.GetPosition() == 101 then
+ Mode.NormalMode()
+ Char.var1 = 4
+ GVar.Set("artalk",1)
+ Map.HideCity(0)
+ Map.ShowCity(2);
+
+end

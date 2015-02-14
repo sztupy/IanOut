@@ -1,0 +1,54 @@
+Text.ClearTexts()
+
+if Text.GetPosition() == 1 then
+ Text.SetMain([[1984. április 4. Tegnap este a moziban. Csupa háborús film. Nagyon jó volt az egyik egy menekülokkel teli hajóról, amelyet valahol a Földközi-tengeren bombáztak. A hallgatóság nagyon jól mulatott egy nagy kövér ember lelövésén, aki megpróbált úszva menekülni s egy helikopter követte, eloször látni lehetett, ahogy hempereg a vízben, mint egy delfin, aztán látni lehetett a helikopter géppuskairányzékán keresztül aztán tele lett lyukakkal és a tenger rózsaszínuvé vált körülötte és hirtelen elsüllyedt, mintha a lyukakon keresztül beléje tódult volna a víz, a nézok rázkódtak a nevetéstol, mikor elsüllyedt. aztán egy gyerekkel teli mentocsónakot lehetett látni egy helikopter lebegett fölötte volt ott egy középkorú no talán zsidó no lehetett a csónak orrában ült egy három év körüli kisfiúval a karjában a kisfiú ordított a félelemtol és fejét a no keblébe fúrta mintha bele akart volna bújni és a no átölelte és vigasztalta pedig o maga is kék volt a félelemtol egész ido alatt úgy takargatta mintha azt gondolta volna hogy távol tarthatja tole a golyókat aztán a helikopter ledobott közéjük egy húszkilós bombát borzasztó villanás és a csónak gyufaszálakká esett szét. aztán csodálatos képet lehetett látni egy gyermek karjáról amint egyre föl-föllökte a levegobe valószínuleg egy helikopter követte felvevogéppel az orrában és nagy taps volt a párt ülohelyein de egy asszony lent a prolik számára fenntartott részen hirtelen felugrott és nagy lármát csapott és azt kiabálta ezt inkább ne mutatták volna ezt nem jól tették a gyerekekkel nem jól tették míg a rendorség el nem távolította nem hiszem hogy baja esett volna vele senki sem törodik azzal amit a prolik beszélnek tipikus proli reagálás ok sohasem...]])
+
+ Text.AddLine([[(tovább)]],200,1)
+
+elseif Text.GetPosition() == 2 then
+ Text.SetMain([[Ogilvy elvtárs már hároméves korában csak dobbal, játék géppisztollyal és helikoptermodellel volt hajlandó játszani. Hat éves volt, amikor - a szokottnál egy évvel korábban, mert kivételesen megengedték neki - belépett a Kémek közé, s kilencéves korára örsvezeto lett. Tizennégy éves korában feljelentette nagybátyját a Gondolatrendorségnél, miután kihallgatott egy beszélgetést, amelyben véleménye szerint bunös tendenciák voltak. Tizenhét éves korában az Ifjúsági Nemiségellenes Szövetség kerületi szervezoje lett. Tizenkilenc éves korában egy kézigránátot tervezett, amelyet a Béke-minisztérium el is fogadott, miután kipróbálása alkalmával harmincegy eurázsiai foglyot pusztított el egy csapásra. Huszonhárom éves korában hosi halált halt. Ellenséges harci gépek vették üldözobe, mikor az Indiai-óceán fölött repült fontos levelekkel; nehezéknek testére kötötte géppuskáját, és a helikopterbol a tengerbe vetette magát levelestül, mindenestül - olyan halála volt, mondotta Nagy Testvér, hogy lehetetlen irigység nélkül gondolni rá. Nagy Testvér hozzáfuzött még néhány megjegyzést Ogilvy elvtárs tiszta életérol és egyenes lelkuségérol: Megtartóztatta magát az alkoholtól, és egyáltalán nem dohányzott, a tornateremben töltött napi egy órán kívül más szórakozása nem volt, s notlenségi fogadalmat tett, mert úgy vélte, hogy a házasság és a család gondja nem egyeztetheto össze a napi huszonnégy órás kötelességteljesítéssel. Az Angszoc alaptételein kívül más beszédtárgyat nem ismert, s életének célja az eurázsiai ellenség megsemmisítése s a kémek, szabotorök, gondolatbunözok és általában az árulók leleplezése volt.]])
+
+ Text.AddLine([[(tovább)]],200,1)
+
+elseif Text.GetPosition() == 3 then
+ Text.SetMain([[ ]]);
+
+ Text.AddLine([[Hogy haladtok a szótárral?]],4,1)
+
+elseif Text.GetPosition() == 4 then
+
+ Text.SetMain([[Lassan. Én éppen a melléknevekkel foglalkozom. Lenyugözo feladat. A tizenegyedik kiadás a végleges kiadás lesz. Végso formájába öntjük a nyelvet, abba a formába, amilyen akkor lesz, amikor senki se fog már más nyelvet beszélni. Ha befejeztük a munkát, a hozzád hasonló embereknek újra kell majd tanulniuk beszélni. Persze azt hiszed, fogadni mernék rá, hogy a mi fo feladatunk az, hogy új szavakat találjunk ki. Pedig szó sincs róla! Mi pusztítjuk a szavakat - mindennap tömegével, százszámra. Letisztítjuk a nyelvet a csontjáig. A tizenegyedik kiadásban egyetlen olyan szó sem lesz, amelynek 2050-ig el kell avulnia.]]);
+
+ Text.AddLine([[(tovább)]],5,1)
+
+elseif Text.GetPosition() == 5 then
+ Text.SetMain([[Gyönyöru dolog ez a szópusztítás. Persze az igék és a melléknevek közt végezzük a legnagyobb irtást, de a fonevek százait is teljes joggal kiirthatjuk. S nemcsak a rokon értelmueket, hanem az ellentétes értelmueket is. Mert ugyan miféle létjogosultsága van egy olyan szónak, amelyik pusztán csak egy másik szónak az ellentéte? Hiszen minden szó magában hordja az ellentétét is. Vegyük például a "jó" szót. Ha egyszer van egy olyan szavunk, mint a "jó", ugyan mi szükség olyan szóra is, hogy "rossz"? A "nemjó" éppolyan megfelelo, sot megfelelobb, mert a "jó" tökéletes ellentéte, míg a másik szó nem az. Ha pedig a "jó" nyomatékosabb kifejezésére van szükség, mi értelme annak, hogy egész csomó olyan, teljesen haszontalan szót használjunk, mint például a "kituno, a "ragyogó" meg a többi hasonló? Ezeknek a jelentését tökéletesen fedi a "pluszjó", vagy a "duplapluszjó", ha még fokozottabb értelmére van szükségünk. Persze már most is használjuk ezeket a szóalakokat, de az újbeszél végleges változatában csak ezek lesznek meg. A végén a jóság és a rosszaság egész fogalomkörét ki fogja fejezni hat szó - azazhogy igazában egyetlenegy szó. Fel bírod fogni ennek a szépségét, Winston? Persze az egész N. T. ötlete volt eredetileg]]);
+
+ Text.AddLine([[(tovább)]],6,1)
+
+elseif Text.GetPosition() == 6 then
+
+ Text.SetMain([[Nem értékeled kelloképpen az újbeszélt, Winston. Ha újbeszélül írsz is, még mindig óbeszélül gondolkodol. Olvastam egyszer-másszor azokat a cikkeket, amelyeket a Times-ba írtál. Elég jók, de fordítások. Magadban többre becsülöd az óbeszélt, minden bizonytalanságával, haszontalanságával és jelentésbeli homályosságával együtt. Képtelen vagy méltányolni a szavak elpusztításának szépségét. Tudod-e, hogy az újbeszél az egyetlen nyelv a világon, amelynek a szótára évrol évre vékonyabb?]]);
+
+ Text.AddLine([[(tovább)]],7,1)
+
+elseif Text.GetPosition() == 7 then
+
+ Text.SetMain([[Nem érted, hogy az újbeszélnek az a célja, hogy a gondolkodás területét szukítsük? A végén betu szerint lehetetlenné fogjuk tenni a gondolatbunt, mert nem lesznek szavak, amelyekkel elkövetheto lenne. Minden fogalmat, amelyre egyáltalán szükség lesz, egyetlen szóval fogunk kifejezni, s ennek az egy szónak a jelentése szigorúan meg lesz határozva. Valamennyi fölösleges jelentését el fogjuk törölni és felejteni. Már a tizenegyedik kiadásban sem vagyunk messze ettol. De a folyamat még sokáig folytatódni fog, az után is, hogy te meg én halottak leszünk. Minden évben kevesebb szó, s a gondolkodás területe mindig kisebb valamivel. Persze már most sincs ok vagy mentség gondolatbun elkövetésére. Pusztán csak önfegyelem, valóságszabályozás kérdése az egész. De a végén még erre sem lesz szükség. A Forradalom akkor fejezodik majd be, mikor a nyelv tökéletessé válik. Újbeszél egyenlo Angszoc, és Angszoc egyenlo újbeszél. Eszedbe jutott már, Winston, valaha is, hogy legkésobb 2050-tol kezdve egyetlen ember sem lesz, aki megértene egy olyan beszélgetést, amilyet például most folytatunk?]]);
+
+ Text.AddLine([[Kivéve...]],8,1)
+
+elseif Text.GetPosition() == 8 then
+ Text.SetMain([[A prolik nem emberek]]);
+
+ Text.AddLine([[(vége)]],9,1)
+
+elseif Text.GetPosition() == 9 then
+ Ian = Classes.GetIan()
+ Ian:Kill(0)
+ Mode.NormalMode()
+
+elseif Text.GetPosition() == 200 then
+ Mode.NormalMode()
+ Mode.StopUserInteract()
+end

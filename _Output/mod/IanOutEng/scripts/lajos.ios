@@ -1,0 +1,14 @@
+Classes.SetActualCharacter(0)
+
+if GVar.Get("CanTalkToLajos") == 0 then
+ if GVar.Get("LajosTalk") == 0 then Text.SetFile("Lajos1.ios") end
+ if GVar.Get("LajosTalk") == 1 then Text.SetFile("Lajos2.ios") end
+ if GVar.Get("LajosTalk") == 2 then Text.SetFile("Lajos3.ios") end
+ if GVar.Get("LajosTalk") == 3 then Text.SetFile("Lajos4.ios") end
+ if GVar.Get("LajosTalk") == 4 then Text.SetFile("Lajos5.ios") end
+ if GVar.Get("LajosTalk") == 5 then Text.SetFile("Lajos6.ios") end
+ Text.SetPosition(1)
+ Mode.TalkMode()
+else
+ System.WriteLn("Foglalt!")
+end

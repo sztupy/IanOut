@@ -1,0 +1,6 @@
+Item = Classes.GetCurrentItem()
+if Item:GetState() == 1 then
+ Map.SetBlock(Item.x,Item.y,0);
+else
+ Map.SetBlock(Item.x,Item.y,1);
+end

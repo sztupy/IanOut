@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<item name="4_7mm" type="ammo">
+ <graphic picture="ammo" inventory="4_7mm"/>
+ <text yousee="7mm-es töltény" lookat="7mm-es töltény"/>
+ <desc>
+  <mode name="use">
+  </mode>
+ </desc>
+</item>

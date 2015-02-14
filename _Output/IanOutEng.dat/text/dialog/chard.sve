@@ -1,0 +1,297 @@
+; chard.sve
+;
+; This file handles the statistics, skills, perks, and traits names and description
+; *********************************************************************************
+
+[dialog]
+
+; :::::::::::::::::::::::::::::::::::::::::::::::::::::::::Stats::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+de1_0=Strength
+de1_1=---------------------------------------------------------------
+de1_2=Raw physical strength. A high Strength is good for physical characters. Modifies: Hit Points, Melee Damage, and Carry Weight.
+
+de2_0=Perception
+de2_1=---------------------------------------------------------------
+de2_2=The ability to see, hear, taste and notice unusual things. A high Perception is important for a sharpshooter.  Modifies: Sequence and ranged combat distance modifiers.
+
+de3_0=Endurance
+de3_1=---------------------------------------------------------------
+de3_2=Stamina and physical toughness. A character with a high Endurance will survive where others may not. Modifies: Hit Points, Poison & Radiation Resistance, Healing Rate, and the additional hit points per level.
+
+de4_0=Charisma
+de4_1=---------------------------------------------------------------
+de4_2=A combination of appearance and charm. A high Charisma is important for characters that want to influence people with words. Modifies: NPC reactions, and barter prices.
+
+de5_0=Intelligence
+de5_1=---------------------------------------------------------------
+de5_2=Knowledge, wisdom and the ability to think quickly. A high Intelligence is important for any character. Modifies: the number of new skill points per level, dialogue options, and many skills.
+
+de6_0=Agility
+de6_1=---------------------------------------------------------------
+de6_2=Coordination and the ability to move well. A high Agility is important for any active character. Modifies: Action Points, Armor Class, Sequence, and many skills.
+
+de7_0=Luck
+de7_1=---------------------------------------------------------------
+de7_2=Fate. Karma. An extremely high or low Luck will affect the character - somehow. Events and situations will be changed by how lucky (or unlucky) your character is.
+
+de8_0=Hit Points
+de8_1=---------------------------------------------------------------
+de8_2=How much damage your character can take before dying.  If you reach 0 HP or less, you are dead.
+
+
+; :::::::::::::::::::::::::::::::::::::::::::::::::::::::::Diseases::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+de9_0=Disease 1
+de9_1=---------------------------------------------------------------
+de9_2=Description here...
+
+
+de10_0=AIDS
+de10_1=---------------------------------------------------------------
+de10_2=Description here...
+
+
+de11_0=Disease 3
+de11_1=---------------------------------------------------------------
+de11_2=Description here...
+
+de12_0=Black Plague(
+de12_1=---------------------------------------------------------------
+de12_2=Description here...
+
+
+de13_0=Ebola
+de13_1=---------------------------------------------------------------
+de13_2=Description here...
+
+
+de14_0=Hepatitis-B
+de14_1=---------------------------------------------------------------
+de14_2=Description here...
+
+
+de15_0=Diarrhea
+de15_1=---------------------------------------------------------------
+de15_2=Description here...
+
+
+; :::::::::::::::::::::::::::::::::::::::::::::::::::::::::Skills?::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+de16_0=Páncélzat
+de16_1=---------------------------------------------------------------
+de16_2=A páncélzat megmu-
+
+
+de17_0=Akciópontok
+de17_1=---------------------------------------------------------------
+de17_2=Az akciópontok meg-
+
+
+
+de18_0=Teherbírás
+de18_1=---------------------------------------------------------------
+de18_2=Az általad elbírt
+
+
+de19_0=Sebzés
+de19_1=---------------------------------------------------------------
+de19_2=Megmutatja, hogy
+
+
+de20_0=Sebzés-ellenállás
+de20_1=---------------------------------------------------------------
+de20_2=Megmutatja, hogy
+
+
+de21_0=Betegség-ellenállás
+de21_1=---------------------------------------------------------------
+de21_2=Minél nagyobb ez
+
+de22_0=Képzés Pontok
+de22_1=---------------------------------------------------------------
+de22_2=Ettõl függ, hogy
+
+de23_0=Szekvencia
+de23_1=---------------------------------------------------------------
+de23_2=Ettõl függ, hogy
+
+
+de24_0=Gyógyulás
+de24_1=---------------------------------------------------------------
+de24_2=Pihenés esetén
+
+
+de25_0=Kritikus sebzések
+de25_1=---------------------------------------------------------------
+de25_2=Minél nagyobb,
+
+
+de26_0=Gyorsan gyógyuló
+de26_1=---------------------------------------------------------------
+de26_2=Bár nem vagy olyan
+
+
+de27_0=Izomagy
+de27_1=---------------------------------------------------------------
+de27_2=Az átlag embernél
+
+
+de28_0=Cingár
+de28_1=---------------------------------------------------------------
+de28_2=Az átlag embernél
+
+
+de29_0=Egykezes
+de29_1=---------------------------------------------------------------
+de29_2=Az egyik kezed sok-
+
+
+de30_0=Hatodik érzék
+de30_1=---------------------------------------------------------------
+de30_2=Furcsa okból egy
+
+
+de31_0=Kamikaze
+de31_1=---------------------------------------------------------------
+de31_2=Bár a támadásokat
+
+
+
+de32_0=Erõskezû
+de32_1=---------------------------------------------------------------
+de32_2=Erõsebben ütsz, így
+
+
+de33_0=Gyorstüzelõ
+de33_1=---------------------------------------------------------------
+de33_2=Sok gyakorlás miatt
+
+
+
+de34_0=Véreskezû
+de34_1=---------------------------------------------------------------
+de34_2=Furcsa véletlen
+
+
+de35_0=Balfasz-világ
+de35_1=---------------------------------------------------------------
+de35_2=Valamilyen különös
+
+
+de36_0=Jótermészetû
+de36_1=---------------------------------------------------------------
+de36_2=Kiskorodban nem
+
+
+de37_0=Krónikus beteg
+de37_1=---------------------------------------------------------------
+de37_2=Könnyebben elka-
+
+
+de38_0=Betegség-ellenálló
+de38_1=---------------------------------------------------------------
+de38_2=A betegségek nehe-
+
+
+de39_0=Szexi
+de39_1=---------------------------------------------------------------
+de39_2=Míg a másik nem
+
+
+de40_0=Mûvelt
+de40_1=---------------------------------------------------------------
+de40_2=Kiskorodban sokat
+
+
+de41_0=Tehetséges
+de41_1=---------------------------------------------------------------
+de41_2=Az elsõdleges ké-
+
+
+de42_0=Kis fegyverek 5% + (4 x AG)
+de42_1=---------------------------------------------------------------
+de42_2=A kis fegyverek
+
+
+de43_0=Nagy fegyverek 0% + (2 x AG)
+de43_1=---------------------------------------------------------------
+de43_2=Az igazán nagy
+
+
+de44_0=Energiafegyverek 0% + (2 x AG)
+de44_1=---------------------------------------------------------------
+de44_2=A lézer- és plazma-
+
+
+de45_0=Pusztakezes harc 30% + (2 x (AG + ST))
+de45_1=---------------------------------------------------------------
+de45_2=Lábbal és kézzel
+
+
+de46_0=Közelharci fegyverek 20% + (2 x (AG + ST))
+de46_1=---------------------------------------------------------------
+de46_2=A kések, kalapácsok
+
+
+de47_0=Dobás 0% + (4 x AG)
+de47_1=---------------------------------------------------------------
+de47_2=Az izommeghajtású
+
+de48_0=Elsõsegélnyújtás 0% + (2 x (PE + IN))
+de48_1=---------------------------------------------------------------
+de48_2=Alapvetõ segély-
+
+
+de49_0=Doktor 5% + (PE + IN)
+de49_1=---------------------------------------------------------------
+de49_2=A nagyobb sebek,
+
+de50_0=Lopakodás 5% + (3 x AG)
+de50_1=---------------------------------------------------------------
+de50_2=Halk, észrevét-
+
+
+de51_0=Zárnyitás 10% + (PE + AG)
+de51_1=---------------------------------------------------------------
+de51_2=Száma minél na-
+
+
+de52_0=Lopás 0% + (3 x AG)
+de52_1=---------------------------------------------------------------
+de52_2=A képesség, mely
+
+
+de53_0=Csapdahatástalanítás 10% + (PE + AG)
+de53_1=---------------------------------------------------------------
+de53_2=A csapdák megtalá-
+
+
+de54_0=Tudományok 0% + (4 x IN)
+de54_1=---------------------------------------------------------------
+de54_2=Számítógépeknek,
+
+
+de55_0=Javítás 0% + (3 x IN)
+de55_1=---------------------------------------------------------------
+de55_2=Törött, vagy
+
+
+de56_0=Kommunikációs készség 0% + (5 x CH)
+de56_1=---------------------------------------------------------------
+de56_2=Minél nagyobb,
+
+
+de57_0=Üzleti érzék 0% + (4 x CH)
+de57_1=---------------------------------------------------------------
+de57_2=Minél nagyobb,
+
+
+de58_0=Szerencsejáték 0% + (5 x LK)
+de58_1=---------------------------------------------------------------
+de58_2=Szerencsejátékok
+
+
+de59_0=Tájékozódás 0% + (2 x (EN + IN))
+de59_1=---------------------------------------------------------------
+de59_2=A világban való

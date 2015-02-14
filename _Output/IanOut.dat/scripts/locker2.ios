@@ -1,0 +1,5 @@
+Item = Classes.GetCurrentItem()
+if Item:GetState() == 1 then
+ Mode.LootBox()
+end
+

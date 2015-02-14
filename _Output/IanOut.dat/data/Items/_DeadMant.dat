@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<item name="mantis" type="other">
+ <graphic picture="mantis" inventory="mantis"/>
+ <text yousee="Mantis" lookat="Egy halott mantis"/>
+ <desc>
+  <mode name="use">
+  </mode>
+ </desc>
+</item>

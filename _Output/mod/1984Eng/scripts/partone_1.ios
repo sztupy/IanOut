@@ -1,0 +1,54 @@
+Text.ClearTexts()
+
+if Text.GetPosition() == 1 then
+ Text.SetMain([[April 4th, 1984. Last night to the flicks. All war films. One very good one of a ship full of refugees being bombed somewhere in the Mediterranean. Audience much amused by shots of a great huge fat man trying to swim away with a helicopter after him, first you saw him wallowing along in the water like a porpoise, then you saw him through the helicopters gunsights, then he was full of holes and the sea round him turned pink and he sank as suddenly as though the holes had let in the water, audience shouting with laughter when he sank. then you saw a lifeboat full of children with a helicopter hovering over it. there was a middle-aged woman might have been a jewess sitting up in the bow with a little boy about three years old in her arms. little boy screaming with fright and hiding his head between her breasts as if he was trying to burrow right into her and the woman putting her arms round him and comforting him although she was blue with fright herself, all the time covering him up as much as possible as if she thought her arms could keep the bullets off him. then the helicopter planted a 20 kilo bomb in among them terrific flash and the boat went all to matchwood. then there was a wonderful shot of a child’s arm going up up up right up into the air a helicopter with a camera in its nose must have followed it up and there was a lot of applause from the party seats but a woman down in the prole part of the house suddenly started kicking up a fuss and shouting they didnt oughter of showed it not in front of kids they didnt it aint right not in front of kids it aint until the police turned her turned her out i dont suppose anything happened to her nobody cares what the proles say typical prole reaction they never—]])
+
+ Text.AddLine([[(go on)]],200,1)
+
+elseif Text.GetPosition() == 2 then
+ Text.SetMain([[At the age of three Comrade Ogilvy had refused all toys except a drum, a sub-machine gun, and a model helicopter. At six – a year early, by a special relaxation of the rules – he had joined the Spies, at nine he had been a troop leader. At eleven he had denounced his uncle to the Thought Police after overhearing a conversation which appeared to him to have criminal tendencies. At seventeen he had been a district organizer of the Junior Anti-Sex League. At nineteen he had designed a hand-grenade which had been adopted by the Ministry of Peace and which, at its first trial, had killed thirty-one Eurasian prisoners in one burst. At twenty-three he had perished in action. Pursued by enemy jet planes while flying over the Indian Ocean with important despatches, he had weighted his body with his machine gun and leapt out of the helicopter into deep water, despatches and all – an end, said Big Brother, which it was impossible to contemplate without feelings of envy. Big Brother added a few remarks on the purity and single-mindedness of Comrade Ogilvy’s life. He was a total abstainer and a nonsmoker, had no recreations except a daily hour in the gymnasium, and had taken a vow of celibacy, believing marriage and the care of a family to be incompatible with a twenty-four-hour-a-day devotion to duty. He had no subjects of conversation except the principles of Ingsoc, and no aim in life except the defeat of the ]])
+
+ Text.AddLine([[(go on)]],200,1)
+
+elseif Text.GetPosition() == 3 then
+ Text.SetMain([[ ]]);
+
+ Text.AddLine([[How is the Dictionary getting on?]],4,1)
+
+elseif Text.GetPosition() == 4 then
+
+ Text.SetMain([[Slowly, I’m on the adjectives. It’s fascinating. Lassan. The Eleventh Edition is the definitive edition,’ he said. ‘We’re getting the language into its final shape – the shape it’s going to have when nobody speaks anything else. When we’ve finished with it, people like you will have to learn it all over again. You think, I dare say, that our chief job is inventing new words. But not a bit of it! We’re destroying words – scores of them, hundreds of them, every day. We’re cutting the language down to the bone. The Eleventh Edition won’t contain a single word that will become obsolete before the year 2050.]]);
+
+ Text.AddLine([[(go on)]],5,1)
+
+elseif Text.GetPosition() == 5 then
+ Text.SetMain([[It’s a beautiful thing, the destruction of words. Of course the great wastage is in the verbs and adjectives, but there are hundreds of nouns that can be got rid of as well. It isn’t only the synonyms; there are also the antonyms. After all, what justification is there for a word which is simply the opposite of some other word? A word contains its opposite in itself. Take "good", for instance. If you have a word like "good", what need is there for a word like "bad"? "Ungood" will do just as well – better, because it’s an exact opposite, which the other is not. Or again, if you want a stronger version of "good", what sense is there in having a whole string of vague useless words like "excellent" and "splendid" and all the rest of them? "Plusgood" covers the meaning, or "doubleplusgood" if you want something stronger still. Of course we use those forms already. but in the final version of Newspeak there’ll be nothing else. In the end the whole notion of goodness and badness will be covered by only six words – in reality, only one word. Don’t you see the beauty of that, Winston? It was B.B.’s idea originally, of course]]);
+
+ Text.AddLine([[(go on)]],6,1)
+
+elseif Text.GetPosition() == 6 then
+
+ Text.SetMain([[You haven’t a real appreciation of Newspeak, Winston, Even when you write it you’re still thinking in Oldspeak. I’ve read some of those pieces that you write in "The Times" occasionally. They’re good enough, but they’re translations. In your heart you’d prefer to stick to Oldspeak, with all its vagueness and its useless shades of meaning. You don’t grasp the beauty of the destruction of words. Do you know that Newspeak is the only language in the world whose vocabulary gets smaller every year?]]);
+
+ Text.AddLine([[(go on)]],7,1)
+
+elseif Text.GetPosition() == 7 then
+
+ Text.SetMain([[Don’t you see that the whole aim of Newspeak is to narrow the range of thought? In the end we shall make thoughtcrime literally impossible, because there will be no words in which to express it. Every concept that can ever be needed, will be expressed by exactly one word, with its meaning rigidly defined and all its subsidiary meanings rubbed out and forgotten. Already, in the Eleventh Edition, we’re not far from that point. But the process will still be continuing long after you and I are dead. Every year fewer and fewer words, and the range of consciousness always a little smaller. Even now, of course, there’s no reason or excuse for committing thoughtcrime. It’s merely a question of self-discipline, reality-control. But in the end there won’t be any need even for that. The Revolution will be complete when the language is perfect. Newspeak is Ingsoc and Ingsoc is Newspeak, Has it ever occurred to you, Winston, that by the year 2050, at the very latest, not a single human being will be alive who could understand such a conversation as we are having now?]]);
+
+ Text.AddLine([[Except-]],8,1)
+
+elseif Text.GetPosition() == 8 then
+ Text.SetMain([[The proles are not human beings]]);
+
+ Text.AddLine([[(The end)]],9,1)
+
+elseif Text.GetPosition() == 9 then
+ Ian = Classes.GetIan()
+ Ian:Kill(0)
+ Mode.NormalMode()
+
+elseif Text.GetPosition() == 200 then
+ Mode.NormalMode()
+ Mode.StopUserInteract()
+end

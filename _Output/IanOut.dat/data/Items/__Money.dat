@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<item name="money" type="other">
+ <graphic picture="bag" inventory="cap2"/>
+ <text yousee="Pénz.RuleZ!" lookat="A sivatag által hivatalsoan elfogadott fizetõeszköz"/>
+ <desc>
+  <mode name="use">
+  </mode>
+ </desc>
+</item>

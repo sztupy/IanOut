@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<item name="xander" type="other">
+ <graphic picture="xander" inventory="xander"/>
+ <text yousee="Xander" lookat="A Sámánok által közkedvelt növény"/>
+ <desc>
+  <mode name="use">
+  </mode>
+ </desc>
+</item>

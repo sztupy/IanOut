@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<object name="doorb06">
+ <graphic picture="scenery\doorb06"/>
+ <text yousee="Door" lookat="One simple door..."/>
+ <desc ability="1000001001">
+  <onuse type="1">
+   <direction x="0" y="0"/>
+   <script>
+    System.RunFile("door.ios")
+   </script>
+   <script2>
+    System.RunFile("door2.ios")
+   </script2>
+  </onuse>
+ </desc>
+</object>

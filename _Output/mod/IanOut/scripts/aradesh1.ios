@@ -1,0 +1,84 @@
+Text.ClearTexts()
+Char = Classes.GetCurrentChar()
+
+if Text.GetPosition() == 0 then
+ Text.SetMain([[Áá, Ian. Már vártalak. Fontos küldetésem van a számodra. Hírnevet szerezhetsz vele a faluban ám ennek megfelelõen veszélyes is.]])
+
+ Text.AddLine([[Jöjjön aminek jönnie kell!]],3,1)
+ Text.AddLine([[Ne, Aradesh! Én félek!']],2,1)
+
+
+elseif Text.GetPosition() == 2 then
+ Text.SetMain([[Akkor ezennel halottá nyilvánítalak!]])
+
+ Text.AddLine([[(megtámad)]],100,1)
+
+elseif Text.GetPosition() == 3 then
+ Text.SetMain([[Rendben van, ezt vártam. Tudom, hogy te vagy Shady Shands legbátrabb és legügyesebb embere. (:-)) Városunk eddigi legnagyobb veszélyével állunk szemben. Kibaszottul szükségünk van rád. A TE segítségeddel viszont elháríthatjuk a fejünk fölött lebegõ veszélyt...]])
+
+ Text.AddLine([[Nyögd már ki, a kurva anyád!]],4,1)
+ Text.AddLine([[(kivársz)]],5,1)
+
+elseif Text.GetPosition() == 4 then
+ Text.SetMain([[Türelmetlen vagy? Na, szóval...]])
+
+ Text.AddLine([[(Úgysem tudsz mit csinálni, kivárod)]],5,1)
+
+elseif Text.GetPosition() == 5 then
+ Text.SetMain([[Szóval rohadtul nem tudjuk megoldani a veszélyt. Egy viszonylag új tanyát fedeztünk fel Shady Shands-tõl NY-ra. Rat Base a neve. Egy kisebb rét az egész, de a veszély, ami városunkat fenyegeti...]])
+
+ Text.AddLine([[Mondd el nyugodtan, én már küzdöttem farkasokkal, deathclawokkal, emberekkel, banditákkal, veszélyes lényekkel, ufókkal, nekem már semmi sem kottyanna meg.]],6,1)
+ Text.AddLine([[Sajnálom, már nyugdíjba vonultam.]],2,1)
+
+elseif Text.GetPosition() == 6 then
+ Text.SetMain([[Egy MANTIS tanyázik ott!]])
+
+ Text.AddLine([[Hû, micsoda ellenfél...]],7,1)
+ Text.AddLine([[Mantis? Az mi?]],8,1)
+ Text.AddLine([[Ez nekem túl sok.]],2,1)
+
+elseif Text.GetPosition() == 7 then
+ Text.SetMain([[Na, neked épp elég. Itt van a Rat Base, és adok neked utadra egy PipGirl 2000-et, ami egy fasza laptop.]])
+
+ Text.AddLine([[Azt a kurva eget! Micsoda technikai csoda!]],9,1)
+ Text.AddLine([[Feladom.]],2,1)
+
+elseif Text.GetPosition() == 8 then
+ Text.SetMain([[A Mantis egy kis zöld bogárka, repülni tud, de harcban nem nagyon szokta használni ezen képességét.]])
+
+ Text.AddLine([[És hogy jelent ez veszélyt a falura?]],10,1)
+ Text.AddLine([[Nagy ellenfél...]],7,1)
+ Text.AddLine([[Inkább visszavonulnék!]],2,1)
+
+elseif Text.GetPosition() == 9 then
+ Text.SetMain([[Menj, Ian, a PipGirl-ön már bejelöltem az útvonaladat, és Shady Shands is rajta van, hogy vissza tudj térni. Tudjuk, hogy amilyen balfasz vagy, amúgy nem találnál vissza. Na, eredj!]])
+
+ Text.AddLine([[Jól van már baszd meg, ne sürgess!]],101,1)
+ Text.AddLine([[Megyek. Ég áldjon, és kívánj sok szerencsét!]],11,1)
+ Text.AddLine([[Én nem megyek. Menj te!]],2,1)
+
+ Map.WorldMapShow(22,25)
+ Map.ShowCity(1)
+
+elseif Text.GetPosition() == 10 then
+ Text.SetMain([[Há' lezabálja a termést. Hát egy egész Mantisról van szó!]])
+
+ Text.AddLine([[Ó. Nagy ellenfél.]],7,1)
+ Text.AddLine([[Nem.]],2,1)
+
+elseif Text.GetPosition() == 11 then
+ Text.SetMain([[Dögölj meg!]])
+
+ Text.AddLine([[Meglesz.]],101,1)
+
+elseif Text.GetPosition() == 100 then
+ Mode.TurnBasedMode()
+ Char.var1 = 1
+ GVar.Set("artalk",1)
+
+elseif Text.GetPosition() == 101 then
+ Mode.NormalMode()
+ Char.var1 = 1
+ GVar.Set("artalk",1)
+
+end

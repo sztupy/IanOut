@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<object name="expnch">
+ <graphic picture="scenery\expnch"/>
+ <text yousee="Scenery" lookat="A scenery item..."/>
+ <desc ability="1000001001">
+  <onuse type="1">
+   <direction x="0" y="0"/>
+   <script>
+    System.RunFile("door.ios")
+   </script>
+  </onuse>
+ </desc>
+</object>

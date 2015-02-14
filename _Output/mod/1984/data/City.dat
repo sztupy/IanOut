@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<cities startarea="0" x="1225" y="1325">
+ <area id="0">
+  <name long="1984" short="1984"/>
+  <location visible="1" xpos="1225" ypos="1325" size="3"/>
+  <start default="0" loc="0"/>
+ </area>
+</cities>

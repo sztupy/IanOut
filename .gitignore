@@ -1,0 +1,13 @@
+_Output/*.exe
+_Output/log.txt
+_Output/shot*.bmp
+!_Output/Config.exe
+Debug
+Release
+Debug_STL
+Release_STL
+*.user
+*.opensdf
+*.sdf
+*.suo
+*.vssscc
